@@ -10,7 +10,6 @@ public abstract class tSuper extends OpMode
     //public Servo
 
 
-
     public void init() {
         leftF = hardwareMap.dcMotor.get("frontLeft");
         rightF = hardwareMap.dcMotor.get("frontRight");
@@ -21,6 +20,7 @@ public abstract class tSuper extends OpMode
         //rightB.setDirection(DcMotor.Direction.REVERSE);
 
         prepare();
+
         //naming. Karel has ruined me
 
     }
@@ -32,7 +32,8 @@ public abstract class tSuper extends OpMode
         leftB.setPower(left);
         rightF.setPower(right);
         rightB.setPower(right);
-        //powersetting for motors. Takes input from teleOp
+
+        //power settings for motors. Takes input from teleOp
     }
 
 
@@ -42,6 +43,7 @@ public abstract class tSuper extends OpMode
         leftB.setPower(side);
         rightF.setPower(side);
         rightB.setPower(-side);
-        //powersetting for skating. Also takes input from teleOp
+
+        //power settings for skating. Also takes input from teleOp
     }
 }
