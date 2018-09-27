@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 //import com.qualcomm.robotcore.hardware.Servo;
-
+@SuppressWarnings("all")
 public abstract class tSuper extends OpMode
 {
 
@@ -27,11 +27,11 @@ public abstract class tSuper extends OpMode
 
     public abstract void prepare();
 
-    public void drive(double left, double right) {
-        leftF.setPower(left);
-        leftB.setPower(left);
-        rightF.setPower(right);
-        rightB.setPower(right);
+    public void drive(float lf, float rf, float lb, float rb) {
+        leftF.setPower(lf);
+        rightF.setPower(rf);
+        leftB.setPower(lb);
+        rightB.setPower(rb);
 
         //power settings for motors. Takes input from teleOp
     }
