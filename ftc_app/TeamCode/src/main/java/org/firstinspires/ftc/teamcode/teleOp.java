@@ -13,9 +13,12 @@ public class teleOp extends Drive
         float linear = gamepad1.left_stick_y;
         float rotation = gamepad1.right_stick_x;
         float side = gamepad1.left_stick_x;
-        //defining the stuff
+        //defining the stuff. linear = straight, rotation = turning, side = skating.
+        //Linear - rotation will compensate one side to allow the other side to overrotate
 
         omni(linear, rotation, side);
+        //sending inputs to omni code
+    }
 
         /*float[] forwardMultiplier = {1f, 1f, 1f, 1f};
         float[] rotationalMultiplier = {1f, -1f, -1f, 1f};
@@ -61,7 +64,6 @@ public class teleOp extends Drive
         */
 
 
-    }
 
         /*if (side == 0)
         {
@@ -70,7 +72,7 @@ public class teleOp extends Drive
             side(.7*side);
         }
     }*/
-        //linear = straight, rotation = turning, side = skating. Linear - rotation will compensate one side to allow the other side to overrotate
+
     public void stop()
     {}
 

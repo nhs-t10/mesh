@@ -14,17 +14,15 @@ public abstract class Drive extends OpMode
 
 
     public void init() {
-        leftF = hardwareMap.dcMotor.get("frontLeft");
-        rightF = hardwareMap.dcMotor.get("frontRight");
-        leftB = hardwareMap.dcMotor.get("backLeft");
-        rightB = hardwareMap.dcMotor.get("backRight");
+        leftF = hardwareMap.dcMotor.get("m0");
+        rightF = hardwareMap.dcMotor.get("m1");
+        leftB = hardwareMap.dcMotor.get("m2");
+        rightB = hardwareMap.dcMotor.get("m3");
 
         //rightF.setDirection(DcMotor.Direction.REVERSE);
         //rightB.setDirection(DcMotor.Direction.REVERSE);
 
         prepare();
-
-        //naming. Karel has ruined me
 
     }
 
@@ -36,19 +34,20 @@ public abstract class Drive extends OpMode
         leftB.setPower(lb);
         rightB.setPower(rb);
 
-        //power settings for motors. Takes input from teleOp
+        //power settings for motors. Takes input from omni
     }
 
 
-    public void side(double side)
+    /*public void side(double side)
     {
         leftF.setPower(-side);
         leftB.setPower(side);
         rightF.setPower(side);
         rightB.setPower(-side);
 
-        //power settings for skating. Also takes input from teleOp
+        //power settings for skating. Also takes input from omni
     }
+    */
     public void omni(float l, float r, float s) {
         float[] forwardMultiplier = {1f, 1f, 1f, 1f};
         float[] rotationalMultiplier = {1f, -1f, -1f, 1f};
@@ -87,5 +86,10 @@ public abstract class Drive extends OpMode
         }
 
         drive(sums[0], sums[1], sums[2], sums[3]);
+
+        telemetry.addData("Motor Values: ", Float.toString(sums[0]), Float.toString(sums[1]),
+                                                    Float.toString(sums[2]), Float.toString(sums[3]));
+        //This is the drive control. It creates arrays with a slot for each motor
     }
+
 }
