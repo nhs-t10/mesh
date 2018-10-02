@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 //import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import java.util.Arrays;
+//import java.util.Arrays;
 
 @TeleOp(name = "teleOp")
-public class teleOp extends tSuper
+public class teleOp extends Drive
 {
     public void prepare()
     {}
@@ -15,7 +15,9 @@ public class teleOp extends tSuper
         float side = gamepad1.left_stick_x;
         //defining the stuff
 
-        float[] forwardMultiplier = {1f, 1f, 1f, 1f};
+        omni(linear, rotation, side);
+
+        /*float[] forwardMultiplier = {1f, 1f, 1f, 1f};
         float[] rotationalMultiplier = {1f, -1f, -1f, 1f};
         float[] eastwestMultiplier = {-1f, 1f, -1f, 1f};
 
@@ -56,6 +58,7 @@ public class teleOp extends tSuper
         }
 
         drive(sums[0], sums[1], sums[2], sums[3]);
+        */
 
 
     }
