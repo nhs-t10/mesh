@@ -54,6 +54,13 @@ public class Controler_Values extends OpMode{
         boolean rightStick2 = gamepad2.right_stick_button;
         // This is a variable list of all of the values we can receive from controller2
 
+        // This is a method to tell when a button is being pressed (needs work)
+        /*public void pressed(boolean button){
+            if (button = true){
+                telemetry.addData("Button Pressed", "button");
+            }
+        }*/
+
     }
 
     public void stop()
