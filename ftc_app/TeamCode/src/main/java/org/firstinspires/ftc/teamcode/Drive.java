@@ -62,8 +62,8 @@ public abstract class Drive extends OpMode
             rotationalComponent[i] = rotationalMultiplier[i] * r;
             eastwestComponent[i] = eastwestMultiplier[i] * s;
 
-
         }
+
         float lfsum = forwardComponent[0] + rotationalComponent[0] + eastwestComponent[0];
         float rfsum = forwardComponent[1] + rotationalComponent[1] + eastwestComponent[1];
         float lbsum = forwardComponent[2] + rotationalComponent[2] + eastwestComponent[2];
