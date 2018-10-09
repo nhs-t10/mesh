@@ -19,7 +19,7 @@ public class teleOp extends T10_Library
         //defining the stuff. linear = straight, rotation = turning, side = skating.
         //Linear - rotation will compensate one side to allow the other side to overrotate
 
-        omni(linear, rotation, side);
+        omni(linear, rotation, -side);
 
         telemetry.addData("left_y",linear);
         telemetry.addData("right_x",linear);
