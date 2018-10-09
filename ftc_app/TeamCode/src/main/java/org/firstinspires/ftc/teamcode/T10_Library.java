@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 
-public abstract class T10_Library extends OpMode{
+public abstract class T10_Library extends OpMode {
     /**
      *  Library for the upcoming 2018-2019 FTC Competition
      *  Usage: contains methods and initializations of hardware components for both
@@ -55,9 +55,9 @@ public abstract class T10_Library extends OpMode{
         @param: float lf, rf, lb & rb all -1<x<1
         @return: void
          */
-        frontLeft.setPower(lf);
+        frontLeft.setPower(-lf);
         frontRight.setPower(rf);
-        backLeft.setPower(lb);
+        backLeft.setPower(-lb);
         backRight.setPower(rb);
 
         //power settings for motors.
@@ -116,9 +116,10 @@ public abstract class T10_Library extends OpMode{
 
         float highest = maxValue(sums);
 
+        telemetry.addData("max",highest);
+
         if (Math.abs(highest) > 1) { attenuationfactor = highest;
-        } else { attenuationfactor = 1f;
-        }
+        } else { attenuationfactor = 1f; }
 
         for (int i = 0; i < 4; i++) {
             sums[i] = sums[i] / attenuationfactor;
@@ -126,8 +127,10 @@ public abstract class T10_Library extends OpMode{
 
         drive(sums[0], sums[1], sums[2], sums[3]);
 
-        telemetry.addData("Motor Values: ", Float.toString(sums[0]), Float.toString(sums[1]),
-                Float.toString(sums[2]), Float.toString(sums[3]));
+        telemetry.addData("Front Left: ", Float.toString(sums[0]));
+        telemetry.addData("Front Right: ", Float.toString(sums[0]));
+        telemetry.addData("Back Left: ", Float.toString(sums[0]));
+        telemetry.addData("Back Right: ", Float.toString(sums[0]));
         //This is the drive control. It creates arrays with a slot for each motor
     }
 
