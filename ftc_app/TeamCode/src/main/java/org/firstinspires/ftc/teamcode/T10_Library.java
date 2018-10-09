@@ -23,7 +23,7 @@ public abstract class T10_Library extends OpMode{
      */
 
     public DcMotor frontRight, frontLeft, backRight, backLeft;
-    public ColorSensor color1;
+    // public ColorSensor color1;
 
     // Constants
     float attenuationfactor;
@@ -42,9 +42,10 @@ public abstract class T10_Library extends OpMode{
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
 
+        telemetry.addData("Working","All systems go!");
         // init sensors
         // insert sensors here
-        color1 = hardwareMap.colorSensor.get("color1");
+        //color1 = hardwareMap.colorSensor.get("color1");
         }
 
 
@@ -62,15 +63,15 @@ public abstract class T10_Library extends OpMode{
         //power settings for motors.
     }
 
-    public int getHue(){
-        /*
-        Method to get color hue from color sensor.
-        @param: none
-        @return: Color RGB values
-         */
-        telemetry.addData("RGB:", color1.argb());
-        return color1.argb();
-    }
+//    public int getHue(){
+//        /*
+//        Method to get color hue from color sensor.
+//        @param: none
+//        @return: Color RGB values
+//         */
+//        telemetry.addData("RGB:", color1.argb());
+//        return color1.argb();
+//    }
 
     public float maxValue(float array[]){
         float max = 0f;

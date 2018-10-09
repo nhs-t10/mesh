@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 //import com.qualcomm.robotcore.hardware.Servo;
 @SuppressWarnings("all")
-public abstract class Drive extends OpMode
+public abstract class Drive extends T10_Library
 {
 
     public DcMotor leftF, leftB, rightF, rightB;
@@ -22,11 +22,7 @@ public abstract class Drive extends OpMode
         //rightF.setDirection(DcMotor.Direction.REVERSE);
         //rightB.setDirection(DcMotor.Direction.REVERSE);
 
-        prepare();
-
     }
-
-    public abstract void prepare();
 
     public void drive(float lf, float rf, float lb, float rb) {
         leftF.setPower(lf);

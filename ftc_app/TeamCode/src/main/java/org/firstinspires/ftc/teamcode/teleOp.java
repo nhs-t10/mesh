@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 //import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.Range;
 //import java.util.Arrays;
 
 @TeleOp(name = "teleOp")
@@ -12,9 +13,9 @@ public class teleOp extends T10_Library
     }
 
     public void loop() {
-        float linear = gamepad1.left_stick_y;
-        float rotation = gamepad1.right_stick_x;
-        float side = gamepad1.left_stick_x;
+        float linear = Range.clip(gamepad1.left_stick_y,-1,1);
+        float rotation = Range.clip(gamepad1.right_stick_x,1,1);
+        float side = Range.clip(gamepad1.left_stick_x,-1,1);
         //defining the stuff. linear = straight, rotation = turning, side = skating.
         //Linear - rotation will compensate one side to allow the other side to overrotate
 
