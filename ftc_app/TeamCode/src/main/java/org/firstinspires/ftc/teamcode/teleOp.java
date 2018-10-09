@@ -4,10 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //import java.util.Arrays;
 
 @TeleOp(name = "teleOp")
-public class teleOp extends Drive
+public class teleOp extends T10_Library
 {
-    public void prepare()
-    {}
+    public void init()
+    {
+        initialize_robot();
+    }
 
     public void loop() {
         float linear = gamepad1.left_stick_y;
