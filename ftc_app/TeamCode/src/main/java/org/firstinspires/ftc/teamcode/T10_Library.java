@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -23,11 +24,14 @@ public abstract class T10_Library extends OpMode {
      */
 
     public DcMotor frontRight, frontLeft, backRight, backLeft;
-    // public ColorSensor color1;
+    public ColorSensor color1;
+    public Servo leftIntake, rightIntake;
 
     // Constants
     float attenuationfactor;
-
+    double initial_position = 0;
+    double moveRate = .005;
+    boolean servosMoving = false;
 
     // public DcMotor hanger1, hanger2;
     public void initialize_robot() {
@@ -41,6 +45,9 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
+
+        leftIntake = hardwareMap.servo.get("s0");
+        rightIntake = hardwareMap.servo.get("s1");
 
         telemetry.addData("Working","All systems go!");
         // init sensors
@@ -63,15 +70,18 @@ public abstract class T10_Library extends OpMode {
         //power settings for motors.
     }
 
-//    public int getHue(){
-//        /*
-//        Method to get color hue from color sensor.
-//        @param: none
-//        @return: Color RGB values
-//         */
-//        telemetry.addData("RGB:", color1.argb());
-//        return color1.argb();
-//    }
+    public int getHue(){
+        /*
+        Method to get color hue from color sensor.
+        @param: none
+        @return: Color RGB values
+         */
+        telemetry.addData("RGB:", color1.argb());
+        telemetry.addData("Red: ", color1.red());
+        telemetry.addData("Blue: ", color1.blue());
+        telemetry.addData("Green: ",color1.green());
+        return color1.argb();
+    }
 
     public float maxValue(float array[]){
         float max = 0f;
@@ -105,15 +115,6 @@ public abstract class T10_Library extends OpMode {
             sums[i]+=forwardComponent[i]+rotationalComponent[i]+eastwestComponent[i];
         }
 
-//        float lfsum = forwardComponent[0] + rotationalComponent[0] + eastwestComponent[0];
-//        float rfsum = forwardComponent[1] + rotationalComponent[1] + eastwestComponent[1];
-//        float lbsum = forwardComponent[2] + rotationalComponent[2] + eastwestComponent[2];
-//        float rbsum = forwardComponent[3] + rotationalComponent[3] + eastwestComponent[3];
-//
-//        float[] sums = {lfsum, rfsum, lbsum, rbsum};
-
-        // Arrays.sort(sums);
-
         float highest = maxValue(sums);
 
         telemetry.addData("max",highest);
@@ -131,7 +132,6 @@ public abstract class T10_Library extends OpMode {
         telemetry.addData("Front Right: ", Float.toString(sums[0]));
         telemetry.addData("Back Left: ", Float.toString(sums[0]));
         telemetry.addData("Back Right: ", Float.toString(sums[0]));
-        //This is the drive control. It creates arrays with a slot for each motor
     }
 
 }

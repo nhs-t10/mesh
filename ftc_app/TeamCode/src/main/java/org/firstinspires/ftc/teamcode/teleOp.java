@@ -21,9 +21,17 @@ public class teleOp extends T10_Library
 
         omni(linear, rotation, side);
 
+        if(gamepad1.a){ // any button, chose a just because
+            leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
+            rightIntake.setPosition(0);
+        }
+
+        // getHue();
+
         telemetry.addData("left_y",linear);
         telemetry.addData("right_x",linear);
         telemetry.addData("right_y",linear);
+        telemetry.addData("Servo's moving?", servosMoving);
 
         //sending inputs to omni code
     }
