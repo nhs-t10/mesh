@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 //import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.util.Range;
 //import java.util.Arrays;
 
@@ -10,6 +11,7 @@ public class teleOp extends T10_Library
     public void init()
     {
         initialize_robot();
+
     }
 
     public void loop() {
@@ -21,12 +23,14 @@ public class teleOp extends T10_Library
 
         omni(linear, rotation, side);
 
-        if(gamepad1.a){ // any button, chose a just because
-            leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
-            rightIntake.setPosition(0);
+        if(gamepad1.right_bumper){
+            moveServos();
+        }
+        if (gamepad1.left_bumper){
+            restServos();
         }
 
-        // getHue();
+        getColorValues();
 
         telemetry.addData("left_y",linear);
         telemetry.addData("right_x",linear);

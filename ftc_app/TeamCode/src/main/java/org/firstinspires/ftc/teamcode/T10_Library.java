@@ -3,14 +3,13 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,8 +22,9 @@ public abstract class T10_Library extends OpMode {
      *  autonomous and teleop usage.
      */
 
+
     public DcMotor frontRight, frontLeft, backRight, backLeft;
-    public ColorSensor color1;
+    public ColorSensor csensor1;
     public Servo leftIntake, rightIntake;
 
     // Constants
@@ -48,6 +48,8 @@ public abstract class T10_Library extends OpMode {
 
         leftIntake = hardwareMap.servo.get("s0");
         rightIntake = hardwareMap.servo.get("s1");
+        csensor1 = hardwareMap.colorSensor.get("c1");
+
 
         telemetry.addData("Working","All systems go!");
         // init sensors
@@ -70,18 +72,24 @@ public abstract class T10_Library extends OpMode {
         //power settings for motors.
     }
 
-    public int getHue(){
-        /*
-        Method to get color hue from color sensor.
-        @param: none
-        @return: Color RGB values
-         */
-        telemetry.addData("RGB:", color1.argb());
-        telemetry.addData("Red: ", color1.red());
-        telemetry.addData("Blue: ", color1.blue());
-        telemetry.addData("Green: ",color1.green());
-        return color1.argb();
+    public void getColorValues(){
+        telemetry.addData("Red", csensor1.red());
+        telemetry.addData("Blue", csensor1.blue());
+        telemetry.addData("argb", csensor1.argb());
     }
+
+    public void moveServos(){
+        servosMoving = true;
+        leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
+        rightIntake.setPosition(0); // 0 means max speed counter-clockwise, 1 means max speed clockwise
+    }
+
+    public void restServos(){
+        servosMoving = false;
+        leftIntake.setPosition(.5);
+        rightIntake.setPosition(.5);
+    }
+
 
     public float maxValue(float array[]){
         float max = 0f;
