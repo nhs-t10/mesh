@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+import org.firstinspires.ftc.teamcode.T10_Library;
 import org.firstinspires.ftc.teamcode.imuData;
 public class Turning{
     double current;
@@ -19,22 +19,24 @@ public class Turning{
 
     public void stopTurning(){
         turning = false;
-        drive(0f,0f,0f);
+        T10_Library.omni(0f, 0f, 0f);
     }
 
-    public void update() {
+    public boolean update() {
         current = imuData.getAngle();
         speed = getError() * P;
         if (turning) {
             if (Math.abs(getError()) < 10) {
                 stopTurning();
+                return false;
             }
-            drive(0f, speed, 0f);
+            T10_Library.omni(0f, (float) speed, 0f);
         }
-
+        return true;
     }
 
     public double getError(){
         double dir1 = destination-current;
+        return dir1;
     }
 }

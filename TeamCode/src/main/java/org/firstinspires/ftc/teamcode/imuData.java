@@ -14,9 +14,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 public class imuData {
     static BNO055IMU imu;
+    static Orientation angle = new Orientation();
 
-
-    void initImu(){
+    static void initImu(){
         BNO055IMU.Parameters parameters= new  BNO055IMU.Parameters();
         parameters.angleUnit=BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -28,15 +28,11 @@ public class imuData {
 
         imu.initialize(parameters);
 
-        imu.startAccelerationIntegration(Position(),Velocity(),1000);
     }
 
-    public static void update(){
-        Orientation angle =imu.getAngularOrientation();
-
-    }
-
-    public static double getAngle(){
+    public static float getAngle(){
+        angle =imu.getAngularOrientation();
         return angle.firstAngle;
     }
+
 }

@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import org.firstinspires.ftc.teamcode.imuData;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,15 +24,15 @@ public abstract class T10_Library extends OpMode {
      *  autonomous and teleop usage.
      */
 
-    public DcMotor frontRight, frontLeft, backRight, backLeft;
-    public ColorSensor color1;
-    public Servo leftIntake, rightIntake;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft;
+    public static ColorSensor color1;
+    public static Servo leftIntake, rightIntake;
 
     // Constants
-    float attenuationfactor;
-    double initial_position = 0;
-    double moveRate = .005;
-    boolean servosMoving = false;
+    static float attenuationfactor;
+    static double initial_position = 0;
+    static double moveRate = .005;
+    static boolean servosMoving = false;
 
     // public DcMotor hanger1, hanger2;
     public void initialize_robot() {
@@ -48,6 +49,7 @@ public abstract class T10_Library extends OpMode {
 
         leftIntake = hardwareMap.servo.get("s0");
         rightIntake = hardwareMap.servo.get("s1");
+        imuData.initImu();
 
         telemetry.addData("Working","All systems go!");
         // init sensors
@@ -56,7 +58,7 @@ public abstract class T10_Library extends OpMode {
         }
 
 
-    public void drive(float lf, float rf, float lb, float rb) {
+    public static void drive(float lf, float rf, float lb, float rb) {
         /*
         Provides basic motor power to all 4 motors.
         @param: float lf, rf, lb & rb all -1<x<1
@@ -76,14 +78,16 @@ public abstract class T10_Library extends OpMode {
         @param: none
         @return: Color RGB values
          */
+
         telemetry.addData("RGB:", color1.argb());
         telemetry.addData("Red: ", color1.red());
         telemetry.addData("Blue: ", color1.blue());
         telemetry.addData("Green: ",color1.green());
         return color1.argb();
+
     }
 
-    public float maxValue(float array[]){
+    public static float maxValue(float array[]){
         float max = 0f;
         for (float i: array){
             if(i>max){ max = i; }
@@ -91,7 +95,7 @@ public abstract class T10_Library extends OpMode {
         return max;
     }
 
-    public void omni(float l, float r, float s) {
+    public static void omni(float l, float r, float s) {
         /*
         Omni-driving function.
         @param: l, linear component, r, rotational component, and s, horizontal component
@@ -117,8 +121,6 @@ public abstract class T10_Library extends OpMode {
 
         float highest = maxValue(sums);
 
-        telemetry.addData("max",highest);
-
         if (Math.abs(highest) > 1) { attenuationfactor = highest;
         } else { attenuationfactor = 1f; }
 
@@ -128,10 +130,6 @@ public abstract class T10_Library extends OpMode {
 
         drive(sums[0], sums[1], sums[2], sums[3]);
 
-        telemetry.addData("Front Left: ", Float.toString(sums[0]));
-        telemetry.addData("Front Right: ", Float.toString(sums[0]));
-        telemetry.addData("Back Left: ", Float.toString(sums[0]));
-        telemetry.addData("Back Right: ", Float.toString(sums[0]));
     }
 
 }
