@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -13,10 +14,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 public class imuData {
-    static BNO055IMU imu;
-    static Orientation angle = new Orientation();
+    BNO055IMU imu;
+    Orientation angle = new Orientation();
 
-    static void initImu(){
+    public imuData(){
         BNO055IMU.Parameters parameters= new  BNO055IMU.Parameters();
         parameters.angleUnit=BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -25,12 +26,12 @@ public class imuData {
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
+        imu = HardwareMap.get(BNO055IMU.class, "IMU");
         imu.initialize(parameters);
 
     }
 
-    public static float getAngle(){
+    public float getAngle(){
         angle =imu.getAngularOrientation();
         return angle.firstAngle;
     }

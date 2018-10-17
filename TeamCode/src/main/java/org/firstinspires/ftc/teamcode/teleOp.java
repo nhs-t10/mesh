@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Turning;
 @TeleOp(name = "teleOp")
 public class teleOp extends T10_Library
 {
+    Turning test = new Turning(0);
     boolean turn = false;
     public void init()
     {
@@ -15,7 +16,6 @@ public class teleOp extends T10_Library
     }
 
     public void loop() {
-        Turning test = new Turning(0);
         float linear = gamepad1.left_stick_y;
         float side = -gamepad1.right_stick_x;
         float rotation = gamepad1.left_stick_x;
@@ -24,10 +24,10 @@ public class teleOp extends T10_Library
 
         omni(linear, rotation, side);
 
-        if(gamepad1.a){ // any button, chose a just because
-            leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
-            rightIntake.setPosition(0);
-        }
+//        if(gamepad1.a){ // any button, chose a just because
+//            leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
+//            rightIntake.setPosition(0);
+//        }
 
         // getHue();
 

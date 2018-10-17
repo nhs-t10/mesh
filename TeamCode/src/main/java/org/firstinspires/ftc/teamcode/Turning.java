@@ -7,7 +7,9 @@ public class Turning{
     double speed;
     boolean turning=false;
     final double P = 0.25;
+    imuData imu = new imuData();
     public Turning(double d){
+
         if(d>180) destination=d-360;
         else destination=d;
     }
@@ -23,7 +25,7 @@ public class Turning{
     }
 
     public boolean update() {
-        current = imuData.getAngle();
+        current = imu.getAngle();
         speed = getError() * P;
         if (turning) {
             if (Math.abs(getError()) < 10) {

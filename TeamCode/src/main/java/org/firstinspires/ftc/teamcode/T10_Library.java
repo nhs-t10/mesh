@@ -25,7 +25,7 @@ public abstract class T10_Library extends OpMode {
      */
     public static DcMotor frontRight, frontLeft, backRight, backLeft;
     // public static ColorSensor color1;
-    public static Servo leftIntake, rightIntake;
+    // public static Servo leftIntake, rightIntake;
 
 
     // Constants
@@ -47,11 +47,9 @@ public abstract class T10_Library extends OpMode {
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
 
-        leftIntake = hardwareMap.servo.get("s0");
-        rightIntake = hardwareMap.servo.get("s1");
+        //leftIntake = hardwareMap.servo.get("s0");
+        //rightIntake = hardwareMap.servo.get("s1");
         // csensor1 = hardwareMap.colorSensor.get("c1");
-
-        imuData.initImu();
 
         telemetry.addData("Working","All systems go!");
         // init sensors
@@ -80,17 +78,17 @@ public abstract class T10_Library extends OpMode {
 //        telemetry.addData("argb", csensor1.argb());
 //    }
 
-    public void moveServos(){
-        servosMoving = true;
-        leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
-        rightIntake.setPosition(0); // 0 means max speed counter-clockwise, 1 means max speed clockwise
-    }
-
-    public void restServos(){
-        servosMoving = false;
-        leftIntake.setPosition(.5);
-        rightIntake.setPosition(.5);
-    }
+//    public void moveServos(){
+//        servosMoving = true;
+//        leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
+//        rightIntake.setPosition(0); // 0 means max speed counter-clockwise, 1 means max speed clockwise
+//    }
+//
+//    public void restServos(){
+//        servosMoving = false;
+//        leftIntake.setPosition(.5);
+//        rightIntake.setPosition(.5);
+//    }
 
 
     public static float maxValue(float array[]){
