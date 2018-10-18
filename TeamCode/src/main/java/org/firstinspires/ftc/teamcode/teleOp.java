@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 //import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.Turning;
 //import java.util.Arrays;
@@ -8,14 +9,17 @@ import org.firstinspires.ftc.teamcode.Turning;
 @TeleOp(name = "teleOp")
 public class teleOp extends T10_Library
 {
+    imuData imu;
     boolean turn = false;
     public void init()
     {
         initialize_robot();
+        imu = new imuData(hardwareMap);
     }
 
     public void loop() {
         Turning test = new Turning(0);
+        /*
         float linear = gamepad1.left_stick_y;
         float side = -gamepad1.right_stick_x;
         float rotation = gamepad1.left_stick_x;
@@ -35,14 +39,14 @@ public class teleOp extends T10_Library
         telemetry.addData("right_x",linear);
         telemetry.addData("right_y",linear);
         telemetry.addData("Servo's moving?", servosMoving);
-
+*/
         //sending inputs to omni code
         if(gamepad1.a && !turn){
             turn = true;
             test.setDestination(30);
         }
         if(turn){
-            boolean isTurning = test.update();
+            boolean isTurning = test.update(imu);
             if(!isTurning){
                 turn = false;
             }

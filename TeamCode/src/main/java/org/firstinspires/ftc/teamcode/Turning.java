@@ -7,6 +7,7 @@ public class Turning{
     double speed;
     boolean turning=false;
     final double P = 0.25;
+
     public Turning(double d){
         if(d>180) destination=d-360;
         else destination=d;
@@ -22,8 +23,8 @@ public class Turning{
         T10_Library.omni(0f, 0f, 0f);
     }
 
-    public boolean update() {
-        current = imuData.getAngle();
+    public boolean update(imuData sean) {
+        current = sean.getAngle();
         speed = getError() * P;
         if (turning) {
             if (Math.abs(getError()) < 10) {

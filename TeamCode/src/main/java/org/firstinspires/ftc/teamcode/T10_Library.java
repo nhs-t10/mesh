@@ -18,6 +18,7 @@ import java.util.Collections;
 
 
 public abstract class T10_Library extends OpMode {
+
     /**
      *  Library for the upcoming 2018-2019 FTC Competition
      *  Usage: contains methods and initializations of hardware components for both
@@ -49,7 +50,8 @@ public abstract class T10_Library extends OpMode {
 
         leftIntake = hardwareMap.servo.get("s0");
         rightIntake = hardwareMap.servo.get("s1");
-        imuData.initImu();
+
+
 
         telemetry.addData("Working","All systems go!");
         // init sensors
