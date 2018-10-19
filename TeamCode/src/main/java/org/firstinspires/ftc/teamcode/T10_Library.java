@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import org.firstinspires.ftc.teamcode.imuData;
+//import org.firstinspires.ftc.teamcode.imuData;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -103,6 +103,7 @@ public abstract class T10_Library extends OpMode {
         /*
         Omni-driving function.
         @param: l, linear component, r, rotational component, and s, horizontal component
+        outputs motor vals
          */
         float[] forwardMultiplier = {1f, 1f, 1f, 1f};
         float[] rotationalMultiplier = {1f, -1f, -1f, 1f};

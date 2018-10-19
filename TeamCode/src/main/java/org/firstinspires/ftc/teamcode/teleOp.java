@@ -1,22 +1,26 @@
 package org.firstinspires.ftc.teamcode;
 //import com.qualcomm.robotcore.util.Range;
 import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldDetector;
+import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
-import org.firstinspires.ftc.teamcode.Turning;
+//import org.firstinspires.ftc.teamcode.Turning;
 //import java.util.Arrays;
 
 @TeleOp(name = "teleOp")
 public class teleOp extends T10_Library
 {
-    Turning test = new Turning(0);
+//    Turning test = new Turning(0);
     boolean turn = false;
-    GoldDetector gold = null;
+    GoldAlignDetector gold = null;
     public void init()
     {
         initialize_robot();
+        gold = new GoldAlignDetector();
         gold.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        gold.addScorer(new RatioScorer(1.0,10));
+        gold.enable();
     }
 
     public void loop() {
@@ -28,26 +32,26 @@ public class teleOp extends T10_Library
 
         omni(linear, rotation, side);
         telemetry.addData("Gold?", gold.isFound());
+        telemetry.addData("Pos:", gold.getXPosition());
 //        telemetry.addData("left_y",linear);
 //        telemetry.addData("right_x",linear);
 //        telemetry.addData("right_y",linear);
 //        telemetry.addData("Servo's moving?", servosMoving);
 
         //sending inputs to omni code
-        if(gamepad1.a && !turn){
-            turn = true;
-            test.setDestination(30);
-        }
-        if(turn){
-            boolean isTurning = test.update();
-            if(!isTurning){
-                turn = false;
-            }
-        }
+//        if(gamepad1.a && !turn){
+//            turn = true;
+//            test.setDestination(30);
+//        }
+//        if(turn){
+//            boolean isTurning = test.update();
+//            if(!isTurning){
+//                turn = false;
+//            }
+//        }
 
     }
 
-    public void stop()
-    {}
-
+    public void stop() {
+    }
 }

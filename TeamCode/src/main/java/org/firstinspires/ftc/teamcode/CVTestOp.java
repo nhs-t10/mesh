@@ -1,19 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldDetector;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 public class CVTestOp extends T10_Library {
     // Declare constants and instances
-    GoldDetector gold = null;
+    GoldAlignDetector gold = null;
     @Override
     public void init() {
         initialize_robot();
-        gold = new GoldDetector();
+        gold = new GoldAlignDetector();
         gold.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
     }
 
@@ -31,6 +30,6 @@ public class CVTestOp extends T10_Library {
 
     @Override
     public void stop() {
-        super.stop();
+
     }
 }
