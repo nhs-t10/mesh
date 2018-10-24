@@ -50,8 +50,8 @@ public class GoldAlignDetector extends DogeCVDetector {
     public DogeCVColorFilter yellowFilter      = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW); //Default Yellow filter
 
     public RatioScorer       ratioScorer       = new RatioScorer(1.0, 3);          // Used to find perfect squares
-    public MaxAreaScorer     maxAreaScorer     = new MaxAreaScorer( 0.01);                    // Used to find largest objects
-    public PerfectAreaScorer perfectAreaScorer = new PerfectAreaScorer(5000,0.05); // Used to find objects near a tuned area value
+    public MaxAreaScorer     maxAreaScorer     = new MaxAreaScorer(0.01);                    // Used to find largest objects
+    public PerfectAreaScorer perfectAreaScorer = new PerfectAreaScorer(5000,1.0); // Used to find objects near a tuned area value
 
     /**
      * Simple constructor

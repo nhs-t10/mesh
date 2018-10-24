@@ -1,5 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import com.disnodeteam.dogecv.scoring.MaxAreaScorer;
+import com.disnodeteam.dogecv.scoring.PerfectAreaScorer;
+import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -9,13 +15,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 //import org.firstinspires.ftc.teamcode.imuData;
-
 import java.util.Arrays;
 import java.util.Collections;
-
 
 public abstract class T10_Library extends OpMode {
     /**
@@ -24,9 +27,9 @@ public abstract class T10_Library extends OpMode {
      *  autonomous and teleop usage.
      */
     public static DcMotor frontRight, frontLeft, backRight, backLeft;
+    GoldAlignDetector gold = null;
     // public static ColorSensor color1;
     // public static Servo leftIntake, rightIntake;
-
 
     // Constants
     static float attenuationfactor;
@@ -34,6 +37,31 @@ public abstract class T10_Library extends OpMode {
     static double moveRate = .005;
     static boolean servosMoving = false;
 
+
+    public DRIVING mode;
+    public TeamWeAreOn team;
+
+    public enum DRIVING { Slow, Medium, Fast;
+        public DRIVING getNext() {
+            return values()[(ordinal() + 1) % values().length];
+        } // change driving mode
+    }
+
+    public enum TeamWeAreOn { RED, BLUE };
+
+    public void setTeam(TeamWeAreOn t){
+        this.team = t;
+    }
+
+    public void init_cv(){
+        gold = new GoldAlignDetector();
+        gold.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        gold.areaScoringMethod = DogeCV.AreaScoringMethod.PERFECT_AREA;
+        gold.perfectAreaScorer.perfectArea= 10000; // constant
+        gold.maxAreaScorer.weight = 5;
+        gold.ratioScorer.perfectRatio = 1.0;
+        gold.enable();
+    }
     // public DcMotor hanger1, hanger2;
     public void initialize_robot() {
         /*
@@ -46,17 +74,16 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
-
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
         // csensor1 = hardwareMap.colorSensor.get("c1");
-
-        telemetry.addData("Working","All systems go!");
+        init_cv();
+        mode = DRIVING.Medium;
+        telemetry.addData("Working","All systems go!");;
         // init sensors
         // insert sensors here
         //color1 = hardwareMap.colorSensor.get("color1");
         }
-
 
     public static void drive(float lf, float rf, float lb, float rb) {
         /*
@@ -71,6 +98,7 @@ public abstract class T10_Library extends OpMode {
 
         //power settings for motors.
     }
+
 
 //    public void getColorValues(){
 //        telemetry.addData("Red", csensor1.red());
@@ -103,11 +131,10 @@ public abstract class T10_Library extends OpMode {
         /*
         Omni-driving function.
         @param: l, linear component, r, rotational component, and s, horizontal component
-        outputs motor vals
          */
         float[] forwardMultiplier = {1f, 1f, 1f, 1f};
-        float[] rotationalMultiplier = {1f, -1f, -1f, 1f};
-        float[] horizontalMultiplier = {-1f, 1f, -1f, 1f};
+        float[] rotationalMultiplier = {-1f, 1f, -1f, 1f};
+        float[] horizontalMultiplier = {-1f, 1f, 1f, -1f};
 
         float[] forwardComponent = new float[4];
         float[] rotationalComponent = new float[4];

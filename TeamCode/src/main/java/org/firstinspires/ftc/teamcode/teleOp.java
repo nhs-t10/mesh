@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 //import com.qualcomm.robotcore.util.Range;
 import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DrawViewSource;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,26 +14,33 @@ public class teleOp extends T10_Library
 {
 //    Turning test = new Turning(0);
     boolean turn = false;
-    GoldAlignDetector gold = null;
     public void init()
     {
         initialize_robot();
-        gold = new GoldAlignDetector();
-        gold.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
-        gold.addScorer(new RatioScorer(1.0,10));
-        gold.enable();
     }
 
     public void loop() {
         float linear = gamepad1.left_stick_y;
-        float side = -gamepad1.right_stick_x;
-        float rotation = gamepad1.left_stick_x;
+        float side = gamepad1.left_stick_x;
+        float rotation = gamepad1.right_stick_x;
         //defining the stuff. linear = straight, rotation = turning, side = skating.
         //Linear - rotation will compensate one side to allow the other side to overrotate
 
-        omni(linear, rotation, side);
-        telemetry.addData("Gold?", gold.isFound());
-        telemetry.addData("Pos:", gold.getXPosition());
+        if(gamepad1.right_stick_button){
+            mode = mode.getNext();
+        }
+        if(mode == DRIVING.Fast) {
+            omni(linear, rotation, side);
+        }
+        else if (mode == DRIVING.Slow){
+            omni(linear/2f,rotation/2f,side/2f);
+        }
+        else if (mode == DRIVING.Medium){
+            omni(linear/1.25f,rotation/1.25f,side/1.25f);
+        }
+
+        telemetry.addData("Gold Aligned?", gold.getAligned());
+        telemetry.addData("Driving Mode:",mode);
 //        telemetry.addData("left_y",linear);
 //        telemetry.addData("right_x",linear);
 //        telemetry.addData("right_y",linear);
@@ -53,5 +61,6 @@ public class teleOp extends T10_Library
     }
 
     public void stop() {
+        gold.disable();
     }
 }

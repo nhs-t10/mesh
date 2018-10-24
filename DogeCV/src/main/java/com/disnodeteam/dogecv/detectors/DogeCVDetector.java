@@ -77,8 +77,8 @@ public abstract class DogeCVDetector extends OpenCVPipeline{
         Imgproc.resize(workingMat, workingMat,adjustedSize); // Downscale
         Imgproc.resize(process(workingMat),workingMat,getInitSize()); // Process and scale back to original size for viewing
         //Print Info
-        Imgproc.putText(workingMat,"DogeCV 2018.2 " + detectorName + ": " + getAdjustedSize().toString() + " - " + speed.toString() ,new Point(5,30),0,0.5,new Scalar(0,255,255),2);
-
+        //Imgproc.putText(workingMat,"DogeCV 2018.2 " + detectorName + ": " + getAdjustedSize().toString() + " - " + speed.toString() ,new Point(5,30),0,0.5,new Scalar(0,255,255),2);
+        Imgproc.putText(workingMat, "T-10 Computer Vision: " + detectorName+ ": "+ getAdjustedSize().toString() + " - " + speed.toString() ,new Point(5,30),0,0.5,new Scalar(0,255,255),2);
         return workingMat;
     }
 

@@ -78,7 +78,7 @@ public class HoughSilverDetector extends DogeCVDetector {
             Mat masked = new Mat((int) getAdjustedSize().height, (int) getAdjustedSize().width, CvType.CV_8UC3); //Creates a blank matrix of the appropriate type to receive the sections of the input image
             workingMat.copyTo(masked, mask); //Copies only the regions of the input image contained in the mask, and therefore the circle drawn in the mask
             double score = calculateScore(masked); //Calculates the score of the circle
-            //Releases undeeded matrices to avoid memory leak
+            //Releases unneeded matrices to avoid memory leak
             mask.release();
             masked.release();
             results++; //Increments circle count by one
@@ -92,7 +92,7 @@ public class HoughSilverDetector extends DogeCVDetector {
         }
         //Draws a red circle around the best circle, if one is detected at all
         if(bestCircle != null){
-            Imgproc.circle(displayMat, new Point(bestCircle.x, bestCircle.y), (int) bestCircle.radius, new Scalar(255,0,0),4);
+            Imgproc.circle(displayMat, new Point(bestCircle.x, bestCircle.y), (int) bestCircle.radius, new Scalar(0,255,0),4);
             Imgproc.putText(displayMat, "Chosen", new Point(bestCircle.x, bestCircle.y),0,.8,new Scalar(255,255,255));
             foundCircle = bestCircle;
             isFound = true;
