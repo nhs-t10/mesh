@@ -6,7 +6,9 @@ public class Turning{
     double destination;
     double speed;
     boolean turning=false;
-    final double P = 0.25;
+    protected static double P = 0.25;
+
+    public Thread pidThread;
 
     public Turning(double d){
         if(d>180) destination=d-360;
