@@ -1,16 +1,21 @@
 package org.firstinspires.ftc.teamcode;
-import org.firstinspires.ftc.teamcode.T10_Library;
-import org.firstinspires.ftc.teamcode.imuData;
+
 public class Turning{
-    double current;
+    double currentAngle;
     double destination;
-    double speed;
+    double pComponent;
+    double dComponent;
     boolean turning=false;
+    double preverror = 0.0;
+    double starttime = 0.0;
+    double prevtime = 0.0;
     final double P = 0.25;
+    final double D = 0.25;
 
     public Turning(double d){
         if(d>180) destination=d-360;
         else destination=d;
+        prevtime = getElapsedTimeFromStart();
     }
 
     public void setDestination(float degrees){
@@ -24,20 +29,30 @@ public class Turning{
     }
 
     public boolean update(imuData sean) {
-        current = sean.getAngle();
-        speed = getError() * P;
+        currentAngle = sean.getAngle();
+        double error = getError();
+        pComponent = error * P;
+        dComponent = Math.abs(D*(error-preverror)/elapsedtime);
         if (turning) {
-            if (Math.abs(getError()) < 10) {
+            if (Math.abs(error) < 10) {
                 stopTurning();
                 return false;
             }
-            T10_Library.omni(0f, (float) speed, 0f);
+            T10_Library.omni(0f, (float) pComponent, 0f);
         }
         return true;
     }
 
     public double getError(){
-        double dir1 = destination-current;
+        double dir1 = destination- currentAngle;
         return dir1;
+    }
+    
+    public double getElapsedTimeFromStart(){
+        return System.currentTimeMillis() - starttime;
+    }
+    
+    public double getCurrentTime(){
+        return System.currentTimeMillis();
     }
 }
