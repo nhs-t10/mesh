@@ -9,16 +9,18 @@ import org.firstinspires.ftc.teamcode.Turning;
 @TeleOp(name = "teleOp")
 public class teleOp extends T10_Library
 {
+
+    Turning test;
     imuData imu;
     boolean turn = false;
     public void init()
     {
         initialize_robot();
         imu = new imuData(hardwareMap);
+        test = new Turning();
     }
 
     public void loop() {
-        Turning test = new Turning(0);
         /*
         float linear = gamepad1.left_stick_y;
         float side = -gamepad1.right_stick_x;

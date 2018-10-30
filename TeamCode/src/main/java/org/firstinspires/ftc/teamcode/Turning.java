@@ -6,19 +6,19 @@ public class Turning{
     double pComponent;
     double dComponent;
     boolean turning=false;
-    double preverror = 0.0;
-    double starttime = 0.0;
+    double preverror = 0.0;;
     double prevtime = 0.0;
     final double P = 0.25;
     final double D = 0.25;
 
-    public Turning(double d){
-        if(d>180) destination=d-360;
-        else destination=d;
-        prevtime = getElapsedTimeFromStart();
+    public Turning(){
+
     }
 
     public void setDestination(float degrees){
+        if(degrees>180) destination=degrees-360;
+        else destination=degrees;
+        prevtime = getElapsedTimeFromStart();
         destination=degrees;
         turning=true;
     }
@@ -32,15 +32,19 @@ public class Turning{
         currentAngle = sean.getAngle();
         double error = getError();
         pComponent = error * P;
-        dComponent = Math.abs(D*(error-preverror)/elapsedtime);
+        double currTime = getElapsedTimeFromStart();
+        dComponent = -Math.signum(error)*Math.abs(D*(error-preverror)/(currTime-prevtime));
+        prevtime = currTime;
         if (turning) {
-            if (Math.abs(error) < 10) {
+            if (Math.abs(error) < 5) {
                 stopTurning();
                 return false;
             }
-            T10_Library.omni(0f, (float) pComponent, 0f);
+            T10_Library.omni(0f, (float) (pComponent + dComponent), 0f);
+
         }
         return true;
+
     }
 
     public double getError(){
@@ -48,11 +52,7 @@ public class Turning{
         return dir1;
     }
     
-    public double getElapsedTimeFromStart(){
-        return System.currentTimeMillis() - starttime;
-    }
-    
-    public double getCurrentTime(){
+    public double getElapsedTimeFromStart() {
         return System.currentTimeMillis();
     }
 }
