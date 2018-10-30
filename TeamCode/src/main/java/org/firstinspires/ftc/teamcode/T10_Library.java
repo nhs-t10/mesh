@@ -168,6 +168,19 @@ public abstract class T10_Library extends OpMode {
         omni(0,0,0);
     }
 
+    /*
+    Driving for x seconds
+    @param: time, in seconds
+    @return: void, sets motor power
+ */
+    public void driveFor(double time){
+        long currentTime = System.currentTimeMillis();
+        double finalTime = currentTime + (time * 1000);
+        while (currentTime < finalTime){
+            omni(1, 0, 0);
+        }
+    }
+
 
     public void sleep(int millis) {
         try {
