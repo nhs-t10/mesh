@@ -6,14 +6,25 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 //import org.firstinspires.ftc.teamcode.Turning;
 //import java.util.Arrays;
 
 @TeleOp(name = "teleOp")
 public class teleOp extends T10_Library
 {
-//    Turning test = new Turning(0);
+    Turning test = new Turning(0);
     boolean turn = false;
+    imuData imu;
+
+    public void init()
+    {
+        initialize_robot();
+        changeP(); // include if we want to change P value for PID tuning
+        imu = new imuData(hardwareMap);
+        telemetry.addData("IMU: ", imu.getAngle());
+    }
 
     public void changeP() {
         boolean confirmed = false;
@@ -27,7 +38,6 @@ public class teleOp extends T10_Library
                 dDownPressed = false;
             }
             if (gamepad2.dpad_up && !dUpPressed) {
-                dUpPressed = true;
                 Turning.P += 0.01;
             }
             if (!gamepad2.dpad_up) {
@@ -40,12 +50,6 @@ public class teleOp extends T10_Library
             }
             telemetry.update();
         }
-    }
-
-    public void init()
-    {
-        initialize_robot();
-        changeP(); // include if we want to change P value for PID tuning
     }
 
     public void loop() {
@@ -69,6 +73,11 @@ public class teleOp extends T10_Library
         }
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Driving Mode:",mode);
+        telemetry.addData("Current?", test.current);
+        telemetry.addData("Speed X?", imu.getXVelocity());
+        telemetry.addData("Speed Y?", imu.getYVelocity());
+        telemetry.addData("Speed Z?", imu.getZVelocity());
+
 //        telemetry.addData("left_y",linear);
 //        telemetry.addData("right_x",linear);
 //        telemetry.addData("right_y",linear);

@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 import org.firstinspires.ftc.teamcode.T10_Library;
 import org.firstinspires.ftc.teamcode.imuData;
+
 public class Turning{
     double current;
     double destination;
     double speed;
     boolean turning=false;
-    protected static double P = 0.25;
+    protected static double P = 0.0018;
 
     public Thread pidThread;
 

@@ -164,4 +164,17 @@ public abstract class T10_Library extends OpMode {
 
     }
 
+    public void stopDrive(){
+        omni(0,0,0);
+    }
+
+
+    public void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (Exception err) {
+            telemetry.addData("ERROR", "It's TIME to stop.");
+        }
+    }
+
 }

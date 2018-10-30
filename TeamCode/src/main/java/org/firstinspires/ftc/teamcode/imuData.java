@@ -15,16 +15,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 public class imuData {
-    BNO055IMU imu;
+    static BNO055IMU imu;
     Orientation angle = new Orientation();
 
     public imuData (HardwareMap hardwareMap){
-        initImu();
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+        initImu();
     }
 
     public void initImu(){
-        BNO055IMU.Parameters parameters= new  BNO055IMU.Parameters();
+        BNO055IMU.Parameters parameters= new BNO055IMU.Parameters();
         parameters.angleUnit=BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
 
@@ -32,7 +32,6 @@ public class imuData {
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
 
         imu.initialize(parameters);
 
@@ -42,5 +41,19 @@ public class imuData {
         angle =imu.getAngularOrientation();
         return angle.firstAngle;
     }
+    public double getXVelocity(){
+        double velocity = imu.getVelocity().xVeloc;
+        return velocity;
+    }
+    public double getYVelocity(){
+        double velocity = imu.getVelocity().yVeloc;
+        return velocity;
+    }
+
+    public double getZVelocity(){
+        double velocity = imu.getVelocity().zVeloc;
+        return velocity;
+    }
+
 
 }
