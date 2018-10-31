@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Turning;
 //import java.util.Arrays;
 
@@ -21,7 +23,7 @@ public class teleOp extends T10_Library
     }
 
     public void loop() {
-        /*
+
         float linear = gamepad1.left_stick_y;
         float side = -gamepad1.right_stick_x;
         float rotation = gamepad1.left_stick_x;
@@ -29,6 +31,8 @@ public class teleOp extends T10_Library
         //Linear - rotation will compensate one side to allow the other side to overrotate
 
         omni(linear, rotation, side);
+
+        /*
 
         if(gamepad1.a){ // any button, chose a just because
             leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
@@ -43,17 +47,18 @@ public class teleOp extends T10_Library
         telemetry.addData("Servo's moving?", servosMoving);
 */
         //sending inputs to omni code
-        if(gamepad1.a && !turn){
+        if(gamepad1.a){
             turn = true;
-            test.setDestination(30);
+            test.setDestination(90);
         }
-        if(turn){
-            boolean isTurning = test.update(imu);
-            if(!isTurning){
-                turn = false;
-            }
+        if(gamepad1.b){
+            turn = true;
+            test.setDestination(-90);
         }
-
+        test.update(imu);
+        telemetry.addData("Error: ", test.getError());
+        telemetry.addData("P: ", test.pComponent);
+        telemetry.addData("D: ",test.dComponent);
     }
 
     public void stop()

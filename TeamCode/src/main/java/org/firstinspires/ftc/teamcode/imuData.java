@@ -19,8 +19,8 @@ public class imuData {
     Orientation angle = new Orientation();
 
     public imuData (HardwareMap hardwareMap){
-        initImu();
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+        initImu();
     }
 
     public void initImu(){

@@ -8,11 +8,11 @@ public class Turning{
     boolean turning=false;
     double preverror = 0.0;;
     double prevtime = 0.0;
-    final double P = 0.25;
-    final double D = 0.25;
+    final double P = 0.03;
+    final double D = 0.3;//big D for big boys
 
     public Turning(){
-
+        destination=0;
     }
 
     public void setDestination(float degrees){
@@ -36,20 +36,20 @@ public class Turning{
         dComponent = -Math.signum(error)*Math.abs(D*(error-preverror)/(currTime-prevtime));
         prevtime = currTime;
         if (turning) {
-            if (Math.abs(error) < 5) {
+            if (Math.abs(error) < 3) {
                 stopTurning();
                 return false;
             }
-            T10_Library.omni(0f, (float) (pComponent + dComponent), 0f);
+            T10_Library.omni(0f, 0f, (float) (pComponent));
 
         }
         return true;
 
+
     }
 
     public double getError(){
-        double dir1 = destination- currentAngle;
-        return dir1;
+        return currentAngle- destination ;
     }
     
     public double getElapsedTimeFromStart() {
