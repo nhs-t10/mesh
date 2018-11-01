@@ -18,6 +18,14 @@ public class teleOp extends T10_Library
     boolean turn = false;
     imuData imu;
 
+    public void init()
+    {
+        initialize_robot();
+        changeP(); // include if we want to change P value for PID tuning
+        imu = new imuData(hardwareMap);
+        telemetry.addData("IMU: ", imu.getAngle());
+    }
+
     public void changeP() {
         boolean confirmed = false;
         boolean dDownPressed = false, dUpPressed = false;
@@ -44,15 +52,6 @@ public class teleOp extends T10_Library
         }
     }
 
-    public void init()
-    {
-        initialize_robot();
-        changeP(); // include if we want to change P value for PID tuning
-        imu = new imuData(hardwareMap);
-        telemetry.addData("IMU: ", imu.getAngle());
-    }
-
-
     public void loop() {
         float linear = gamepad1.left_stick_y;
         float side = gamepad1.left_stick_x;
@@ -72,25 +71,12 @@ public class teleOp extends T10_Library
         else if (mode == DRIVING.Medium){
             omni(linear/1.25f,rotation/1.25f,side/1.25f);
         }
-
-        // Gamepad arm controls
-        if(gamepad1.dpad_up){
-            armMotor.setPower(.5f);
-        }
-        if(gamepad1.dpad_down){
-            armMotor.setPower(-.5f);
-        }
-        if(gamepad1.left_bumper){
-            armServo.setPosition(0);
-        }
-        if(gamepad1.right_bumper){
-            armServo.setPosition(1);
-        }
-
-
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Driving Mode:",mode);
-        telemetry.addData("Arm up?", armMotor.getPower() > 0);
+        telemetry.addData("Current?", test.current);
+        telemetry.addData("Speed X?", imu.getXVelocity());
+        telemetry.addData("Speed Y?", imu.getYVelocity());
+        telemetry.addData("Speed Z?", imu.getZVelocity());
 
 //        telemetry.addData("left_y",linear);
 //        telemetry.addData("right_x",linear);
