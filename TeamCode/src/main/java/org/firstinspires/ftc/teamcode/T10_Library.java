@@ -26,7 +26,8 @@ public abstract class T10_Library extends OpMode {
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-    public static DcMotor frontRight, frontLeft, backRight, backLeft;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft, armMotor;
+    public static Servo armServo;
     GoldAlignDetector gold = null;
     // public static ColorSensor color1;
     // public static Servo leftIntake, rightIntake;
@@ -74,6 +75,8 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
+        armMotor = hardwareMap.dcMotor.get("m4");
+        armServo = hardwareMap.servo.get("s0");
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
         // csensor1 = hardwareMap.colorSensor.get("c1");
@@ -166,6 +169,19 @@ public abstract class T10_Library extends OpMode {
 
     public void stopDrive(){
         omni(0,0,0);
+    }
+
+    /*
+    Driving for x seconds
+    @param: time, in seconds
+    @return: void, sets motor power
+ */
+    public void driveFor(double time){
+        long currentTime = System.currentTimeMillis();
+        double finalTime = currentTime + (time * 1000);
+        while (currentTime < finalTime){
+            omni(1, 0, 0);
+        }
     }
 
 

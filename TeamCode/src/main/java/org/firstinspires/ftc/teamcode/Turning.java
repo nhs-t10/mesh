@@ -7,7 +7,7 @@ public class Turning{
     double destination;
     double speed;
     boolean turning=false;
-    protected static double P = 0.0018;
+    protected static double P = 0.18;
 
     public Thread pidThread;
 
