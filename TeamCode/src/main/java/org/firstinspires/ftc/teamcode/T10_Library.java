@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import com.disnodeteam.dogecv.detectors.roverrukus.HoughSilverDetector;
+import com.disnodeteam.dogecv.detectors.roverrukus.SilverDetector;
 import com.disnodeteam.dogecv.scoring.MaxAreaScorer;
 import com.disnodeteam.dogecv.scoring.PerfectAreaScorer;
 import com.disnodeteam.dogecv.scoring.RatioScorer;
@@ -26,9 +28,10 @@ public abstract class T10_Library extends OpMode {
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-    public static DcMotor frontRight, frontLeft, backRight, backLeft, armMotor;
-    public static Servo armServo;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft;
+    // public static Servo armServo;
     GoldAlignDetector gold = null;
+    HoughSilverDetector silver = null;
     // public static ColorSensor color1;
     // public static Servo leftIntake, rightIntake;
 
@@ -62,7 +65,14 @@ public abstract class T10_Library extends OpMode {
         gold.maxAreaScorer.weight = 5;
         gold.ratioScorer.perfectRatio = 1.0;
         gold.enable();
+
+        // Silver Init
+
+        silver = new HoughSilverDetector();
+        silver.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        silver.enable();
     }
+
     // public DcMotor hanger1, hanger2;
     public void initialize_robot() {
         /*
@@ -75,8 +85,8 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
-        armMotor = hardwareMap.dcMotor.get("m4");
-        armServo = hardwareMap.servo.get("s0");
+        // armMotor = hardwareMap.dcMotor.get("m4");
+        // armServo = hardwareMap.servo.get("s0");
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
         // csensor1 = hardwareMap.colorSensor.get("c1");
@@ -184,12 +194,11 @@ public abstract class T10_Library extends OpMode {
         }
     }
 
-
     public void sleep(int millis) {
         try {
             Thread.sleep(millis);
         } catch (Exception err) {
-            telemetry.addData("ERROR", "It's TIME to stop.");
+            telemetry.addData("Stopped Robot", "69");
         }
     }
 

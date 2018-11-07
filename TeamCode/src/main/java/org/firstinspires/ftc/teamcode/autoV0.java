@@ -32,7 +32,7 @@ public class autoV0 extends T10_Library {
     public void init() {
         initialize_robot();
         imu = new imuData(hardwareMap);
-        changeP();
+        // changeP();
         telemetry.addData("IMU: ",imu.toString());
     }
 

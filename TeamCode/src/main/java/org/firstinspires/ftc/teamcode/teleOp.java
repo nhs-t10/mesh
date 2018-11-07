@@ -47,7 +47,7 @@ public class teleOp extends T10_Library
     public void init()
     {
         initialize_robot();
-        changeP(); // include if we want to change P value for PID tuning
+        //changeP(); // include if we want to change P value for PID tuning
         imu = new imuData(hardwareMap);
         telemetry.addData("IMU: ", imu.getAngle());
     }
@@ -74,23 +74,24 @@ public class teleOp extends T10_Library
         }
 
         // Gamepad arm controls
-        if(gamepad1.dpad_up){
-            armMotor.setPower(.5f);
-        }
-        if(gamepad1.dpad_down){
-            armMotor.setPower(-.5f);
-        }
-        if(gamepad1.left_bumper){
-            armServo.setPosition(0);
-        }
-        if(gamepad1.right_bumper){
-            armServo.setPosition(1);
-        }
+//        if(gamepad1.dpad_up){
+//            armMotor.setPower(.5f);
+//        }
+//        if(gamepad1.dpad_down){
+//            armMotor.setPower(-.5f);
+//        }
+//        if(gamepad1.left_bumper){
+//            armServo.setPosition(0);
+//        }
+//        if(gamepad1.right_bumper){
+//            armServo.setPosition(1);
+//        }
 
 
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Driving Mode:",mode);
-        telemetry.addData("Arm up?", armMotor.getPower() > 0);
+        // telemetry.addData("Arm up?", armMotor.getPower() > 0);
+        telemetry.addData("Silver Found?", silver.isFound());
 
 //        telemetry.addData("left_y",linear);
 //        telemetry.addData("right_x",linear);
@@ -113,5 +114,6 @@ public class teleOp extends T10_Library
 
     public void stop() {
         gold.disable();
+        silver.disable();
     }
 }
