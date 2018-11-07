@@ -33,7 +33,6 @@ public abstract class T10_Library extends OpMode {
     // public static Servo armServo;
 
     GoldAlignDetector gold = null;
-    HoughSilverDetector silver = null;
     public static ColorSensor color;
     // public static Servo leftIntake, rightIntake;
 
@@ -67,17 +66,7 @@ public abstract class T10_Library extends OpMode {
     public void init_cv(){
         gold = new GoldAlignDetector();
         gold.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
-        gold.areaScoringMethod = DogeCV.AreaScoringMethod.PERFECT_AREA;
-        gold.perfectAreaScorer.perfectArea= 10000; // constant
-        gold.maxAreaScorer.weight = 5;
-        gold.ratioScorer.perfectRatio = 1.0;
         gold.enable();
-
-        // Silver Init
-
-        silver = new HoughSilverDetector();
-        silver.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
-        silver.enable();
     }
 
     // public DcMotor hanger1, hanger2;
@@ -96,7 +85,7 @@ public abstract class T10_Library extends OpMode {
         // armServo = hardwareMap.servo.get("s0");
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
-        color = hardwareMap.colorSensor.get("c1");
+        // color = hardwareMap.colorSensor.get("c1");
         init_cv();
         mode = DRIVING.Medium;
         telemetry.addData("Working","All systems go!");;

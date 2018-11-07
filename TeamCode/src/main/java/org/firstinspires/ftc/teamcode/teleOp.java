@@ -64,7 +64,6 @@ public class teleOp extends T10_Library
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Driving Mode:",mode);
         // telemetry.addData("Arm up?", armMotor.getPower() > 0);
-        telemetry.addData("Silver Found?", silver.isFound());
 
 //        telemetry.addData("left_y",linear);
 //        telemetry.addData("right_x",linear);
@@ -87,6 +86,5 @@ public class teleOp extends T10_Library
 
     public void stop() {
         gold.disable();
-        silver.disable();
     }
 }

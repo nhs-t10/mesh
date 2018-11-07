@@ -51,8 +51,9 @@ public class GoldAlignDetector extends DogeCVDetector {
 
     public RatioScorer       ratioScorer       = new RatioScorer(1.0, 3);          // Used to find perfect squares
     public MaxAreaScorer     maxAreaScorer     = new MaxAreaScorer(0.01);                    // Used to find largest objects
-    public PerfectAreaScorer perfectAreaScorer = new PerfectAreaScorer(5000,1.0); // Used to find objects near a tuned area value
+    public PerfectAreaScorer perfectAreaScorer = new PerfectAreaScorer(5000,.05); // Used to find objects near a tuned area value
 
+    public Rect goldBlock = new Rect();
     /**
      * Simple constructor
      */
@@ -106,6 +107,7 @@ public class GoldAlignDetector extends DogeCVDetector {
         double xPos; // Current Gold X Pos
 
         if(bestRect != null){
+            goldBlock = bestRect;
             // Show chosen result
             Imgproc.rectangle(displayMat, bestRect.tl(), bestRect.br(), new Scalar(255,0,0),4);
             Imgproc.putText(displayMat, "Chosen", bestRect.tl(),0,1,new Scalar(255,255,255));
@@ -197,5 +199,9 @@ public class GoldAlignDetector extends DogeCVDetector {
      */
     public boolean isFound() {
         return found;
+    }
+
+    public Rect getBestRect() {
+        return goldBlock;
     }
 }
