@@ -9,63 +9,47 @@ public class autoV0 extends T10_Library {
     boolean stop = false;
     boolean turn = false;
     imuData imu;
-    Turning turner = new Turning(0);
-
-    public void changeP() {
-        boolean confirmed = false;
-        while (!confirmed) {
-            if(gamepad2.dpad_up){
-                Turning.P += 0.01;
-            }
-            else if(gamepad2.dpad_down){
-                Turning.P -= 0.01;
-            }
-            telemetry.addData("Current P", Turning.P);
-            if (gamepad2.left_stick_button && gamepad2.right_stick_button) {
-                confirmed = true;
-                telemetry.addData("Confirmed!", "");
-            }
-            telemetry.update();
-        }
+    Turning turner = new Turning();
+    enum state {
+        START, TURNING, DRIVING, STOP;
     }
+    state currentState = state.START;
 
     public void init() {
         initialize_robot();
         imu = new imuData(hardwareMap);
-        // changeP();
         telemetry.addData("IMU: ",imu.toString());
+        setTeam(color.blue());
+    }
+
+    public void updateState(){
+        int stopper = 0;
+        if(!gold.getAligned()){
+            currentState = state.TURNING;
+            stopper++;
+        }
+        if(gold.getAligned()){
+            currentState = state.DRIVING;
+        }
+        if(!gold.getAligned() && stopper > 1){
+            currentState = state.STOP;
+        }
     }
 
     public void loop() {
-        if(gamepad1.b){
-            stop = true;
+        updateState();
+        if(currentState == state.TURNING){
+            omni(0,.5f,0);
         }
-//        if(!stop) {
-//            if (!gold.getAligned()) {
-//                omni(0, .1f, 0);
-//            } else {
-//                omni(.1f, 0, 0);
-//            }
-//        }
-//        else {
-//            stopDrive();
-//        }
-
-        if(gamepad1.a && !turn){
-            turn = true;
-            turner.setDestination(30);
+        if(currentState == state.DRIVING){
+            omni(1,0,0);
         }
-        if(turn){
-            boolean isTurning = turner.update(imu);
-            if(!isTurning){
-                turn = false;
-            }
+        if(currentState == state.STOP){
+            omni(0,0,0);
         }
-
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Current?", imu.getAngle());
         telemetry.addData("Error?", turner.getError());
-        telemetry.addData("P?", Turning.P);
     }
 
     public void stop() {

@@ -1,46 +1,62 @@
 package org.firstinspires.ftc.teamcode;
-import org.firstinspires.ftc.teamcode.T10_Library;
-import org.firstinspires.ftc.teamcode.imuData;
 
 public class Turning{
-    double current;
+    double currentAngle;
     double destination;
-    double speed;
+    double pComponent;
+    double dComponent;
+    double iComponent;
     boolean turning=false;
-    protected static double P = 0.0018;
+    double prevError = 0.0;
+    double sumError = 0.0;
+    double prevTime = 0.0;
+    final double P = 0.03;
+    final double D = 0.3;//big D for big boys
+    final double I = 0.01;
 
-    public Thread pidThread;
 
-    public Turning(double d){
-        if(d>180) destination=d-360;
-        else destination=d;
+    public Turning(){
+        destination=0;
     }
 
     public void setDestination(float degrees){
+        if(degrees>180) destination=degrees-360;
+        else destination=degrees;
+        prevTime = getCurrTime();
         destination=degrees;
         turning=true;
     }
 
     public void stopTurning(){
         turning = false;
+        sumError=0.0;
         T10_Library.omni(0f, 0f, 0f);
     }
 
-    public boolean update(imuData sean) {
-        current = sean.getAngle();
-        speed = getError() * P;
+    public void update(imuData sean) {
+        currentAngle = sean.getAngle();
+        double error = getError();
+        pComponent = error * P;
+        double currTime = getCurrTime();
+        dComponent = -Math.abs(D*(error-prevError)/(currTime- prevTime));
+
+        sumError += error*(currTime-prevTime);
+        iComponent = I * sumError;
         if (turning) {
-            if (Math.abs(getError()) < 10) {
+            if (Math.abs(error) < 3) {
                 stopTurning();
-                return false;
             }
-            T10_Library.omni(0f, (float) speed, 0f);
+            T10_Library.omni(0f, 0f, (float) (pComponent+dComponent+iComponent));
+
         }
-        return true;
+        prevTime = currTime;
     }
 
     public double getError(){
-        double dir1 = destination-current;
-        return dir1;
+        return currentAngle- destination ;
+    }
+
+    public double getCurrTime() {
+        return System.currentTimeMillis();
     }
 }

@@ -14,36 +14,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @TeleOp(name = "teleOp")
 public class teleOp extends T10_Library
 {
-    Turning test = new Turning(0);
+    Turning test = new Turning();
     boolean turn = false;
     imuData imu;
-
-    public void changeP() {
-        boolean confirmed = false;
-        boolean dDownPressed = false, dUpPressed = false;
-        while (!confirmed) {
-            if (gamepad2.dpad_down && !dDownPressed) {
-                dDownPressed = true;
-                Turning.P -= 0.01;
-            }
-            if (!gamepad2.dpad_down) {
-                dDownPressed = false;
-            }
-            if (gamepad2.dpad_up && !dUpPressed) {
-                Turning.P += 0.01;
-            }
-            if (!gamepad2.dpad_up) {
-                dUpPressed = false;
-            }
-            telemetry.addData("Current P", Turning.P);
-            if (gamepad2.left_stick_button && gamepad2.right_stick_button) {
-                confirmed = true;
-                telemetry.addData("Confirmed!", "");
-            }
-            telemetry.update();
-        }
-    }
-
 
     public void init()
     {

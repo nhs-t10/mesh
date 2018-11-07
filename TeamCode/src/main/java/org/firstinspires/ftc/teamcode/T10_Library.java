@@ -34,7 +34,7 @@ public abstract class T10_Library extends OpMode {
 
     GoldAlignDetector gold = null;
     HoughSilverDetector silver = null;
-    // public static ColorSensor color1;
+    public static ColorSensor color;
     // public static Servo leftIntake, rightIntake;
 
     // Constants
@@ -55,8 +55,13 @@ public abstract class T10_Library extends OpMode {
 
     public enum TeamWeAreOn { RED, BLUE };
 
-    public void setTeam(TeamWeAreOn t){
-        this.team = t;
+    public void setTeam(int blue){
+        if(blue > 200){
+            this.team = TeamWeAreOn.BLUE;
+        }
+        else{
+            this.team = TeamWeAreOn.RED;
+        }
     }
 
     public void init_cv(){
@@ -91,7 +96,7 @@ public abstract class T10_Library extends OpMode {
         // armServo = hardwareMap.servo.get("s0");
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
-        // csensor1 = hardwareMap.colorSensor.get("c1");
+        color = hardwareMap.colorSensor.get("c1");
         init_cv();
         mode = DRIVING.Medium;
         telemetry.addData("Working","All systems go!");;
