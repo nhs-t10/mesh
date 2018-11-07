@@ -58,6 +58,7 @@ public class teleOp extends T10_Library
         test.update(imu);
         telemetry.addData("Error: ", test.getError());
         telemetry.addData("P: ", test.pComponent);
+        telemetry.addData("I: ", test.iComponent);
         telemetry.addData("D: ",test.dComponent);
     }
 
