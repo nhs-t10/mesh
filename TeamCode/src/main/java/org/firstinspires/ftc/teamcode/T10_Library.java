@@ -29,7 +29,9 @@ public abstract class T10_Library extends OpMode {
      *  autonomous and teleop usage.
      */
     public static DcMotor frontRight, frontLeft, backRight, backLeft;
+
     // public static Servo armServo;
+
     GoldAlignDetector gold = null;
     HoughSilverDetector silver = null;
     // public static ColorSensor color1;
