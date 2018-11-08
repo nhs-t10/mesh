@@ -84,7 +84,7 @@ public abstract class T10_Library extends OpMode {
         telemetry.addData("RGB:", color1.argb());
         telemetry.addData("Red: ", color1.red());
         telemetry.addData("Blue: ", color1.blue());
-        telemetry.addData("Green: ",color1.green());
+        telemetry.addData("Green: ", color1.green());
         return color1.argb();
 
     }
