@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode;
+import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -36,12 +37,7 @@ public class autoV0 extends T10_Library {
         if(currentState == state.STOP){
             omni(0,0,0);
         }
-        telemetry.addData("Gold Aligned?", gold.getAligned());
-        telemetry.addData("Current?", imu.getAngle());
-        telemetry.addData("Error?", turner.getError());
-        telemetry.addData("Best Rect height:", gold.getBestRect().height);
-        telemetry.addData("Best Rect width: ", gold.getBestRect().width);
-        telemetry.addData("Current State?", currentState);
+        telemetry.addData("Current State: ", currentState);
     }
 
     public void start_auto(){

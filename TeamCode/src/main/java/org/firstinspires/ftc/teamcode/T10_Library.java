@@ -66,6 +66,7 @@ public abstract class T10_Library extends OpMode {
     public void init_cv(){
         gold = new GoldAlignDetector();
         gold.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        gold.useDefaults();
         gold.enable();
     }
 
