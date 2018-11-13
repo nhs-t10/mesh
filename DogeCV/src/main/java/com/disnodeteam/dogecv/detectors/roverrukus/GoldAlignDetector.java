@@ -204,4 +204,7 @@ public class GoldAlignDetector extends DogeCVDetector {
     public Rect getBestRect() {
         return goldBlock;
     }
+    public double getArea(){
+        return goldBlock.height * goldBlock.width;
+    }
 }
