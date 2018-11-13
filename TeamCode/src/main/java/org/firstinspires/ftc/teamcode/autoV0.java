@@ -3,6 +3,7 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.ftccommon.SoundPlayer;
 
 import org.opencv.core.Rect;
 
@@ -14,21 +15,25 @@ public class autoV0 extends T10_Library {
     imuData imu;
     Turning turner = new Turning();
     enum state {
-        START, TURNING, SAMPLING, STOP;
+        START, TURNING_GOLD, SAMPLING, STOP;
+    }
+    enum SIDE {
+        SAMPLING, DEPOT
     }
     state currentState = null;
+    SIDE side = null;
 
     public void init() {
         initialize_robot();
         imu = new imuData(hardwareMap);
         telemetry.addData("IMU: ",imu.toString());
-        // setTeam(color.blue());
+        //setTeam(color.blue());
         currentState = state.START;
     }
 
     public void loop() {
         start_auto();
-        if(currentState == state.TURNING){
+        if(currentState == state.TURNING_GOLD){
             turnToGold();
         }
         if(currentState == state.SAMPLING){
@@ -42,7 +47,7 @@ public class autoV0 extends T10_Library {
 
     public void start_auto(){
         sleep(1000);
-        currentState = state.TURNING;
+        currentState = state.TURNING_GOLD;
     }
 
     public void turnToGold(){
