@@ -46,6 +46,7 @@ public class Turning{
         sumError += error*(currTime-prevTime);
         iComponent = I * sumError;
         if (turning) {
+
             if (getCurrTime()-savedTime>2000) {
                 stopTurning();
             }else {
@@ -59,7 +60,8 @@ public class Turning{
     public double getError(){
         return currentAngle-destination ;
     }
-    
+
+
     public double getCurrTime() {
         return System.currentTimeMillis();
     }

@@ -1,21 +1,26 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import com.disnodeteam.dogecv.detectors.roverrukus.HoughSilverDetector;
+import com.disnodeteam.dogecv.detectors.roverrukus.SilverDetector;
+import com.disnodeteam.dogecv.scoring.MaxAreaScorer;
+import com.disnodeteam.dogecv.scoring.PerfectAreaScorer;
+import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import org.firstinspires.ftc.teamcode.imuData;
-
+//import org.firstinspires.ftc.teamcode.imuData;
 import java.util.Arrays;
 import java.util.Collections;
-
 
 public abstract class T10_Library extends OpMode {
 
@@ -24,16 +29,47 @@ public abstract class T10_Library extends OpMode {
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-
     public static DcMotor frontRight, frontLeft, backRight, backLeft;
-    public static ColorSensor color1;
-    public static Servo leftIntake, rightIntake;
+
+    // public static Servo armServo;
+
+    GoldAlignDetector gold = null;
+    public static ColorSensor color;
+    // public static Servo leftIntake, rightIntake;
 
     // Constants
     static float attenuationfactor;
     static double initial_position = 0;
     static double moveRate = .005;
     static boolean servosMoving = false;
+
+
+    public DRIVING mode;
+    public TeamWeAreOn team;
+
+    public enum DRIVING { Slow, Medium, Fast;
+        public DRIVING getNext() {
+            return values()[(ordinal() + 1) % values().length];
+        } // change driving mode
+    }
+
+    public enum TeamWeAreOn { RED, BLUE };
+
+    public void setTeam(int blue){
+        if(blue > 200){
+            this.team = TeamWeAreOn.BLUE;
+        }
+        else{
+            this.team = TeamWeAreOn.RED;
+        }
+    }
+
+    public void init_cv(){
+        gold = new GoldAlignDetector();
+        gold.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        gold.useDefaults();
+        gold.enable();
+    }
 
     // public DcMotor hanger1, hanger2;
     public void initialize_robot() {
@@ -51,14 +87,13 @@ public abstract class T10_Library extends OpMode {
         leftIntake = hardwareMap.servo.get("s0");
         rightIntake = hardwareMap.servo.get("s1");
 
-
-
-        telemetry.addData("Working","All systems go!");
+        init_cv();
+        mode = DRIVING.Medium;
+        telemetry.addData("Working","All systems go!");;
         // init sensors
         // insert sensors here
         //color1 = hardwareMap.colorSensor.get("color1");
         }
-
 
     public static void drive(float lf, float rf, float lb, float rb) {
         /*
@@ -74,20 +109,25 @@ public abstract class T10_Library extends OpMode {
         //power settings for motors.
     }
 
-    public int getHue(){
-        /*
-        Method to get color hue from color sensor.
-        @param: none
-        @return: Color RGB values
-         */
 
-        telemetry.addData("RGB:", color1.argb());
-        telemetry.addData("Red: ", color1.red());
-        telemetry.addData("Blue: ", color1.blue());
-        telemetry.addData("Green: ",color1.green());
-        return color1.argb();
+//    public void getColorValues(){
+//        telemetry.addData("Red", csensor1.red());
+//        telemetry.addData("Blue", csensor1.blue());
+//        telemetry.addData("argb", csensor1.argb());
+//    }
 
-    }
+//    public void moveServos(){
+//        servosMoving = true;
+//        leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
+//        rightIntake.setPosition(0); // 0 means max speed counter-clockwise, 1 means max speed clockwise
+//    }
+//
+//    public void restServos(){
+//        servosMoving = false;
+//        leftIntake.setPosition(.5);
+//        rightIntake.setPosition(.5);
+//    }
+
 
     public static float maxValue(float array[]){
         float max = 0f;
@@ -103,8 +143,8 @@ public abstract class T10_Library extends OpMode {
         @param: l, linear component, r, rotational component, and s, horizontal component
          */
         float[] forwardMultiplier = {1f, 1f, 1f, 1f};
-        float[] rotationalMultiplier = {1f, -1f, -1f, 1f};
-        float[] horizontalMultiplier = {-1f, 1f, -1f, 1f};
+        float[] rotationalMultiplier = {-1f, 1f, -1f, 1f};
+        float[] horizontalMultiplier = {-1f, 1f, 1f, -1f};
 
         float[] forwardComponent = new float[4];
         float[] rotationalComponent = new float[4];
@@ -132,6 +172,31 @@ public abstract class T10_Library extends OpMode {
 
         drive(sums[0], sums[1], sums[2], sums[3]);
 
+    }
+
+    public void stopDrive(){
+        omni(0,0,0);
+    }
+
+    /*
+    Driving for x seconds
+    @param: time, in seconds
+    @return: void, sets motor power
+ */
+    public void driveFor(double time){
+        long currentTime = System.currentTimeMillis();
+        double finalTime = currentTime + (time * 1000);
+        while (currentTime < finalTime){
+            omni(1, 0, 0);
+        }
+    }
+
+    public void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (Exception err) {
+            telemetry.addData("Stopped Robot", "69");
+        }
     }
 
 }
