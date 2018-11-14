@@ -31,10 +31,10 @@ public class autoV0 extends T10_Library {
         telemetry.addData("IMU: ",imu.toString()); // make sure IMU is detected
         //setTeam(color.blue()); // Set our team color based on color sensor reading the tape
         currentState = state.START; // Start the robot
+        start_auto();
     }
 
     public void loop() {
-        start_auto();
         if(currentState == state.TURNING_GOLD){
             turnToGold();
         }
@@ -54,12 +54,17 @@ public class autoV0 extends T10_Library {
 
     public void turnToGold(){
         boolean aligned = gold.getAligned(); // get if gold block is aligned
-        if(!aligned && gold.getArea() > 25){ // area constant needs to be tuned, such that robot doesn't drive towards far away blocks.
-            omni(0,.14f,0); // turn until detected, once aligned, then sample
+        if(!aligned && gold.isLeft){ // area constant needs to be tuned, such that robot doesn't drive towards far away blocks.
+            omni(0,-.14f,0); // turn until detected, once aligned, then sample
+        }
+        else if(!aligned && !gold.isLeft){
+            omni(0,.14f,0);
         }
         else{
             currentState = state.SAMPLING;
         }
+        telemetry.addData("xPos", gold.getXPosition());
+        telemetry.addData("isLeft?", gold.isLeft);
     }
 
     // Knock gold off (for now)

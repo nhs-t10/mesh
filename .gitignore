@@ -1,6 +1,3 @@
-# Ignore changes in internal IDEA / Android studio files
-.idea/
-
 # built application files
 *.apk
 *.ap_
@@ -28,6 +25,3 @@ Thumbs.db
 build/
 
 *ASUS_PC_01*
-
-.idea/*
-

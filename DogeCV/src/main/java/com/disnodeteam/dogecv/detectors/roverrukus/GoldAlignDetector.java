@@ -54,6 +54,8 @@ public class GoldAlignDetector extends DogeCVDetector {
     public PerfectAreaScorer perfectAreaScorer = new PerfectAreaScorer(5000,.05); // Used to find objects near a tuned area value
 
     public Rect goldBlock = new Rect();
+
+    public boolean isLeft;
     /**
      * Simple constructor
      */
@@ -120,6 +122,12 @@ public class GoldAlignDetector extends DogeCVDetector {
             Imgproc.circle(displayMat, new Point( xPos, bestRect.y + (bestRect.height / 2)), 5, new Scalar(0,255,0),2);
 
             // Check if the mineral is aligned
+            if(xPos > alignXMax){
+                isLeft = false;
+            }
+            else if (xPos < alignXMin){
+                isLeft = true;
+            }
             if(xPos < alignXMax && xPos > alignXMin){
                 aligned = true;
             }else{
