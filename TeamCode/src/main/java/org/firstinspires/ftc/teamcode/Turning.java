@@ -11,8 +11,10 @@ public class Turning{
     double sumError = 0.0;
     double prevTime = 0.0;
     final double P = 0.03;
-    final double D = 0.3;//big D for big boys
-    final double I = 0.01;
+    final double D = 0;//big D for big boys
+    final double I = 0.00000;
+    double savedTime;
+
 
 
     public Turning(){
@@ -20,6 +22,7 @@ public class Turning{
     }
 
     public void setDestination(float degrees){
+        savedTime=getCurrTime();
         if(degrees>180) destination=degrees-360;
         else destination=degrees;
         prevTime = getCurrTime();
@@ -43,17 +46,18 @@ public class Turning{
         sumError += error*(currTime-prevTime);
         iComponent = I * sumError;
         if (turning) {
-            if (Math.abs(error) < 3) {
+            if (getCurrTime()-savedTime>2000) {
                 stopTurning();
+            }else {
+                T10_Library.omni(0f, 0f, (float) (pComponent + dComponent + iComponent));
             }
-            T10_Library.omni(0f, 0f, (float) (pComponent+dComponent+iComponent));
 
         }
         prevTime = currTime;
     }
 
     public double getError(){
-        return currentAngle- destination ;
+        return currentAngle-destination ;
     }
     
     public double getCurrTime() {

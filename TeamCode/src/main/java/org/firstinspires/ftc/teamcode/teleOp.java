@@ -14,7 +14,6 @@ public class teleOp extends T10_Library
 
     Turning test;
     imuData imu;
-    boolean turn = false;
     public void init()
     {
         initialize_robot();
@@ -47,19 +46,19 @@ public class teleOp extends T10_Library
         telemetry.addData("Servo's moving?", servosMoving);
 */
         //sending inputs to omni code
-        if(gamepad1.a){
-            turn = true;
+
+        if(gamepad1.b){
             test.setDestination(90);
         }
-        if(gamepad1.b){
-            turn = true;
+        if(gamepad1.x){
             test.setDestination(-90);
+        }
+        if(gamepad1.y){
+            test.setDestination(0);
         }
         test.update(imu);
         telemetry.addData("Error: ", test.getError());
         telemetry.addData("P: ", test.pComponent);
-        telemetry.addData("I: ", test.iComponent);
-        telemetry.addData("D: ",test.dComponent);
     }
 
     public void stop()
