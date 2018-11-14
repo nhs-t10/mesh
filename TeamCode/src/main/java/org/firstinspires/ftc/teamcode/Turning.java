@@ -11,8 +11,8 @@ public class Turning{
     double sumError = 0.0;
     double prevTime = 0.0;
     final double P = 0.03;
-    final double D = 0;//big D for big boys
-    final double I = 0.00000;
+    final double D = 0;
+    final double I = 0.0;
     double savedTime;
 
 
