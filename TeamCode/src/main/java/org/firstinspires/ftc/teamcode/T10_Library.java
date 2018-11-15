@@ -11,6 +11,7 @@ import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -31,7 +32,7 @@ public abstract class T10_Library extends OpMode {
      */
     public static DcMotor frontRight, frontLeft, backRight, backLeft;
 
-    // public static Servo armServo;
+    public static Servo armServo;
 
     GoldAlignDetector gold = null;
     public static ColorSensor color;
@@ -84,8 +85,9 @@ public abstract class T10_Library extends OpMode {
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
 
-        leftIntake = hardwareMap.servo.get("s0");
-        rightIntake = hardwareMap.servo.get("s1");
+        //leftIntake = hardwareMap.servo.get("s0");
+        //rightIntake = hardwareMap.servo.get("s1");
+        armServo = hardwareMap.servo.get("s0");
 
         init_cv();
         mode = DRIVING.Medium;
@@ -183,7 +185,7 @@ public abstract class T10_Library extends OpMode {
     @param: time, in seconds
     @return: void, sets motor power
  */
-    public void driveFor(double time){
+    public void driveFor(double time, float l, float r, float s){
         long currentTime = System.currentTimeMillis();
         double finalTime = currentTime + (time * 1000);
         while (currentTime < finalTime){
@@ -193,9 +195,10 @@ public abstract class T10_Library extends OpMode {
 
     public void sleep(int millis) {
         try {
+            telemetry.addData("Sleep", "Sleeping for"+millis/1000+"seconds");
             Thread.sleep(millis);
         } catch (Exception err) {
-            telemetry.addData("Stopped Robot", "69");
+            telemetry.addData("Sleep machine br0ke: ", err);
         }
     }
 

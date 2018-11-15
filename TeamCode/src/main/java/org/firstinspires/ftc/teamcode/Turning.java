@@ -16,7 +16,6 @@ public class Turning{
     double savedTime;
 
 
-
     public Turning(){
         destination=0;
     }
@@ -50,7 +49,7 @@ public class Turning{
             if (getCurrTime()-savedTime>2000) {
                 stopTurning();
             }else {
-                T10_Library.omni(0f, 0f, (float) (pComponent + dComponent + iComponent));
+                T10_Library.omni(0f, (float) (pComponent + dComponent + iComponent), 0f);
             }
 
         }
