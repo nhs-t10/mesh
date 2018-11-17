@@ -9,24 +9,33 @@ import org.opencv.core.Rect;
 
 @Autonomous(name= "auto_v0")
 public class autoV0 extends T10_Library {
-    boolean stop = false;
-    boolean turn = false;
+    /*
+        T-10 Preliminary Autonomous
+
+        This is based on the assumption that we are:
+            - On the red team
+            - Starting such that we are facing the depot first
+     */
+
+    // constants and state declaration
     imuData imu;
     Turning turner = new Turning();
     enum state {
-        START, TURNING, SAMPLING, STOP;
+        START, TURNING, SAMPLING, MARKING, PARKING, STOP;
     }
     state currentState = null;
 
     public void init() {
         initialize_robot();
         imu = new imuData(hardwareMap);
-        telemetry.addData("IMU: ",imu.toString());
         // setTeam(color.blue());
         currentState = state.START;
     }
 
     public void loop() {
+        /*
+        Loop constantly checks state, and then executes a command based on this.
+         */
         start_auto();
         if(currentState == state.TURNING){
             turnToGold();
@@ -38,6 +47,7 @@ public class autoV0 extends T10_Library {
             omni(0,0,0);
         }
         telemetry.addData("Current State: ", currentState);
+        telemetry.addData("Millis since run: ", clock.milliseconds());
     }
 
     public void start_auto(){
@@ -64,15 +74,26 @@ public class autoV0 extends T10_Library {
     // Knock gold off (for now)
     public void sample(){
         // Logic for bestRect
+        boolean stopped = false;
+        boolean scored = false;
         Rect best = gold.getBestRect();
         if(best.height < 120 || best.width < 120) {
             omni(.2f,0,0);
         }
-        else if (turner.currentAngle < 30 || turner.currentAngle > -30) { // if our current angle is smaller than 30 degrees
-            turner.setDestination((float) (90 - turner.currentAngle));
+        else if(best.height > 120 || best.width > 120) {
+            sleep(1000);
+            stopped = true;
         }
-        else {
-            omni(0,0,.2f);
+        if(stopped && !scored){
+            turner.setDestination((float) (90-turner.currentAngle)); // turn parallel to the cube
+            driveFor(1.5,0,0,.2f); // move 1.5 seconds toward the cube, knocking it off
+            scored = true;
+            stopped = false;
+        }
+        if(scored && !stopped){
+            driveFor(1.5,0,0,-.2f); // drive back for the same amount of seconds
+            turner.setDestination((float) (90 + turner.currentAngle)); // turn to the original angle (for now)
+            currentState = state.STOP;
         }
     }
 

@@ -44,9 +44,14 @@ public class teleOp extends T10_Library
         if(mode == DRIVING.Medium) {omni(linear/1.5f, rotation/1.5f, side/1.5f);} // medium driving
         if(mode == DRIVING.Fast) {omni(linear, rotation, side);} // fast driving
 
-        if(gamepad1.right_bumper){ armServo.setPosition(1);} // servo isn't moving at the moment, not sure why :/
-        if(gamepad1.left_bumper){ armServo.setPosition(0);}
+        if(gamepad1.right_bumper){
+            armServo.setPower(1);
+        }
 
+        if(gamepad1.left_bumper){
+            armServo.setPower(-1);
+        }
+        armServo.setPower(0);
 
         /*
 

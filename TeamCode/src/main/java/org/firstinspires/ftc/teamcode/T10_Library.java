@@ -3,14 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.HoughSilverDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SilverDetector;
-import com.disnodeteam.dogecv.scoring.MaxAreaScorer;
-import com.disnodeteam.dogecv.scoring.PerfectAreaScorer;
-import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.exception.RobotCoreException;
-import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
@@ -19,9 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-//import org.firstinspires.ftc.teamcode.imuData;
-import java.util.Arrays;
-import java.util.Collections;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public abstract class T10_Library extends OpMode {
 
@@ -30,9 +21,9 @@ public abstract class T10_Library extends OpMode {
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-    public static DcMotor frontRight, frontLeft, backRight, backLeft;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft, armMotor;
 
-    public static Servo armServo;
+    public static CRServo armServo;
 
     GoldAlignDetector gold = null;
     public static ColorSensor color;
@@ -43,6 +34,8 @@ public abstract class T10_Library extends OpMode {
     static double initial_position = 0;
     static double moveRate = .005;
     static boolean servosMoving = false;
+
+    ElapsedTime clock = new ElapsedTime();
 
 
     public DRIVING mode;
@@ -84,10 +77,11 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
+        // armMotor = hardwareMap.dcMotor.get("m4");
 
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
-        armServo = hardwareMap.servo.get("s0");
+        armServo = hardwareMap.crservo.get("s0");
 
         init_cv();
         mode = DRIVING.Medium;
@@ -116,18 +110,6 @@ public abstract class T10_Library extends OpMode {
 //        telemetry.addData("Red", csensor1.red());
 //        telemetry.addData("Blue", csensor1.blue());
 //        telemetry.addData("argb", csensor1.argb());
-//    }
-
-//    public void moveServos(){
-//        servosMoving = true;
-//        leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
-//        rightIntake.setPosition(0); // 0 means max speed counter-clockwise, 1 means max speed clockwise
-//    }
-//
-//    public void restServos(){
-//        servosMoving = false;
-//        leftIntake.setPosition(.5);
-//        rightIntake.setPosition(.5);
 //    }
 
 
@@ -180,25 +162,19 @@ public abstract class T10_Library extends OpMode {
         omni(0,0,0);
     }
 
-    /*
-    Driving for x seconds
-    @param: time, in seconds
-    @return: void, sets motor power
- */
-    public void driveFor(double time, float l, float r, float s){
-        long currentTime = System.currentTimeMillis();
-        double finalTime = currentTime + (time * 1000);
-        while (currentTime < finalTime){
-            omni(1, 0, 0);
-        }
-    }
-
     public void sleep(int millis) {
         try {
             telemetry.addData("Sleep", "Sleeping for"+millis/1000+"seconds");
             Thread.sleep(millis);
         } catch (Exception err) {
             telemetry.addData("Sleep machine br0ke: ", err);
+        }
+    }
+
+    public void driveFor(double seconds, float l, float r, float s){
+        clock.reset();
+        while(clock.seconds() < seconds){
+            omni(l,r,s);
         }
     }
 
