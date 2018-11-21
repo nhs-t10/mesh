@@ -77,11 +77,11 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
-        // armMotor = hardwareMap.dcMotor.get("m4");
+        armMotor = hardwareMap.dcMotor.get("m4");
 
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
-        armServo = hardwareMap.crservo.get("s0");
+        //armServo = hardwareMap.crservo.get("s0");
 
         init_cv();
         mode = DRIVING.Medium;
@@ -176,6 +176,10 @@ public abstract class T10_Library extends OpMode {
         while(clock.seconds() < seconds){
             omni(l,r,s);
         }
+    }
+
+    public void dispense_marker(){
+        telemetry.addData("Marker: ", "Deployed");
     }
 
 }

@@ -45,13 +45,12 @@ public class teleOp extends T10_Library
         if(mode == DRIVING.Fast) {omni(linear, rotation, side);} // fast driving
 
         if(gamepad1.right_bumper){
-            armServo.setPower(1);
+            armMotor.setPower(1);
         }
 
         if(gamepad1.left_bumper){
-            armServo.setPower(-1);
+            armMotor.setPower(-1);
         }
-        armServo.setPower(0);
 
         /*
 
