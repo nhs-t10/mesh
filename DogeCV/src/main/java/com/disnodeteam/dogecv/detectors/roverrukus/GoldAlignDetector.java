@@ -17,6 +17,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -103,7 +104,7 @@ public class GoldAlignDetector extends DogeCVDetector {
             // Get bounding rect of contour
             Rect rect = Imgproc.boundingRect(cont);
             Imgproc.rectangle(displayMat, rect.tl(), rect.br(), new Scalar(0,0,255),2); // Draw rect
-            if(rect.width < 180 && rect.height < 180) {
+            if(rect.width < 180 && rect.height < 180 && rect.width > 30 && rect.height > 30) {
                 // If the result is better then the previously tracked one, set this rect as the new best
                 if (score < bestDiffrence) {
                     bestDiffrence = score;
@@ -165,8 +166,6 @@ public class GoldAlignDetector extends DogeCVDetector {
 
         //Print result
         Imgproc.putText(displayMat,"Result: " + aligned,new Point(10,getAdjustedSize().height - 30),0,1, new Scalar(255,255,0),1);
-
-
         return displayMat;
 
     }
@@ -175,11 +174,11 @@ public class GoldAlignDetector extends DogeCVDetector {
     public void useDefaults() {
         addScorer(cube);
 
-//        // Add diffrent scoreres depending on the selected mode
-//        if(areaScoringMethod == DogeCV.AreaScoringMethod.MAX_AREA){
-//            addScorer(maxAreaScorer);
-//        }
-//
+        // Add diffrent scoreres depending on the selected mode
+        if(areaScoringMethod == DogeCV.AreaScoringMethod.MAX_AREA){
+            addScorer(maxAreaScorer);
+        }
+
         if (areaScoringMethod == DogeCV.AreaScoringMethod.PERFECT_AREA){
             addScorer(perfectAreaScorer);
         }
@@ -224,5 +223,11 @@ public class GoldAlignDetector extends DogeCVDetector {
         return goldBlock;
     }
 
-    public int getGoldCount(){ return num_gold; }
+    public int getGoldCount(){
+        return num_gold;
+    }
+
+    public void takeScreenshot(){
+        Imgcodecs.imwrite("gold_detected.jpg", displayMat);
+    }
 }

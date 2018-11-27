@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode;
+
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.ViewDisplay;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.opencv.core.Rect;
-
+import org.opencv.imgcodecs.Imgcodecs;
 
 @Autonomous(name= "auto_v0")
 public class autoV0 extends T10_Library {
@@ -43,7 +46,7 @@ public class autoV0 extends T10_Library {
             sample();
         }
         if(currentState == state.STOP){
-            omni(0,0,0);
+            stopDrive();
         }
         if(currentState == state.MARKING){
             mark();
@@ -59,8 +62,10 @@ public class autoV0 extends T10_Library {
 
     public void turnToGold(){
         boolean aligned = gold.getAligned(); // get if gold block is aligned
+        boolean turnRight = true;
         if(aligned){
             omni(0,0,0);
+            gold.takeScreenshot();
             currentState = state.SAMPLING;
         }
         if(!aligned && gold.position == GoldAlignDetector.gold_position.LEFT){
@@ -77,28 +82,16 @@ public class autoV0 extends T10_Library {
     }
 
     // Knock gold off (for now)
-    public void sample(){
+    public void sample() {
         // Logic for bestRect
         boolean stopped = false;
         boolean scored = false;
         Rect best = gold.getBestRect();
-        if(best.height < 120 || best.width < 120) {
-            omni(-.2f,0,0);
+        if (best.height < 120 || best.width < 120) {
+            omni(-.2f, 0, 0);
         }
-        else if(best.height > 120 || best.width > 120) {
-            sleep(1000);
-            stopped = true;
-        }
-        if(stopped && !scored){
-            turner.setDestination((float) (90-turner.currentAngle)); // turn parallel to the cube
-            driveFor(1.5,0,0,.2f); // move 1.5 seconds toward the cube, knocking it off
-            scored = true;
-            stopped = false;
-        }
-        if(scored && !stopped){
-            driveFor(1.5,0,0,-.2f); // drive back for the same amount of seconds
-            turner.setDestination((float) (90 + turner.currentAngle)); // turn to the original angle (for now)
-            currentState = state.STOP;
+        else if (!gold.getAligned()){
+            omni(0,0,0);
         }
     }
 

@@ -13,6 +13,7 @@ public class CV_TestOp extends T10_Library {
         telemetry.addData("Gold Width?", gold.getBestRect().width);
         telemetry.addData("Gold Height?", gold.getBestRect().height);
         telemetry.addData("Gold Area?", gold.getBestRect().height*gold.getBestRect().width);
+        telemetry.addData("Gold Position?", gold.position);
     }
 
     public void stop(){
