@@ -6,6 +6,8 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.opencv.core.Rect;
 import org.opencv.imgcodecs.Imgcodecs;
 
@@ -20,12 +22,15 @@ public class autoV0 extends T10_Library {
      */
 
     // constants and state declaration
+    double angleTurned = 0;
     imuData imu;
+    boolean startedMove = false;
     Turning turner = new Turning();
     enum state {
         START, TURNING, SAMPLING, MARKING, PARKING, STOP;
     }
     state currentState = null;
+    ElapsedTime clock = new ElapsedTime();
 
     public void init() {
         initialize_robot();
@@ -66,6 +71,8 @@ public class autoV0 extends T10_Library {
         if(aligned){
             omni(0,0,0);
             gold.takeScreenshot();
+            angleTurned = imu.getAngle();
+            startedMove=false;
             currentState = state.SAMPLING;
         }
         if(!aligned && gold.position == GoldAlignDetector.gold_position.LEFT){
@@ -88,17 +95,26 @@ public class autoV0 extends T10_Library {
         boolean scored = false;
         Rect best = gold.getBestRect();
         if (best.height < 120 || best.width < 120) {
-            omni(-.2f, 0, 0);
+            if(!startedMove){
+                clock.reset();
+                startedMove=true;
+            } else if (clock.seconds()<3){
+                omni(-.5f,0,0);
+            } else {
+                omni(0,0,0);
+                turner.setDestination(0);
+                currentState=state.MARKING;
+            }
+
         }
-        else if (!gold.getAligned()){
-            omni(0,0,0);
-        }
+
     }
 
     public void mark(){
         boolean marked = false;
-
         if(!marked) {
+
+            /*
             if(!gold.isFound() || gold.getGoldCount() < 5) { // CV will detect if we are in front of crater or not by seeing if we have found any gold blocks
                 if (team == TeamWeAreOn.RED && color.red() > 200) { // if we're on the red team and the color sensor detects that we're on red tape
                     stopDrive();
@@ -116,6 +132,7 @@ public class autoV0 extends T10_Library {
             else if (gold.getGoldCount() > 5){ // constant for gold needs to be greater than 1, but not too great
                 turner.setDestination(55); // this needs to be tuned to the angle that we want, or we can use cv
             }
+            */
         }
         else { // this implies that we are already marked
 

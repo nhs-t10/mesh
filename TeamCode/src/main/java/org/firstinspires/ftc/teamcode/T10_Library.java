@@ -182,11 +182,16 @@ public abstract class T10_Library extends OpMode {
         }
     }
 
-    public void driveFor(double seconds, float l, float r, float s){
+    public boolean driveFor(double seconds, float l, float r, float s){
+        omni(l,r,s);
+
         clock.reset();
-        while(clock.seconds() < seconds){
-            omni(l,r,s);
+        if(clock.seconds() > seconds) {
+            omni(0, 0, 0);
+        } else {
+            return false;
         }
+        return true;
     }
 
     public void dispense_marker(){
