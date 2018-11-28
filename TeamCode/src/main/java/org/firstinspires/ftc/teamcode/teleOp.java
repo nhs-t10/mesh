@@ -17,6 +17,7 @@ public class teleOp extends T10_Library
     Turning test = new Turning();
     boolean turn = false;
     imuData imu;
+    //boolean e;
 
     public void init()
     {
@@ -33,32 +34,42 @@ public class teleOp extends T10_Library
         //defining the stuff. linear = straight, rotation = turning, side = skating.
         //Linear - rotation will compensate one side to allow the other side to overrotate
 
-        if(gamepad1.right_stick_button){
+        if (gamepad1.right_stick_button) {
             mode = mode.getNext();
         }
-        if(mode == DRIVING.Fast) {
+        if (mode == DRIVING.Fast) {
             omni(linear, rotation, side);
-        }
-        else if (mode == DRIVING.Slow){
-            omni(linear/2f,rotation/2f,side/2f);
-        }
-        else if (mode == DRIVING.Medium){
-            omni(linear/1.25f,rotation/1.25f,side/1.25f);
+        } else if (mode == DRIVING.Slow) {
+            omni(linear / 2f, rotation / 2f, side / 2f);
+        } else if (mode == DRIVING.Medium) {
+            omni(linear / 1.25f, rotation / 1.25f, side / 1.25f);
         }
 
-        // Gamepad arm controls
-//        if(gamepad1.dpad_up){
-//            armMotor.setPower(.5f);
-//        }
-//        if(gamepad1.dpad_down){
-//            armMotor.setPower(-.5f);
-//        }
-//        if(gamepad1.left_bumper){
-//            armServo.setPosition(0);
-//        }
-//        if(gamepad1.right_bumper){
-//            armServo.setPosition(1);
-//        }
+        /*if (gamepad1.b)
+        {
+            e = !e;
+            armtest(e);
+        }*/
+
+
+        //Gamepad arm controls
+        if (gamepad1.dpad_up) {
+            armMotor.setPower(.5f);
+        }
+        else if(gamepad1.dpad_down) {
+            armMotor.setPower(-.5f);
+        } else {
+            armMotor.setPower(0f);
+        }
+        if(gamepad1.left_bumper){
+            armServo.setPosition(0);
+        }
+        else if(gamepad1.right_bumper){
+            armServo.setPosition(1);
+        }
+        else {
+            armServo.setPosition(0.5);
+        }
 
 
         telemetry.addData("Gold Aligned?", gold.getAligned());

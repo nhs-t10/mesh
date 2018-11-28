@@ -28,9 +28,9 @@ public abstract class T10_Library extends OpMode {
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-    public static DcMotor frontRight, frontLeft, backRight, backLeft;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft, armMotor;
 
-    // public static Servo armServo;
+    public static Servo armServo;
 
     GoldAlignDetector gold = null;
     public static ColorSensor color;
@@ -82,8 +82,8 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
-        // armMotor = hardwareMap.dcMotor.get("m4");
-        // armServo = hardwareMap.servo.get("s0");
+        armMotor = hardwareMap.dcMotor.get("m4");
+        armServo = hardwareMap.servo.get("s0");
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
         // color = hardwareMap.colorSensor.get("c1");
@@ -107,6 +107,11 @@ public abstract class T10_Library extends OpMode {
         backRight.setPower(rb);
 
         //power settings for motors.
+    }
+
+    public static void armtest(boolean e)
+    {
+        armServo.setPosition(0.6);
     }
 
 
