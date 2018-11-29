@@ -198,4 +198,8 @@ public abstract class T10_Library extends OpMode {
         telemetry.addData("Marker: ", "Deployed");
     }
 
+    public void sayHooray(){
+        telemetry.addData("Hooray!", "hip hip");
+    }
+
 }

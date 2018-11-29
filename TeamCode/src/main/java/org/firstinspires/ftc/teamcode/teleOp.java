@@ -52,46 +52,6 @@ public class teleOp extends T10_Library
             armMotor.setPower(-1);
         }
 
-        /*
-
-        if(gamepad1.a){ // any button, chose a just because
-            leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
-            rightIntake.setPosition(0);
-=======
-        if(gamepad1.right_stick_button){
-            mode = mode.getNext();
-        }
-        if(mode == DRIVING.Fast) {
-            omni(linear, rotation, side);
-        }
-        else if (mode == DRIVING.Slow){
-            omni(linear/2f,rotation/2f,side/2f);
-        }
-        else if (mode == DRIVING.Medium){
-            omni(linear/1.25f,rotation/1.25f,side/1.25f);
->>>>>>> davis
-        }
-
-        // Gamepad arm controls
-//        if(gamepad1.dpad_up){
-//            armMotor.setPower(.5f);
-//        }
-//        if(gamepad1.dpad_down){
-//            armMotor.setPower(-.5f);
-//        }
-//        if(gamepad1.left_bumper){
-//            armServo.setPosition(0);
-//        }
-//        if(gamepad1.right_bumper){
-//            armServo.setPosition(1);
-//        }
-
-<<<<<<< HEAD
-        telemetry.addData("left_y",linear);
-        telemetry.addData("right_x",linear);
-        telemetry.addData("right_y",linear);
-        telemetry.addData("Servo's moving?", servosMoving);
-*/
         //sending inputs to omni code
 
         if(gamepad1.b){
@@ -110,12 +70,6 @@ public class teleOp extends T10_Library
 
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Driving Mode:",mode);
-        // telemetry.addData("Arm up?", armMotor.getPower() > 0);
-
-//        telemetry.addData("left_y",linear);
-//        telemetry.addData("right_x",linear);
-//        telemetry.addData("right_y",linear);
-//        telemetry.addData("Servo's moving?", servosMoving);
 
         //sending inputs to omni code
 //        if(gamepad1.a && !turn){
