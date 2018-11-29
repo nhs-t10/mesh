@@ -33,9 +33,9 @@ public abstract class T10_Library extends OpMode {
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-    public static DcMotor frontRight, frontLeft, backRight, backLeft, armMotor;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft, armMotorLeft, armMotorRight, intakeMotor;
 
-    public static CRServo armServo;
+    public static CRServo extendServo;
 
     GoldAlignDetector gold = null;
     CraterDetector crater = null;
@@ -97,7 +97,10 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
-        armMotor = hardwareMap.dcMotor.get("m4");
+        armMotorLeft = hardwareMap.dcMotor.get("m4");
+        armMotorRight = hardwareMap.dcMotor.get("m5");
+        intakeMotor = hardwareMap.dcMotor.get("m6");
+        extendServo = hardwareMap.crservo.get("s0");
 
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
@@ -202,6 +205,26 @@ public abstract class T10_Library extends OpMode {
         }
         return true;
     }
+
+    public void setArmMotorPower(float power){
+        armMotorLeft.setPower(power);
+        armMotorRight.setPower(-power);
+    }
+
+    public void setExtendServoPower(float power){
+        extendServo.setPower(power);
+    }
+
+    public void setIntakePower(float power){
+        intakeMotor.setPower(power);
+    }
+
+    public void expelliarmus() {
+
+    }
+
+
+
 
     public void dispense_marker(){
         telemetry.addData("Marker: ", "Deployed");
