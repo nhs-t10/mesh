@@ -44,26 +44,43 @@ public class teleOp extends T10_Library
         if(mode == DRIVING.Medium) {omni(linear/1.5f, rotation/1.5f, side/1.5f);} // medium driving
         if(mode == DRIVING.Fast) {omni(linear, rotation, side);} // fast driving
 
-        if(gamepad1.right_bumper){
-            armMotor.setPower(1);
+        // gamepad2 commands
+        float armMotorPower = gamepad2.right_stick_y;
+        float extendPower = gamepad2.left_stick_y;
+
+        setArmMotorPower(armMotorPower);
+        setExtendServoPower(extendPower);
+
+        if(gamepad2.left_bumper){
+            setIntakePower(-.5f);
+        }
+        else if (gamepad2.right_bumper){
+            setIntakePower(.5f);
+        }
+        else{
+            setIntakePower(0f);
         }
 
-        if(gamepad1.left_bumper){
-            armMotor.setPower(-1);
+        if(gamepad2.x){
+            clock.reset();
+            while(clock.seconds() < 2) {
+                setIntakePower(.5f);
+            }
+            setIntakePower(0f);
         }
 
         //sending inputs to omni code
 
-        if(gamepad1.b){
-            test.setDestination(90);
-        }
-        if(gamepad1.x){
-            test.setDestination(-90);
-        }
-        if(gamepad1.y){
-            test.setDestination(0);
-        }
-        test.update(imu);
+//        if(gamepad1.b){
+//            test.setDestination(90);
+//        }
+//        if(gamepad1.x){
+//            test.setDestination(-90);
+//        }
+//        if(gamepad1.y){
+//            test.setDestination(0);
+//        }
+//        test.update(imu);
         telemetry.addData("Error: ", test.getError());
         telemetry.addData("P: ", test.pComponent);
 
