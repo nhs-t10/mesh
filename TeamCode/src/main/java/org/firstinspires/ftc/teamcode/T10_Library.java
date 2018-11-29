@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.CraterDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -37,6 +38,7 @@ public abstract class T10_Library extends OpMode {
     public static CRServo armServo;
 
     GoldAlignDetector gold = null;
+    CraterDetector crater = null;
     public static ColorSensor color;
     // public static Servo leftIntake, rightIntake;
 
@@ -74,6 +76,13 @@ public abstract class T10_Library extends OpMode {
         gold.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
         gold.useDefaults();
         gold.enable();
+    }
+
+    public void init_crater(){
+        crater = new CraterDetector();
+        crater.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        crater.useDefaults();
+        crater.enable();
     }
 
     // public DcMotor hanger1, hanger2;
