@@ -26,11 +26,13 @@ public class autoV0 extends T10_Library {
     imuData imu;
     boolean startedMove = false;
     boolean startedWall = false;
+    boolean startedCrater = false;
     boolean hasturned = false;
+    boolean hasTurnedToCrater = false;
     boolean turnRight = true;
     Turning turner;
     enum state {
-        START, TURNING, SAMPLING, MARKING, WALL, PARKING, STOP;
+        START, TURNING, SAMPLING, MARKING, WALL, TURNPARK, STOP, CRATER;
     }
     state currentState = null;
     ElapsedTime clock = new ElapsedTime();
@@ -62,6 +64,12 @@ public class autoV0 extends T10_Library {
         }
         if(currentState == state.WALL){
             wall();
+        }
+        if(currentState == state.TURNPARK){
+            turnpark();
+        }
+        if(currentState == state.CRATER){
+            crater();
         }
         telemetry.addData("Current State: ", currentState);
         telemetry.addData("Millis since run: ", clock.milliseconds());
@@ -124,7 +132,7 @@ public class autoV0 extends T10_Library {
             turner.update(imu);
         } else {
             stopDrive();
-            currentState=state.STOP;
+            currentState=state.WALL;
         }
     }
 
@@ -136,11 +144,34 @@ public class autoV0 extends T10_Library {
             omni(-.2f,0,0);
         } else {
             omni(0,0,0);
-            currentState=state.STOP;
+            currentState=state.TURNPARK;
         }
     }
 
+    public void turnpark(){
+        if(!hasTurnedToCrater){
+            clock.reset();
+            hasTurnedToCrater=true;
+        } else if (clock.seconds()<2){
+            turner.setDestination(135);
+            turner.update(imu);
+        } else {
+            stopDrive();
+            currentState=state.CRATER;
+        }
+    }
 
+    public void crater(){
+        if(!startedCrater){
+            clock.reset();
+            startedCrater=true;
+        } else if (clock.seconds()<10){
+            omni(-.65f,0,0);
+        } else {
+            omni(0,0,0);
+            currentState=state.STOP;
+        }
+    }
 
     public void stop() {
         gold.disable();
