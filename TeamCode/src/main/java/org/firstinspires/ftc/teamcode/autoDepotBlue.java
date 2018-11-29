@@ -1,18 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.ViewDisplay;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.opencv.core.Rect;
-import org.opencv.imgcodecs.Imgcodecs;
 
 @Autonomous(name= "auto_v0")
-public class autoV0 extends T10_Library {
+public class autoDepotBlue extends T10_Library {
     /*
         T-10 Preliminary Autonomous
 
@@ -116,7 +110,7 @@ public class autoV0 extends T10_Library {
                 omni(-.65f,0,0);
             } else {
                 stopDrive();
-                currentState=state.MARKING;
+                currentState= state.MARKING;
             }
 
         }
@@ -132,7 +126,7 @@ public class autoV0 extends T10_Library {
             turner.update(imu);
         } else {
             stopDrive();
-            currentState=state.WALL;
+            currentState= state.WALL;
         }
     }
 
@@ -144,7 +138,7 @@ public class autoV0 extends T10_Library {
             omni(-.2f,0,0);
         } else {
             omni(0,0,0);
-            currentState=state.TURNPARK;
+            currentState= state.TURNPARK;
         }
     }
 
@@ -157,7 +151,7 @@ public class autoV0 extends T10_Library {
             turner.update(imu);
         } else {
             stopDrive();
-            currentState=state.CRATER;
+            currentState= state.CRATER;
         }
     }
 
@@ -169,7 +163,7 @@ public class autoV0 extends T10_Library {
             omni(-.65f,0,0);
         } else {
             omni(0,0,0);
-            currentState=state.STOP;
+            currentState= state.STOP;
         }
     }
 

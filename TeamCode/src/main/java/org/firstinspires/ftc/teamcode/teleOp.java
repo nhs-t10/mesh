@@ -1,19 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-//import com.qualcomm.robotcore.util.Range;
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DrawViewSource;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Turning;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-//import org.firstinspires.ftc.teamcode.Turning;
-//import java.util.Arrays;
 
 @TeleOp(name = "teleOp")
 public class teleOp extends T10_Library
