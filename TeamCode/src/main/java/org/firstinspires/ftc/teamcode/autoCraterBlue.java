@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.opencv.core.Rect;
 
-@Autonomous(name= "auto_v0")
+@Autonomous(name= "BlueCrater")
 public class autoCraterBlue extends T10_Library {
     /*
         T-10 Preliminary Autonomous
@@ -16,6 +16,9 @@ public class autoCraterBlue extends T10_Library {
      */
 
     // constants and state declaration
+
+    // for the crater facing auto, it's not worth it to mark at the moment, so sampling and driving into crater should do
+    // as of right now, blue should do the same thing as red
     double angleTurned = 0;
     imuData imu;
     boolean startedMove = false;
@@ -26,7 +29,8 @@ public class autoCraterBlue extends T10_Library {
     boolean turnRight = true;
     Turning turner;
     enum state {
-        START, TURNING, SAMPLING, MARKING, WALL, TURNPARK, STOP, CRATER;
+        START, TURNING, SAMPLING, STOP, TURNCRATER, PARKCRATER;
+        // MARKING, WALL, TURNPARK,
     }
     state currentState = null;
     ElapsedTime clock = new ElapsedTime();
@@ -53,17 +57,17 @@ public class autoCraterBlue extends T10_Library {
         if(currentState == state.STOP){
             stopDrive();
         }
-        if(currentState == state.MARKING){
-            mark();
+        if(currentState == state.TURNCRATER){
+            turn_crater();
         }
-        if(currentState == state.WALL){
-            wall();
-        }
-        if(currentState == state.TURNPARK){
-            turnpark();
-        }
-        if(currentState == state.CRATER){
-            crater();
+//        if(currentState == state.WALL){
+//            wall();
+//        }
+//        if(currentState == state.TURNPARK){
+//            turnpark();
+//        }
+        if(currentState == state.PARKCRATER){
+            park_crater();
         }
         telemetry.addData("Current State: ", currentState);
         telemetry.addData("Millis since run: ", clock.milliseconds());
@@ -94,7 +98,6 @@ public class autoCraterBlue extends T10_Library {
                 turnRight = false;
             }
         }
-        telemetry.addData("xPos", gold.getXPosition());
         telemetry.addData("Current Gold Position: ", gold.position);
     }
 
@@ -102,70 +105,70 @@ public class autoCraterBlue extends T10_Library {
     public void sample() {
         // Logic for bestRect
         Rect best = gold.getBestRect();
-        if (best.height < 120 || best.width < 120) {
+        if (best.height < 180 || best.width < 180) {
             if(!startedMove){
                 clock.reset();
                 startedMove=true;
             } else if (clock.seconds()<1.3){
-                omni(-.25f,0,0);
+                omni(.25f,0,0);
             } else {
                 stopDrive();
-                currentState= state.MARKING;
+                currentState= state.TURNCRATER;
             }
 
         }
 
     }
 
-    public void mark(){
+    public void turn_crater(){
         if(!hasturned){
             clock.reset();
             hasturned=true;
         } else if (clock.seconds()<2){
-            turner.setDestination(-45);
+            turner.setDestination(0);
             turner.update(imu);
         } else {
             stopDrive();
-            currentState= state.WALL;
+            currentState= state.PARKCRATER;
         }
     }
 
-    public void wall(){
+    public void park_crater(){
         if(!startedWall){
             clock.reset();
             startedWall=true;
-        } else if (clock.seconds()<5){
-            omni(-.6f,0,0);
+        } else if (clock.seconds()<4){
+            omni(.45f,0,0);
         } else {
             omni(0,0,0);
             currentState= state.STOP;
         }
     }
 
-    public void turnpark(){
-        if(!hasTurnedToCrater){
-            clock.reset();
-            hasTurnedToCrater=true;
-        } else if (clock.seconds()<2){
-            turner.setDestination(135);
-            turner.update(imu);
-        } else {
-            stopDrive();
-            currentState= state.CRATER;
-        }
-    }
-
-    public void crater(){
-        if(!startedCrater){
-            clock.reset();
-            startedCrater=true;
-        } else if (clock.seconds()<10){
-            omni(-.65f,0,0);
-        } else {
-            omni(0,0,0);
-            currentState= state.STOP;
-        }
-    }
+//    public void turnpark(){
+//        if(!hasTurnedToCrater){
+//            clock.reset();
+//            hasTurnedToCrater=true;
+//        } else if (clock.seconds()<2){
+//            turner.setDestination(135);
+//            turner.update(imu);
+//        } else {
+//            stopDrive();
+//            currentState= state.CRATER;
+//        }
+//    }
+//
+//    public void crater(){
+//        if(!startedCrater){
+//            clock.reset();
+//            startedCrater=true;
+//        } else if (clock.seconds()<10){
+//            omni(-.65f,0,0);
+//        } else {
+//            omni(0,0,0);
+//            currentState= state.STOP;
+//        }
+//    }
 
     public void stop() {
         gold.disable();

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.opencv.core.Rect;
 import org.opencv.imgcodecs.Imgcodecs;
 
-@Autonomous(name= "auto_v0")
+@Autonomous(name= "RedDepot")
 public class autoDepotRed extends T10_Library {
     /*
         T-10 Preliminary Autonomous
@@ -22,6 +22,8 @@ public class autoDepotRed extends T10_Library {
      */
 
     // constants and state declaration
+
+    // original code, all other autonomous code will be based off of this
     double angleTurned = 0;
     imuData imu;
     boolean startedMove = false;
@@ -113,7 +115,7 @@ public class autoDepotRed extends T10_Library {
                 clock.reset();
                 startedMove=true;
             } else if (clock.seconds()<1.3){
-                omni(-.65f,0,0);
+                omni(.65f,0,0);
             } else {
                 stopDrive();
                 currentState=state.MARKING;
@@ -141,7 +143,7 @@ public class autoDepotRed extends T10_Library {
             clock.reset();
             startedWall=true;
         } else if (clock.seconds()<1.7){
-            omni(-.2f,0,0);
+            omni(.2f,0,0);
         } else {
             omni(0,0,0);
             currentState=state.TURNPARK;
@@ -166,7 +168,7 @@ public class autoDepotRed extends T10_Library {
             clock.reset();
             startedCrater=true;
         } else if (clock.seconds()<10){
-            omni(-.65f,0,0);
+            omni(.65f,0,0);
         } else {
             omni(0,0,0);
             currentState=state.STOP;

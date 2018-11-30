@@ -31,29 +31,29 @@ public class teleOp extends T10_Library
         if(mode == DRIVING.Fast) {omni(linear, rotation, side);} // fast driving
 
         // gamepad2 commands
-        float armMotorPower = gamepad2.right_stick_y;
-        float extendPower = gamepad2.left_stick_y;
-
-        setArmMotorPower(armMotorPower);
-        setExtendServoPower(extendPower);
-
-        if(gamepad2.left_bumper){
-            setIntakePower(-.5f);
-        }
-        else if (gamepad2.right_bumper){
-            setIntakePower(.5f);
-        }
-        else{
-            setIntakePower(0f);
-        }
-
-        if(gamepad2.x){
-            clock.reset();
-            while(clock.seconds() < 2) {
-                setIntakePower(.5f);
-            }
-            setIntakePower(0f);
-        }
+//        float armMotorPower = gamepad2.right_stick_y;
+//        float extendPower = gamepad2.left_stick_y;
+//
+//        setArmMotorPower(armMotorPower);
+//        setExtendServoPower(extendPower);
+//
+//        if(gamepad2.left_bumper){
+//            setIntakePower(-.5f);
+//        }
+//        else if (gamepad2.right_bumper){
+//            setIntakePower(.5f);
+//        }
+//        else{
+//            setIntakePower(0f);
+//        }
+//
+//        if(gamepad2.x){
+//            clock.reset();
+//            while(clock.seconds() < 2) {
+//                setIntakePower(.5f);
+//            }
+//            setIntakePower(0f);
+//        }
 
         //sending inputs to omni code
 
