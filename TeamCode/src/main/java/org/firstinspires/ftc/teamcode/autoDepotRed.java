@@ -110,7 +110,7 @@ public class autoDepotRed extends T10_Library {
     public void sample() {
         // Logic for bestRect
         Rect best = gold.getBestRect();
-        if (best.height < 120 || best.width < 120) {
+        if (best.height < 150 || best.width < 150) {
             if(!startedMove){
                 clock.reset();
                 startedMove=true;
@@ -133,6 +133,7 @@ public class autoDepotRed extends T10_Library {
             turner.setDestination(45);
             turner.update(imu);
         } else {
+//            setIntakePower(1f);
             stopDrive();
             currentState=state.WALL;
         }
@@ -151,6 +152,7 @@ public class autoDepotRed extends T10_Library {
     }
 
     public void turnpark(){
+//        setIntakePower(0f);
         if(!hasTurnedToCrater){
             clock.reset();
             hasTurnedToCrater=true;
@@ -167,13 +169,14 @@ public class autoDepotRed extends T10_Library {
         if(!startedCrater){
             clock.reset();
             startedCrater=true;
-        } else if (clock.seconds()<10){
+        } else if (clock.seconds()<8){
             omni(.65f,0,0);
         } else {
             omni(0,0,0);
             currentState=state.STOP;
         }
     }
+
 
     public void stop() {
         gold.disable();

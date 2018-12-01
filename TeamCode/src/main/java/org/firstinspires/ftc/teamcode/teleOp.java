@@ -7,8 +7,7 @@ public class teleOp extends T10_Library
 
     Turning test;
     imuData imu;
-    public void init()
-    {
+    public void init() {
         initialize_robot();
         imu = new imuData(hardwareMap);
         test = new Turning();
@@ -26,16 +25,18 @@ public class teleOp extends T10_Library
             mode = mode.getNext();
         }
 
-        if(mode == DRIVING.Slow){omni(linear/2, rotation/2, side/2);} // slow driving
-        if(mode == DRIVING.Medium) {omni(linear/1.5f, rotation/1.5f, side/1.5f);} // medium driving
-        if(mode == DRIVING.Fast) {omni(linear, rotation, side);} // fast driving
+        if(mode == DRIVING.Slow){
+            omni(linear/2, rotation/2, side/2);} // slow driving
+        if(mode == DRIVING.Medium) {
+            omni(linear/1.5f, rotation/1.5f, side/1.5f);} // medium driving
+        if(mode == DRIVING.Fast) {
+            omni(linear, rotation, side);} // fast driving
 
         // gamepad2 commands
 //        float armMotorPower = gamepad2.right_stick_y;
 //        float extendPower = gamepad2.left_stick_y;
-//
+
 //        setArmMotorPower(armMotorPower);
-//        setExtendServoPower(extendPower);
 //
 //        if(gamepad2.left_bumper){
 //            setIntakePower(-.5f);
@@ -43,6 +44,7 @@ public class teleOp extends T10_Library
 //        else if (gamepad2.right_bumper){
 //            setIntakePower(.5f);
 //        }
+//
 //        else{
 //            setIntakePower(0f);
 //        }
@@ -53,6 +55,13 @@ public class teleOp extends T10_Library
 //                setIntakePower(.5f);
 //            }
 //            setIntakePower(0f);
+//        }
+//
+//        if(extendPower > 0){
+//            ExtendArm();
+//        }
+//        else if(extendPower < 0){
+//            RetractArm();
 //        }
 
         //sending inputs to omni code
@@ -67,10 +76,8 @@ public class teleOp extends T10_Library
 //            test.setDestination(0);
 //        }
 //        test.update(imu);
-        telemetry.addData("Error: ", test.getError());
-        telemetry.addData("P: ", test.pComponent);
 
-
+        telemetry.addData("Current Angle?", imu.getAngle());
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Driving Mode:",mode);
 

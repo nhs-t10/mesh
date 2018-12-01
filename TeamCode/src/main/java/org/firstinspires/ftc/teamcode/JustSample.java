@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.opencv.core.Rect;
 import org.opencv.imgcodecs.Imgcodecs;
 
-@Autonomous(name= "BlueDepot")
-public class autoDepotBlue extends T10_Library {
+@Autonomous(name= "JustSample")
+public class JustSample extends T10_Library {
     /*
         T-10 Preliminary Autonomous
 
@@ -66,12 +66,6 @@ public class autoDepotBlue extends T10_Library {
         }
         if(currentState == state.WALL){
             wall();
-        }
-        if(currentState == state.TURNPARK){
-            turnpark();
-        }
-        if(currentState == state.CRATER){
-            crater();
         }
         telemetry.addData("Current State: ", currentState);
         telemetry.addData("Millis since run: ", clock.milliseconds());
@@ -143,39 +137,14 @@ public class autoDepotBlue extends T10_Library {
         if(!startedWall){
             clock.reset();
             startedWall=true;
-        } else if (clock.seconds()<1.7){
-            omni(.3f,0,0);
-        } else {
-            omni(0,0,0);
-            currentState=state.TURNPARK;
-        }
-    }
-
-    public void turnpark(){
-//        setIntakePower(0f);
-        if(!hasTurnedToCrater){
-            clock.reset();
-            hasTurnedToCrater=true;
-        } else if (clock.seconds()<2){
-            turner.setDestination(-135);
-            turner.update(imu);
-        } else {
-            stopDrive();
-            currentState=state.CRATER;
-        }
-    }
-
-    public void crater(){
-        if(!startedCrater){
-            clock.reset();
-            startedCrater=true;
-        } else if (clock.seconds()<7){
-            omni(1f,0,0);
+        } else if (clock.seconds()<1){
+            omni(-.3f,0,0);
         } else {
             omni(0,0,0);
             currentState=state.STOP;
         }
     }
+
 
     public void stop() {
         gold.disable();

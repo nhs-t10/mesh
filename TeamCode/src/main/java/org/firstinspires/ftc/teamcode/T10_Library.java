@@ -1,10 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.os.Environment;
-import android.view.View;
-
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.CraterDetector;
@@ -33,13 +28,12 @@ public abstract class T10_Library extends OpMode {
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-    public static DcMotor frontRight, frontLeft, backRight, backLeft, armMotorLeft;
-    //armMotorRight, intakeMotor;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft;
+            //armMotorLeft, armMotorRight, intakeMotor;
 
-    public static CRServo extendServo;
-
+    public static Servo extendServoLeft, extendServoRight;
     GoldAlignDetector gold = null;
-    CraterDetector crater = null;
+    // CraterDetector crater = null;
     public static ColorSensor color;
     // public static Servo leftIntake, rightIntake;
 
@@ -50,6 +44,8 @@ public abstract class T10_Library extends OpMode {
     static boolean servosMoving = false;
 
     ElapsedTime clock = new ElapsedTime();
+
+    double ServoPosition = 0.0;
 
 
     public DRIVING mode;
@@ -79,12 +75,12 @@ public abstract class T10_Library extends OpMode {
         gold.enable();
     }
 
-    public void init_crater(){
-        crater = new CraterDetector();
-        crater.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
-        crater.useDefaults();
-        crater.enable();
-    }
+//    public void init_crater(){
+//        crater = new CraterDetector();
+//        crater.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+//        crater.useDefaults();
+//        crater.enable();
+//    }
 
     // public DcMotor hanger1, hanger2;
     public void initialize_robot() {
@@ -98,10 +94,11 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
-        armMotorLeft = hardwareMap.dcMotor.get("m4");
+//        armMotorLeft = hardwareMap.dcMotor.get("m4");
 //        armMotorRight = hardwareMap.dcMotor.get("m5");
 //        intakeMotor = hardwareMap.dcMotor.get("m6");
-        extendServo = hardwareMap.crservo.get("s0");
+//        extendServoLeft = hardwareMap.servo.get("s0");
+//        extendServoRight = hardwareMap.servo.get("s1");
 
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
@@ -209,17 +206,24 @@ public abstract class T10_Library extends OpMode {
 
 //    public void setArmMotorPower(float power){
 //        armMotorLeft.setPower(power);
-//        armMotorRight.setPower(-power);
+//        armMotorRight.setPower(power);
 //    }
 //
-//    public void setExtendServoPower(float power){
-//        extendServo.setPower(power);
+//    public void ExtendArm(){
+//        extendServoRight.setPosition(ServoPosition);
+//        extendServoLeft.setPosition(-ServoPosition);
+//        ServoPosition += .05;
+//    }
+//    public void RetractArm(){
+//        ServoPosition -= .05;
+//        extendServoRight.setPosition(ServoPosition);
+//        extendServoLeft.setPosition(-ServoPosition);
 //    }
 //
 //    public void setIntakePower(float power){
 //        intakeMotor.setPower(power);
 //    }
-//
+
 //    public void expelliarmus() {
 //
 //    }

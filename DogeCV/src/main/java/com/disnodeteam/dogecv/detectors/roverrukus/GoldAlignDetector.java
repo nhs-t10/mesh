@@ -104,7 +104,7 @@ public class GoldAlignDetector extends DogeCVDetector {
             // Get bounding rect of contour
             Rect rect = Imgproc.boundingRect(cont);
             Imgproc.rectangle(displayMat, rect.tl(), rect.br(), new Scalar(0,0,255),2); // Draw rect
-            if(rect.width < 180 && rect.height < 180 && rect.width > 30 && rect.height > 30) {
+            if(rect.width < 180 && rect.height < 180 && rect.width > 10 && rect.height > 10) {
                 // If the result is better then the previously tracked one, set this rect as the new best
                 if (score < bestDiffrence) {
                     bestDiffrence = score;

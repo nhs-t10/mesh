@@ -104,7 +104,7 @@ public class autoCraterRed extends T10_Library {
     public void sample() {
         // Logic for bestRect
         Rect best = gold.getBestRect();
-        if (best.height < 180 || best.width < 180) {
+        if (best.height < 150 || best.width < 150) {
             if(!startedMove){
                 clock.reset();
                 startedMove=true;
