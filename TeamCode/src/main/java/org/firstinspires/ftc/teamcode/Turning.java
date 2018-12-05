@@ -6,7 +6,8 @@ public class Turning{
     double pComponent;
     double dComponent;
     double iComponent;
-    boolean turning=false;
+    state currentEvent;
+
     double prevError = 0.0;
     double sumError = 0.0;
     double prevTime = 0.0;
@@ -15,10 +16,13 @@ public class Turning{
     final double I = 0.0;
     double savedTime;
 
-
+    enum state {
+        IDLE,TURNING,TRAVELING_IN_A_LINEAR_FASHION;
+    }
 
     public Turning(){
         destination=0;
+        currentEvent=state.IDLE;
     }
 
     public void setDestination(float degrees){
@@ -27,34 +31,43 @@ public class Turning{
         else destination=degrees;
         prevTime = getCurrTime();
         destination=degrees;
-        turning=true;
+        currentEvent=state.TURNING;
     }
 
-    public void stopTurning(){
-        turning = false;
-        sumError=0.0;
-        T10_Library.omni(0f, 0f, 0f);
+    public void startSkewnting(){
+        destination=currentAngle;
+        currentEvent=state.TRAVELING_IN_A_LINEAR_FASHION;
     }
 
     public void update(imuData sean) {
         currentAngle = sean.getAngle();
         double error = getError();
         pComponent = error * P;
-        double currTime = getCurrTime();
-        dComponent = -Math.abs(D*(error-prevError)/(currTime- prevTime));
-
-        sumError += error*(currTime-prevTime);
-        iComponent = I * sumError;
-        if (turning) {
-
+//        double currTime = getCurrTime();
+//        dComponent = -Math.abs(D*(error-prevError)/(currTime- prevTime));
+//
+//        sumError += error*(currTime-prevTime);
+//        iComponent = I * sumError;
+        if (currentEvent==state.TURNING) {
             if (getCurrTime()-savedTime>2000) {
                 stopTurning();
             }else {
-                T10_Library.omni(0f, 0f, (float) (pComponent + dComponent + iComponent));
+                T10_Library.omni(0f, 0f, (float) (pComponent));
             }
-
+        } else if(currentEvent==state.TRAVELING_IN_A_LINEAR_FASHION){
+            T10_Library.omni(0.5f,0f, (float)pComponent);
         }
         prevTime = currTime;
+    }
+    public void stopTurning(){
+        currentEvent=state.IDLE;
+        sumError=0.0;
+        T10_Library.omni(0f, 0f, 0f);
+    }
+
+    public void stopSkewednting(){
+        currentEvent=state.IDLE;
+        T10_Library.omni(0,0,0);
     }
 
     public double getError(){
