@@ -16,9 +16,11 @@ public class Turning{
     final double I = 0.0;
     double savedTime;
 
+
     enum state {
         IDLE,TURNING,TRAVELING_IN_A_LINEAR_FASHION;
     }
+
 
     public Turning(){
         destination=0;
@@ -57,7 +59,6 @@ public class Turning{
         } else if(currentEvent==state.TRAVELING_IN_A_LINEAR_FASHION){
             T10_Library.omni(0.5f,0f, (float)pComponent);
         }
-        prevTime = currTime;
     }
     public void stopTurning(){
         currentEvent=state.IDLE;

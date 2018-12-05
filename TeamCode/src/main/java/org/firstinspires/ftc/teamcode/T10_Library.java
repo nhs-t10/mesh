@@ -2,15 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.CraterDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.HoughSilverDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SilverDetector;
-import com.disnodeteam.dogecv.scoring.MaxAreaScorer;
-import com.disnodeteam.dogecv.scoring.PerfectAreaScorer;
-import com.disnodeteam.dogecv.scoring.RatioScorer;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.exception.RobotCoreException;
-import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,9 +14,12 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-//import org.firstinspires.ftc.teamcode.imuData;
-import java.util.Arrays;
-import java.util.Collections;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
 
 public abstract class T10_Library extends OpMode {
 
@@ -30,10 +29,11 @@ public abstract class T10_Library extends OpMode {
      *  autonomous and teleop usage.
      */
     public static DcMotor frontRight, frontLeft, backRight, backLeft;
+            //armMotorLeft, armMotorRight, intakeMotor;
 
-    // public static Servo armServo;
-
+    public static Servo extendServoLeft, extendServoRight;
     GoldAlignDetector gold = null;
+    // CraterDetector crater = null;
     public static ColorSensor color;
     // public static Servo leftIntake, rightIntake;
 
@@ -42,6 +42,10 @@ public abstract class T10_Library extends OpMode {
     static double initial_position = 0;
     static double moveRate = .005;
     static boolean servosMoving = false;
+
+    ElapsedTime clock = new ElapsedTime();
+
+    double ServoPosition = 0.0;
 
 
     public DRIVING mode;
@@ -71,6 +75,13 @@ public abstract class T10_Library extends OpMode {
         gold.enable();
     }
 
+//    public void init_crater(){
+//        crater = new CraterDetector();
+//        crater.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+//        crater.useDefaults();
+//        crater.enable();
+//    }
+
     // public DcMotor hanger1, hanger2;
     public void initialize_robot() {
         /*
@@ -83,9 +94,15 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
+//        armMotorLeft = hardwareMap.dcMotor.get("m4");
+//        armMotorRight = hardwareMap.dcMotor.get("m5");
+//        intakeMotor = hardwareMap.dcMotor.get("m6");
+//        extendServoLeft = hardwareMap.servo.get("s0");
+//        extendServoRight = hardwareMap.servo.get("s1");
 
-        leftIntake = hardwareMap.servo.get("s0");
-        rightIntake = hardwareMap.servo.get("s1");
+        //leftIntake = hardwareMap.servo.get("s0");
+        //rightIntake = hardwareMap.servo.get("s1");
+        //armServo = hardwareMap.crservo.get("s0");
 
         init_cv();
         mode = DRIVING.Medium;
@@ -114,18 +131,6 @@ public abstract class T10_Library extends OpMode {
 //        telemetry.addData("Red", csensor1.red());
 //        telemetry.addData("Blue", csensor1.blue());
 //        telemetry.addData("argb", csensor1.argb());
-//    }
-
-//    public void moveServos(){
-//        servosMoving = true;
-//        leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
-//        rightIntake.setPosition(0); // 0 means max speed counter-clockwise, 1 means max speed clockwise
-//    }
-//
-//    public void restServos(){
-//        servosMoving = false;
-//        leftIntake.setPosition(.5);
-//        rightIntake.setPosition(.5);
 //    }
 
 
@@ -178,25 +183,60 @@ public abstract class T10_Library extends OpMode {
         omni(0,0,0);
     }
 
-    /*
-    Driving for x seconds
-    @param: time, in seconds
-    @return: void, sets motor power
- */
-    public void driveFor(double time){
-        long currentTime = System.currentTimeMillis();
-        double finalTime = currentTime + (time * 1000);
-        while (currentTime < finalTime){
-            omni(1, 0, 0);
+    public void sleep(int millis) {
+        try {
+            telemetry.addData("Sleep", "Sleeping for"+millis/1000+"seconds");
+            Thread.sleep(millis);
+        } catch (Exception err) {
+            telemetry.addData("Sleep machine br0ke: ", err);
         }
     }
 
-    public void sleep(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (Exception err) {
-            telemetry.addData("Stopped Robot", "69");
+    public boolean driveFor(double seconds, float l, float r, float s){
+        omni(l,r,s);
+
+        clock.reset();
+        if(clock.seconds() > seconds) {
+            omni(0, 0, 0);
+        } else {
+            return false;
         }
+        return true;
+    }
+
+//    public void setArmMotorPower(float power){
+//        armMotorLeft.setPower(power);
+//        armMotorRight.setPower(power);
+//    }
+//
+//    public void ExtendArm(){
+//        extendServoRight.setPosition(ServoPosition);
+//        extendServoLeft.setPosition(-ServoPosition);
+//        ServoPosition += .05;
+//    }
+//    public void RetractArm(){
+//        ServoPosition -= .05;
+//        extendServoRight.setPosition(ServoPosition);
+//        extendServoLeft.setPosition(-ServoPosition);
+//    }
+//
+//    public void setIntakePower(float power){
+//        intakeMotor.setPower(power);
+//    }
+
+//    public void expelliarmus() {
+//
+//    }
+
+
+
+
+    public void dispense_marker(){
+        telemetry.addData("Marker: ", "Deployed");
+    }
+
+    public void sayHooray(){
+        telemetry.addData("Hooray!", "hip hip");
     }
 
 }
