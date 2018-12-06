@@ -37,6 +37,18 @@ public class imuData {
         angle =imu.getAngularOrientation();
         return angle.firstAngle;
     }
+
+    public float getPitch(){
+        angle =imu.getAngularOrientation();
+        return angle.secondAngle;
+    }
+
+    public float getRoll(){
+        angle =imu.getAngularOrientation();
+        return angle.thirdAngle;
+    }
+
+
     public double getXVelocity(){
         double velocity = imu.getVelocity().xVeloc;
         return velocity;

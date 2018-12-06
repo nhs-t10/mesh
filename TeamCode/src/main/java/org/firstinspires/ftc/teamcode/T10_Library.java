@@ -4,6 +4,7 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.CraterDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -14,7 +15,10 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch;
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 
 import java.io.File;
@@ -28,7 +32,10 @@ public abstract class T10_Library extends OpMode {
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-    public static DcMotor frontRight, frontLeft, backRight, backLeft;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft, armMotorLeft;
+    public static TouchSensor touch1;
+    public static TouchSensor touch2;
+
             //armMotorLeft, armMotorRight, intakeMotor;
 
     public static Servo extendServoLeft, extendServoRight;
@@ -94,7 +101,9 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
-//        armMotorLeft = hardwareMap.dcMotor.get("m4");
+        touch1 = hardwareMap.touchSensor.get("touch1");
+        touch2 = hardwareMap.touchSensor.get("touch2");
+        armMotorLeft = hardwareMap.dcMotor.get("m4");
 //        armMotorRight = hardwareMap.dcMotor.get("m5");
 //        intakeMotor = hardwareMap.dcMotor.get("m6");
 //        extendServoLeft = hardwareMap.servo.get("s0");
@@ -103,6 +112,7 @@ public abstract class T10_Library extends OpMode {
         //leftIntake = hardwareMap.servo.get("s0");
         //rightIntake = hardwareMap.servo.get("s1");
         //armServo = hardwareMap.crservo.get("s0");
+
 
         init_cv();
         mode = DRIVING.Medium;

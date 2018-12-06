@@ -19,4 +19,5 @@ public class CV_TestOp extends T10_Library {
     public void stop(){
         gold.disable();
     }
+
 }

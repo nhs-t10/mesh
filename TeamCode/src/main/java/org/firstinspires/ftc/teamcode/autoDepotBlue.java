@@ -67,9 +67,7 @@ public class autoDepotBlue extends T10_Library {
         if(currentState == state.WALL){
             wall();
         }
-        if(currentState == state.TURNPARK){
-            turnpark();
-        }
+
         if(currentState == state.CRATER){
             crater();
         }
@@ -114,8 +112,8 @@ public class autoDepotBlue extends T10_Library {
             if(!startedMove){
                 clock.reset();
                 startedMove=true;
-            } else if (clock.seconds()<1.3){
-                omni(.65f,0,0);
+            } else if (clock.seconds()<2.1){
+                omni(.5f,0,0);
             } else {
                 stopDrive();
                 currentState=state.MARKING;
@@ -147,30 +145,18 @@ public class autoDepotBlue extends T10_Library {
             omni(.3f,0,0);
         } else {
             omni(0,0,0);
-            currentState=state.TURNPARK;
-        }
-    }
-
-    public void turnpark(){
-//        setIntakePower(0f);
-        if(!hasTurnedToCrater){
-            clock.reset();
-            hasTurnedToCrater=true;
-        } else if (clock.seconds()<2){
-            turner.setDestination(-135);
-            turner.update(imu);
-        } else {
-            stopDrive();
             currentState=state.CRATER;
         }
     }
+
+
 
     public void crater(){
         if(!startedCrater){
             clock.reset();
             startedCrater=true;
-        } else if (clock.seconds()<7){
-            omni(1f,0,0);
+        } else if (clock.seconds()<7 ){
+            omni(-1f,0,0);
         } else {
             omni(0,0,0);
             currentState=state.STOP;

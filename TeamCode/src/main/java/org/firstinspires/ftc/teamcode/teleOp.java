@@ -15,9 +15,19 @@ public class teleOp extends T10_Library
 
     public void loop() {
 
+        telemetry.addData("Imu pitch: ", imu.getPitch());
+        telemetry.addData("Imu roll: ", imu.getRoll());
         float linear = gamepad1.left_stick_y;
         float side = gamepad1.left_stick_x;
         float rotation = gamepad1.right_stick_x;
+
+        if(gamepad1.right_bumper){
+            armMotorLeft.setPower(.9);
+        } else if (gamepad1.left_bumper) {
+            armMotorLeft.setPower(-.9);
+        } else {
+            armMotorLeft.setPower(0);
+        }
         //defining the stuff. linear = straight, rotation = turning, side = skating.
         //Linear - rotation will compensate one side to allow the other side to overrotate
 
