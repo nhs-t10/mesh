@@ -91,10 +91,10 @@ public class autoDepotBlue extends T10_Library {
         }
         else{
             if(turnRight){
-                omni(0,.2f,0);
+                omni(0,.15f,0);
             }
             else{
-                omni(0,-.2f,0);
+                omni(0,-.15f,0);
             }
             if(Math.abs(imu.getAngle()) > 40.0 && !gold.isFound()){
                 turnRight = false;
@@ -112,8 +112,8 @@ public class autoDepotBlue extends T10_Library {
             if(!startedMove){
                 clock.reset();
                 startedMove=true;
-            } else if (clock.seconds()<2.1){
-                omni(.5f,0,0);
+            } else if (clock.seconds()<2.7){
+                omni(.4f,0,0);
             } else {
                 stopDrive();
                 currentState=state.MARKING;
@@ -142,7 +142,7 @@ public class autoDepotBlue extends T10_Library {
             clock.reset();
             startedWall=true;
         } else if (clock.seconds()<1.7){
-            omni(.3f,0,0);
+            omni(0,0,.5f);
         } else {
             omni(0,0,0);
             currentState=state.CRATER;
@@ -155,12 +155,14 @@ public class autoDepotBlue extends T10_Library {
         if(!startedCrater){
             clock.reset();
             startedCrater=true;
-        } else if (clock.seconds()<7 ){
-            omni(-1f,0,0);
+        } else if (clock.seconds()<10 && imu.getPitch()<-83){
+
+            omni(-.66f,0,0f);
         } else {
             omni(0,0,0);
             currentState=state.STOP;
         }
+        telemetry.addData("Pitch: ", imu.getPitch());
     }
 
     public void stop() {
