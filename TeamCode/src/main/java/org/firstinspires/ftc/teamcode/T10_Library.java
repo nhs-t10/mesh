@@ -32,17 +32,18 @@ public abstract class T10_Library extends OpMode {
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-    public static DcMotor frontRight, frontLeft, backRight, backLeft, armMotorLeft;
-    public static TouchSensor touch1;
-    public static TouchSensor touch2;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft, latchMotor, scoreMotor;
+    //public static TouchSensor touch1;
+    //public static TouchSensor touch2;
 
             //armMotorLeft, armMotorRight, intakeMotor;
 
-    public static Servo extendServoLeft, extendServoRight;
+    //public static Servo markServo;
     GoldAlignDetector gold = null;
     // CraterDetector crater = null;
     public static ColorSensor color;
-    // public static Servo leftIntake, rightIntake;
+    public static CRServo leftIntake, rightIntake;
+    public static Servo gate;
 
     // Constants
     static float attenuationfactor;
@@ -51,6 +52,7 @@ public abstract class T10_Library extends OpMode {
     static boolean servosMoving = false;
 
     ElapsedTime clock = new ElapsedTime();
+    ElapsedTime time = new ElapsedTime();
 
     double ServoPosition = 0.0;
 
@@ -101,16 +103,14 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
-        touch1 = hardwareMap.touchSensor.get("touch1");
-        touch2 = hardwareMap.touchSensor.get("touch2");
-        armMotorLeft = hardwareMap.dcMotor.get("m4");
-//        armMotorRight = hardwareMap.dcMotor.get("m5");
-//        intakeMotor = hardwareMap.dcMotor.get("m6");
-//        extendServoLeft = hardwareMap.servo.get("s0");
-//        extendServoRight = hardwareMap.servo.get("s1");
+        //touch1 = hardwareMap.touchSensor.get("touch1");
+        //touch2 = hardwareMap.touchSensor.get("touch2");
+        latchMotor = hardwareMap.dcMotor.get("m4");
+        scoreMotor = hardwareMap.dcMotor.get("m5");
 
-        //leftIntake = hardwareMap.servo.get("s0");
-        //rightIntake = hardwareMap.servo.get("s1");
+        gate = hardwareMap.servo.get("s0");
+        leftIntake = hardwareMap.crservo.get("cr1");
+        rightIntake = hardwareMap.crservo.get("cr2");
         //armServo = hardwareMap.crservo.get("s0");
 
 
@@ -195,7 +195,7 @@ public abstract class T10_Library extends OpMode {
 
     public void sleep(int millis) {
         try {
-            telemetry.addData("Sleep", "Sleeping for"+millis/1000+"seconds");
+            telemetry.addData("Sleep", "Sleeping for "+millis/1000.0+" seconds");
             Thread.sleep(millis);
         } catch (Exception err) {
             telemetry.addData("Sleep machine br0ke: ", err);
@@ -247,6 +247,13 @@ public abstract class T10_Library extends OpMode {
 
     public void sayHooray(){
         telemetry.addData("Hooray!", "hip hip");
+    }
+
+    // MACROS
+
+    public void intake(int a){
+        leftIntake.setPower(a);
+        rightIntake.setPower(-a);
     }
 
 }

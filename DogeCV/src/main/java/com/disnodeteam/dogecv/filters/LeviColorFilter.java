@@ -53,6 +53,10 @@ public class LeviColorFilter extends DogeCVColorFilter {
         threshold = filterThreshold;
     }
 
+    public void updateThreshold(double filterThreshold){
+        threshold = filterThreshold;
+    }
+
     /**
      * Process a image and return a mask
      * @param input - Input image to process

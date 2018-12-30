@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.opencv.core.Rect;
 import org.opencv.imgcodecs.Imgcodecs;
 
-@Autonomous(name= "RedDepot")
-public class autoDepotRed extends T10_Library {
+@Autonomous(name= "Depot")
+public class DepotAuto extends T10_Library {
     /*
         T-10 Preliminary Autonomous
 
@@ -23,14 +23,10 @@ public class autoDepotRed extends T10_Library {
 
     // constants and state declaration
 
-    // original code, all other autonomous code will be based off of this
+    // should be the exact same as red depot code
     double angleTurned = 0;
     imuData imu;
-    boolean startedMove = false;
-    boolean startedWall = false;
-    boolean startedCrater = false;
-    boolean hasturned = false;
-    boolean hasTurnedToCrater = false;
+    boolean moving = false;
     boolean turnRight = true;
     Turning turner;
     enum state {
@@ -67,19 +63,23 @@ public class autoDepotRed extends T10_Library {
         if(currentState == state.WALL){
             wall();
         }
-        if(currentState == state.TURNPARK){
-            turnpark();
-        }
+
         if(currentState == state.CRATER){
             crater();
         }
         telemetry.addData("Current State: ", currentState);
         telemetry.addData("Millis since run: ", clock.milliseconds());
         telemetry.addData("Current Angle: ", imu.getAngle());
+        telemetry.addData("Gold Position:", gold.position);
     }
 
-    public void start_auto(){
-        currentState = state.TURNING;
+    public void start_auto() {
+        if (!moving) {
+            clock.reset();
+            moving = true;
+        } else if (clock.seconds() < 3) {
+            latchMotor.setPower(1f);
+        }
     }
 
     public void turnToGold(){
@@ -88,17 +88,17 @@ public class autoDepotRed extends T10_Library {
             omni(0,0,0);
             gold.takeScreenshot();
             angleTurned = imu.getAngle();
-            startedMove=false;
+            moving=false;
             currentState = state.SAMPLING;
         }
         else{
             if(turnRight){
-                omni(0,.2f,0);
+                omni(0,.15f,0);
             }
             else{
-                omni(0,-.2f,0);
+                omni(0,-.15f,0);
             }
-            if(Math.abs(imu.getAngle()) > 40.0 && !gold.isFound()){
+            if(Math.abs(imu.getAngle()) > 220.0 && !gold.isFound()){
                 turnRight = false;
             }
         }
@@ -111,72 +111,71 @@ public class autoDepotRed extends T10_Library {
         // Logic for bestRect
         Rect best = gold.getBestRect();
         if (best.height < 150 || best.width < 150) {
-            if(!startedMove){
+            if(!moving){
                 clock.reset();
-                startedMove=true;
-            } else if (clock.seconds()<1.3){
-                omni(.65f,0,0);
+                moving=true;
+            } else if (clock.seconds()<2.7) {
+                omni(-.4f,0,0);
+            } else if (clock.seconds() > 2.7 && clock.seconds() < 4.7) {
+                if(gold.position == GoldAlignDetector.gold_position.LEFT) {
+                    turner.setDestination(45);
+                    turner.update(imu);
+                }
+                else if (gold.position == GoldAlignDetector.gold_position.RIGHT){
+                    turner.setDestination(-45);
+                    turner.update(imu);
+                }
             } else {
                 stopDrive();
+                moving = false;
                 currentState=state.MARKING;
             }
-
         }
-
     }
 
-    public void mark(){
-        if(!hasturned){
+    public void mark() {
+        if (!moving) {
             clock.reset();
-            hasturned=true;
-        } else if (clock.seconds()<2){
-            turner.setDestination(45);
-            turner.update(imu);
-        } else {
-//            setIntakePower(1f);
+            moving = true;
+        } else if (clock.seconds() < 1) {
+            omni(-.5f, 0, 0);
+        } else if (clock.seconds() > 1 && clock.seconds() < 2.5) {
             stopDrive();
-            currentState=state.WALL;
+            //markServo.setPosition(180);
+        } else {
+            moving = false;
+            currentState = state.WALL;
         }
     }
 
     public void wall(){
-        if(!startedWall){
+        if(!moving){
             clock.reset();
-            startedWall=true;
+            moving=true;
         } else if (clock.seconds()<1.7){
-            omni(.2f,0,0);
+            omni(0,0,.5f);
         } else {
             omni(0,0,0);
-            currentState=state.TURNPARK;
-        }
-    }
-
-    public void turnpark(){
-//        setIntakePower(0f);
-        if(!hasTurnedToCrater){
-            clock.reset();
-            hasTurnedToCrater=true;
-        } else if (clock.seconds()<2){
-            turner.setDestination(135);
-            turner.update(imu);
-        } else {
-            stopDrive();
+            moving = false;
             currentState=state.CRATER;
         }
     }
 
+
     public void crater(){
-        if(!startedCrater){
+        if(!moving){
             clock.reset();
-            startedCrater=true;
-        } else if (clock.seconds()<8){
-            omni(.65f,0,0);
+            moving=true;
+        } else if (clock.seconds()<10 && imu.getPitch()<-83){
+
+            omni(-.66f,0,0f);
         } else {
             omni(0,0,0);
+            moving = false;
             currentState=state.STOP;
         }
+        telemetry.addData("Pitch: ", imu.getPitch());
     }
-
 
     public void stop() {
         gold.disable();

@@ -49,7 +49,7 @@ public class GoldAlignDetector extends DogeCVDetector {
 
 
     //Create the default filters and scorers
-    public DogeCVColorFilter yellowFilter      = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW); //Default Yellow filter
+    public LeviColorFilter yellowFilter      = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW); //Default Yellow filter
 
     public RatioScorer       ratioScorer       = new RatioScorer(1.0, 3);          // Used to find perfect squares
     public MaxAreaScorer     maxAreaScorer     = new MaxAreaScorer(.01);                    // Used to find largest objects
@@ -63,7 +63,7 @@ public class GoldAlignDetector extends DogeCVDetector {
     public enum gold_position{
         LEFT, CENTER, RIGHT;
     }
-    public gold_position position;
+    public gold_position position = gold_position.CENTER;
     /**
      * Simple constructor
      */
@@ -134,14 +134,15 @@ public class GoldAlignDetector extends DogeCVDetector {
 
             // Check if the mineral is aligned
             if(xPos > alignXMax){
-                position = gold_position.LEFT;
-            }
-            else if (xPos < alignXMin){
                 position = gold_position.RIGHT;
             }
+
+            else if (xPos < alignXMin){
+                position = gold_position.LEFT;
+            }
+
             if(xPos < alignXMax && xPos > alignXMin){
                 aligned = true;
-                position = gold_position.CENTER;
             }else{
                 aligned = false;
             }

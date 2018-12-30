@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.opencv.core.Rect;
 
-@Autonomous(name= "BlueCrater")
-public class autoCraterBlue extends T10_Library {
+@Autonomous(name= "Crater")
+public class CraterAuto extends T10_Library {
     /*
         T-10 Preliminary Autonomous
 
@@ -115,7 +115,6 @@ public class autoCraterBlue extends T10_Library {
                 stopDrive();
                 currentState= state.TURNCRATER;
             }
-
         }
 
     }
