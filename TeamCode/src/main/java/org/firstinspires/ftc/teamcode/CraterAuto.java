@@ -26,6 +26,7 @@ public class CraterAuto extends T10_Library {
     boolean startedCrater = false;
     boolean hasturned = false;
     boolean hasTurnedToCrater = false;
+    boolean moving = false;
     boolean turnRight = true;
     Turning turner;
     enum state {
@@ -75,8 +76,16 @@ public class CraterAuto extends T10_Library {
 
     }
 
-    public void start_auto(){
-        currentState = state.TURNING;
+    public void start_auto() {
+        if (!moving) {
+            clock.reset();
+            moving = true;
+        } else if (clock.seconds() < 17) {
+            latchMotor.setPower(1f);
+        }
+        else{
+            currentState = state.TURNING;
+        }
     }
 
     public void turnToGold(){

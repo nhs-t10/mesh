@@ -48,6 +48,9 @@ public class DepotAuto extends T10_Library {
         /*
         Loop constantly checks state, and then executes a command based on this.
          */
+        if(currentState == state.START){
+            start_auto();
+        }
         if(currentState == state.TURNING){
             turnToGold();
         }
@@ -77,7 +80,7 @@ public class DepotAuto extends T10_Library {
         if (!moving) {
             clock.reset();
             moving = true;
-        } else if (clock.seconds() < 18) {
+        } else if (clock.seconds() < 17) {
             latchMotor.setPower(1f);
         }
         else{
