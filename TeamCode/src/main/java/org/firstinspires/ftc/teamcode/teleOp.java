@@ -1,15 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "teleOp")
 public class teleOp extends T10_Library
 {
 
-    boolean bPressed = false;
+    boolean bPressed, descending, intake  = false;
     Turning test;
     imuData imu;
     double pos = 0.0;
+    double time_millis = 0.0;
+    ElapsedTime t = new ElapsedTime();
+    int i = 1;
+
     public void init() {
         initialize_robot();
         imu = new imuData(hardwareMap);
@@ -51,8 +56,14 @@ public class teleOp extends T10_Library
         else if (gamepad1.right_bumper){
             latchMotor.setPower(1f);
         }
+
         else{
             latchMotor.setPower(0f);
+        }
+
+        if(gamepad1.y){
+            markServo.setPosition(i%2);
+            i++;
         }
 
         if(gamepad1.left_trigger > 0){
@@ -66,12 +77,16 @@ public class teleOp extends T10_Library
         }
 
         if(gamepad1.a){
-            intake(1);
+            intake = true;
+            if(intake) {
+                intake(1);
+            }
         }
         else {
             intake(0);
         }
 
+        intake = false;
 
         if(gamepad1.x){
             gate.setPosition(1);
@@ -88,6 +103,7 @@ public class teleOp extends T10_Library
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Driving Mode:",mode);
         telemetry.addData("Gate position?", gate.getPosition());
+        telemetry.addData("Time taken to de-latch: ", t.milliseconds());
 
         //sending inputs to omni code
 //        if(gamepad1.a && !turn){

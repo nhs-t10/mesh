@@ -77,8 +77,11 @@ public class DepotAuto extends T10_Library {
         if (!moving) {
             clock.reset();
             moving = true;
-        } else if (clock.seconds() < 3) {
+        } else if (clock.seconds() < 18) {
             latchMotor.setPower(1f);
+        }
+        else{
+            currentState = state.TURNING;
         }
     }
 

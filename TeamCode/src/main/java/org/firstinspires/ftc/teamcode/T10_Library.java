@@ -38,7 +38,7 @@ public abstract class T10_Library extends OpMode {
 
             //armMotorLeft, armMotorRight, intakeMotor;
 
-    //public static Servo markServo;
+    public static Servo markServo;
     GoldAlignDetector gold = null;
     // CraterDetector crater = null;
     public static ColorSensor color;
@@ -109,6 +109,7 @@ public abstract class T10_Library extends OpMode {
         scoreMotor = hardwareMap.dcMotor.get("m5");
 
         gate = hardwareMap.servo.get("s0");
+        markServo = hardwareMap.servo.get("s1");
         leftIntake = hardwareMap.crservo.get("cr1");
         rightIntake = hardwareMap.crservo.get("cr2");
         //armServo = hardwareMap.crservo.get("s0");

@@ -72,6 +72,7 @@ public class CraterAuto extends T10_Library {
         telemetry.addData("Current State: ", currentState);
         telemetry.addData("Millis since run: ", clock.milliseconds());
         telemetry.addData("Current Angle: ", imu.getAngle());
+
     }
 
     public void start_auto(){
