@@ -123,7 +123,7 @@ public class CraterAuto extends T10_Library {
                 omni(.25f,0,0);
             } else {
                 stopDrive();
-                currentState= state.TURNCRATER;
+                currentState= state.STOP; //temporary, while lift is slow
             }
         }
 
