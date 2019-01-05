@@ -42,13 +42,15 @@ public class CraterAuto extends T10_Library {
         turner = new Turning();
         // setTeam(color.blue());
         currentState = state.START;
-        start_auto();
     }
 
     public void loop() {
         /*
         Loop constantly checks state, and then executes a command based on this.
          */
+        if(currentState == state.START){
+            start_auto();
+        }
         if(currentState == state.TURNING){
             turnToGold();
         }
@@ -80,8 +82,12 @@ public class CraterAuto extends T10_Library {
         if (!moving) {
             clock.reset();
             moving = true;
-        } else if (clock.seconds() < 17) {
+        } else if (clock.seconds() < 19.5) {
             latchMotor.setPower(1f);
+        }
+        else if (clock.seconds() > 19.5 && clock.seconds() < 19.75){
+            omni(-1f,0,0);
+            latchMotor.setPower(0);
         }
         else{
             currentState = state.TURNING;
@@ -99,10 +105,10 @@ public class CraterAuto extends T10_Library {
         }
         else{
             if(turnRight){
-                omni(0,.2f,0);
+                omni(0,.3f,0);
             }
             else{
-                omni(0,-.2f,0);
+                omni(0,-.3f,0);
             }
             if(Math.abs(imu.getAngle()) > 40.0 && !gold.isFound()){
                 turnRight = false;
@@ -120,7 +126,7 @@ public class CraterAuto extends T10_Library {
                 clock.reset();
                 startedMove=true;
             } else if (clock.seconds()<1.3){
-                omni(.25f,0,0);
+                omni(.4f,0,0);
             } else {
                 stopDrive();
                 currentState= state.STOP; //temporary, while lift is slow
@@ -134,7 +140,10 @@ public class CraterAuto extends T10_Library {
             clock.reset();
             hasturned=true;
         } else if (clock.seconds()<2){
-            turner.setDestination(0);
+            if(clock.seconds() < .5){
+                omni(-1,0,0);
+            }
+            turner.setDestination(-90);
             turner.update(imu);
         } else {
             stopDrive();
@@ -146,8 +155,8 @@ public class CraterAuto extends T10_Library {
         if(!startedWall){
             clock.reset();
             startedWall=true;
-        } else if (clock.seconds()<4){
-            omni(.45f,0,0);
+        } else if (clock.seconds()<2){
+            scoreMotor.setPower(-1f);
         } else {
             omni(0,0,0);
             currentState= state.STOP;

@@ -14,6 +14,7 @@ public class teleOp extends T10_Library
     double time_millis = 0.0;
     ElapsedTime t = new ElapsedTime();
     int i = 1;
+    int j = 1;
 
     public void init() {
         initialize_robot();
@@ -29,9 +30,9 @@ public class teleOp extends T10_Library
         float side = gamepad1.left_stick_x;
         float rotation = gamepad1.right_stick_x;
 
-//        if(gamepad1.right_bumper){
+//        if(gamepad2.right_bumper){
 //            armMotorLeft.setPower(.9);
-//        } else if (gamepad1.left_bumper) {
+//        } else if (gamepad2.left_bumper) {         //changed this into
 //            armMotorLeft.setPower(-.9);
 //        } else {
 //            armMotorLeft.setPower(0);
@@ -51,9 +52,9 @@ public class teleOp extends T10_Library
             omni(linear, rotation, side);} // fast driving
 
         if(gamepad1.left_bumper){
-            latchMotor.setPower(-1f);
+            latchMotor.setPower(-1f); //changed this to gamepad 2
         }
-        else if (gamepad1.right_bumper){
+        else if (gamepad1.right_bumper){ //this is also gamepad2
             latchMotor.setPower(1f);
         }
 
@@ -61,22 +62,22 @@ public class teleOp extends T10_Library
             latchMotor.setPower(0f);
         }
 
-        if(gamepad1.y){
+        if(gamepad2.y){    //changed to gamepad 2
             markServo.setPosition(i%2);
             i++;
         }
 
-        if(gamepad1.left_trigger > 0){
-            scoreMotor.setPower(-gamepad1.left_trigger);
+        if(gamepad2.left_trigger > 0){
+            scoreMotor.setPower(-gamepad2.left_trigger);
         }
-        else if (gamepad1.right_trigger > 0){
-            scoreMotor.setPower(gamepad1.right_trigger);
+        else if (gamepad2.right_trigger > 0){
+            scoreMotor.setPower(gamepad2.right_trigger);  //changed these to gp2
         }
         else{
             scoreMotor.setPower(0f);
         }
 
-        if(gamepad1.a){
+        if(gamepad2.a){   //changed to gp2
             intake = true;
             if(intake) {
                 intake(1);
@@ -86,16 +87,11 @@ public class teleOp extends T10_Library
             intake(0);
         }
 
-        intake = false;
-
-        if(gamepad1.x){
+        if(gamepad2.x) {    //changed to gb2
             gate.setPosition(1);
         }
-        else if(gamepad1.b){
+        else {
             gate.setPosition(0);
-        }
-        else{
-            gate.setPosition(.5);
         }
 
 
@@ -122,4 +118,5 @@ public class teleOp extends T10_Library
     public void stop() {
         gold.disable();
     }
+
 }
