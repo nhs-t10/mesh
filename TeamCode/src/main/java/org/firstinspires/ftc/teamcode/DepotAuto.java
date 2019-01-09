@@ -151,6 +151,7 @@ public class DepotAuto extends T10_Library {
             moving = true;
         } else if (clock.seconds() < 2) {
             turner.setDestination(0);
+            turner.update(imu);
         } else if (clock.seconds() > 1 && clock.seconds() < 2.5) {
 //            stopDrive();
 //            markServo.setPosition(1);
@@ -164,34 +165,38 @@ public class DepotAuto extends T10_Library {
         }
     }
 
-//    public void wall(){
-//        if(!moving){
-//            clock.reset();
-//            moving=true;
-//        } else if (clock.seconds()<1.7){
-//            omni(0,0,.5f);
-//        } else {
-//            omni(0,0,0);
-//            moving = false;
-//            currentState=state.CRATER;
-//        }
-//    }
-//
-//
-//    public void crater(){
-//        if(!moving){
-//            clock.reset();
-//            moving=true;
-//        } else if (clock.seconds()<10 && imu.getPitch()<-83){
-//
-//            omni(-.66f,0,0f);
-//        } else {
-//            omni(0,0,0);
-//            moving = false;
-//            currentState=state.STOP;
-//        }
-//        telemetry.addData("Pitch: ", imu.getPitch());
-//    }
+    public void wall(){
+        if(!moving){
+            clock.reset();
+            moving=true;
+        } else if (clock.seconds()<1.7) {
+            //omni(0,0,.5f);
+            turner.setDestination(135);
+            turner.update(imu);
+        } else if (clock.seconds() > 1.7 && clock.seconds() < 3.7) {
+            omni(0, 0, -.5f);
+        } else {
+            omni(0,0,0);
+            moving = false;
+            currentState=state.CRATER;
+        }
+    }
+
+
+    public void crater(){
+        if(!moving){
+            clock.reset();
+            moving=true;
+        } else if (clock.seconds()<3){
+
+            omni(.66f,0,0f);
+        } else {
+            omni(0,0,0);
+            moving = false;
+            currentState=state.STOP;
+        }
+       // telemetry.addData("Pitch: ", imu.getPitch());
+    }
 
     public void stop() {
         gold.disable();
