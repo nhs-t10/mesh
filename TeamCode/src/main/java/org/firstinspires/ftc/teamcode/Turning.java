@@ -54,10 +54,10 @@ public class Turning{
             if (getCurrTime()-savedTime>2000) {
                 stopTurning();
             }else {
-                T10_Library.omni(0f, 0f, (float) (pComponent));
+                T10_Library.omni(0f, (float) (pComponent), 0f);
             }
         } else if(currentEvent==state.TRAVELING_IN_A_LINEAR_FASHION){
-            T10_Library.omni(0.5f,0f, (float)pComponent);
+            T10_Library.omni(0.5f,(float) (pComponent), 0f);
         }
     }
     public void stopTurning(){

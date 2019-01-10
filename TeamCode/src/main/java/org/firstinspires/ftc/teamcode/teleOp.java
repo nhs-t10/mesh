@@ -51,10 +51,10 @@ public class teleOp extends T10_Library
         if(mode == DRIVING.Fast) {
             omni(linear, rotation, side);} // fast driving
 
-        if(gamepad1.left_bumper){
+        if(gamepad2.left_bumper){
             latchMotor.setPower(-1f); //changed this to gamepad 2
         }
-        else if (gamepad1.right_bumper){ //this is also gamepad2
+        else if (gamepad2.right_bumper){ //this is also gamepad2
             latchMotor.setPower(1f);
         }
 

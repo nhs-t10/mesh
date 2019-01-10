@@ -108,7 +108,7 @@ public class DepotAuto extends T10_Library {
             else{
                 omni(0,-.3f,0);
             }
-            if(Math.abs(imu.getAngle()) > 220.0 && !gold.isFound()){
+            if(Math.abs(imu.getAngle()) > 45.0 && !gold.isFound()){
                 turnRight = false;
             }
         }
@@ -128,8 +128,8 @@ public class DepotAuto extends T10_Library {
                 omni(-.4f,0,0);
                 latchMotor.setPower(-1f);
             } else if (clock.seconds() > 2.7 && clock.seconds() < 4.7) {
+                latchMotor.setPower(0);
                 if(gold.position == GoldAlignDetector.gold_position.LEFT) {
-                    latchMotor.setPower(0);
                     turner.setDestination(45);
                     turner.update(imu);
                 }
@@ -149,7 +149,7 @@ public class DepotAuto extends T10_Library {
         if (!moving) {
             clock.reset();
             moving = true;
-        } else if (clock.seconds() < 2) {
+        } else if (clock.seconds() < 1) {
             turner.setDestination(0);
         } else if (clock.seconds() > 1 && clock.seconds() < 2.5) {
 //            stopDrive();
