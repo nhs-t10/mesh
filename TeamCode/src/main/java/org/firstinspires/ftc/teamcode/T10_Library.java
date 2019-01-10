@@ -2,15 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.CraterDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.HoughSilverDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SilverDetector;
-import com.disnodeteam.dogecv.scoring.MaxAreaScorer;
-import com.disnodeteam.dogecv.scoring.PerfectAreaScorer;
-import com.disnodeteam.dogecv.scoring.RatioScorer;
+import com.qualcomm.hardware.rev.RevTouchSensor;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.exception.RobotCoreException;
-import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,29 +15,46 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-//import org.firstinspires.ftc.teamcode.imuData;
-import java.util.Arrays;
-import java.util.Collections;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch;
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
 
 public abstract class T10_Library extends OpMode {
+
     /**
      *  Library for the upcoming 2018-2019 FTC Competition
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-    public static DcMotor frontRight, frontLeft, backRight, backLeft, armMotor;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft, latchMotor, scoreMotor;
+    //public static TouchSensor touch1;
+    //public static TouchSensor touch2;
 
-    public static Servo armServo;
+            //armMotorLeft, armMotorRight, intakeMotor;
 
+    public static Servo markServo;
     GoldAlignDetector gold = null;
+    // CraterDetector crater = null;
     public static ColorSensor color;
-    // public static Servo leftIntake, rightIntake;
+    public static CRServo leftIntake, rightIntake;
+    public static Servo gate;
 
     // Constants
     static float attenuationfactor;
     static double initial_position = 0;
     static double moveRate = .005;
     static boolean servosMoving = false;
+
+    ElapsedTime clock = new ElapsedTime();
+    ElapsedTime time = new ElapsedTime();
+
+    double ServoPosition = 0.0;
 
 
     public DRIVING mode;
@@ -70,6 +84,13 @@ public abstract class T10_Library extends OpMode {
         gold.enable();
     }
 
+//    public void init_crater(){
+//        crater = new CraterDetector();
+//        crater.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+//        crater.useDefaults();
+//        crater.enable();
+//    }
+
     // public DcMotor hanger1, hanger2;
     public void initialize_robot() {
         /*
@@ -82,11 +103,18 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
-        armMotor = hardwareMap.dcMotor.get("m4");
-        armServo = hardwareMap.servo.get("s0");
-        //leftIntake = hardwareMap.servo.get("s0");
-        //rightIntake = hardwareMap.servo.get("s1");
-        // color = hardwareMap.colorSensor.get("c1");
+        //touch1 = hardwareMap.touchSensor.get("touch1");
+        //touch2 = hardwareMap.touchSensor.get("touch2");
+        latchMotor = hardwareMap.dcMotor.get("m4");
+        scoreMotor = hardwareMap.dcMotor.get("m5");
+
+        gate = hardwareMap.servo.get("s0");
+        markServo = hardwareMap.servo.get("s1");
+        leftIntake = hardwareMap.crservo.get("cr1");
+        rightIntake = hardwareMap.crservo.get("cr2");
+        //armServo = hardwareMap.crservo.get("s0");
+
+
         init_cv();
         mode = DRIVING.Medium;
         telemetry.addData("Working","All systems go!");;
@@ -109,28 +137,11 @@ public abstract class T10_Library extends OpMode {
         //power settings for motors.
     }
 
-    public static void armtest(boolean e)
-    {
-        armServo.setPosition(0.6);
-    }
-
 
 //    public void getColorValues(){
 //        telemetry.addData("Red", csensor1.red());
 //        telemetry.addData("Blue", csensor1.blue());
 //        telemetry.addData("argb", csensor1.argb());
-//    }
-
-//    public void moveServos(){
-//        servosMoving = true;
-//        leftIntake.setPosition(1); //setposition is the same as setpower when declaring regular servos
-//        rightIntake.setPosition(0); // 0 means max speed counter-clockwise, 1 means max speed clockwise
-//    }
-//
-//    public void restServos(){
-//        servosMoving = false;
-//        leftIntake.setPosition(.5);
-//        rightIntake.setPosition(.5);
 //    }
 
 
@@ -183,25 +194,67 @@ public abstract class T10_Library extends OpMode {
         omni(0,0,0);
     }
 
-    /*
-    Driving for x seconds
-    @param: time, in seconds
-    @return: void, sets motor power
- */
-    public void driveFor(double time){
-        long currentTime = System.currentTimeMillis();
-        double finalTime = currentTime + (time * 1000);
-        while (currentTime < finalTime){
-            omni(1, 0, 0);
+    public void sleep(int millis) {
+        try {
+            telemetry.addData("Sleep", "Sleeping for "+millis/1000.0+" seconds");
+            Thread.sleep(millis);
+        } catch (Exception err) {
+            telemetry.addData("Sleep machine br0ke: ", err);
         }
     }
 
-    public void sleep(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (Exception err) {
-            telemetry.addData("Stopped Robot", "69");
+    public boolean driveFor(double seconds, float l, float r, float s){
+        omni(l,r,s);
+
+        clock.reset();
+        if(clock.seconds() > seconds) {
+            omni(0, 0, 0);
+        } else {
+            return false;
         }
+        return true;
+    }
+
+//    public void setArmMotorPower(float power){
+//        armMotorLeft.setPower(power);
+//        armMotorRight.setPower(power);
+//    }
+//
+//    public void ExtendArm(){
+//        extendServoRight.setPosition(ServoPosition);
+//        extendServoLeft.setPosition(-ServoPosition);
+//        ServoPosition += .05;
+//    }
+//    public void RetractArm(){
+//        ServoPosition -= .05;
+//        extendServoRight.setPosition(ServoPosition);
+//        extendServoLeft.setPosition(-ServoPosition);
+//    }
+//
+//    public void setIntakePower(float power){
+//        intakeMotor.setPower(power);
+//    }
+
+//    public void expelliarmus() {
+//
+//    }
+
+
+
+
+    public void dispense_marker(){
+        telemetry.addData("Marker: ", "Deployed");
+    }
+
+    public void sayHooray(){
+        telemetry.addData("Hooray!", "hip hip");
+    }
+
+    // MACROS
+
+    public void intake(int a){
+        leftIntake.setPower(a);
+        rightIntake.setPower(-a);
     }
 
 }
