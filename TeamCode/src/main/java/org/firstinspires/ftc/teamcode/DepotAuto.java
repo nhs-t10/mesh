@@ -62,13 +62,12 @@ public class DepotAuto extends T10_Library {
         if(currentState == state.MARKING){
             mark();
         }
-//        if(currentState == state.WALL){
-//            wall();
-//        }
-//
-//        if(currentState == state.CRATER){
-//            crater();
-//        }
+        if(currentState == state.WALL){
+            wall();
+        }
+        if(currentState == state.CRATER){
+            crater();
+        }
         telemetry.addData("Current State: ", currentState);
         telemetry.addData("Millis since run: ", clock.milliseconds());
         telemetry.addData("Current Angle: ", imu.getAngle());
@@ -79,14 +78,15 @@ public class DepotAuto extends T10_Library {
         if (!moving) {
             clock.reset();
             moving = true;
-        } else if (clock.seconds() < 19.5) {
-            latchMotor.setPower(1f);
         }
-        else if (clock.seconds() > 19.5 && clock.seconds() < 19.75){
-            omni(-1f,0,0);
-            latchMotor.setPower(0);
-        }
-        else{
+//        } else if (clock.seconds() < 19.5) {
+//            stopDrive();
+//        }
+//        else if (clock.seconds() > 19.5 && clock.seconds() < 19.75){
+//            omni(-1f,0,0);
+//            latchMotor.setPower(0);
+//        }
+        else {
             moving = false;
             currentState = state.TURNING;
         }
@@ -126,15 +126,15 @@ public class DepotAuto extends T10_Library {
                 moving=true;
             } else if (clock.seconds()<2.7) {
                 omni(-.4f,0,0);
-                latchMotor.setPower(-1f);
+                //latchMotor.setPower(-1f);
             } else if (clock.seconds() > 2.7 && clock.seconds() < 4.7) {
                 latchMotor.setPower(0);
                 if(gold.position == GoldAlignDetector.gold_position.LEFT) {
-                    turner.setDestination(45);
+                    turner.setDestination(-45);
                     turner.update(imu);
                 }
                 else if (gold.position == GoldAlignDetector.gold_position.RIGHT){
-                    turner.setDestination(-45);
+                    turner.setDestination(45);
                     turner.update(imu);
                 }
             } else {
@@ -150,12 +150,11 @@ public class DepotAuto extends T10_Library {
             clock.reset();
             moving = true;
         } else if (clock.seconds() < 1) {
-            turner.setDestination(0);
-        } else if (clock.seconds() > 1 && clock.seconds() < 2.5) {
-//            stopDrive();
-//            markServo.setPosition(1);
-            omni(1f,0f,0f);
-        } else if (clock.seconds() > 2.5 && clock.seconds() < 3) {
+            omni(-.7f,0,0);
+        } else if (clock.seconds() > 1 && clock.seconds() < 2) {
+            omni(0,0,.5f);
+            //markServo.setPosition(1);
+        } else if (clock.seconds() > 2 && clock.seconds() < 3) {
             markServo.setPosition(1);
         }
         else{
@@ -164,34 +163,34 @@ public class DepotAuto extends T10_Library {
         }
     }
 
-//    public void wall(){
-//        if(!moving){
-//            clock.reset();
-//            moving=true;
-//        } else if (clock.seconds()<1.7){
-//            omni(0,0,.5f);
-//        } else {
-//            omni(0,0,0);
-//            moving = false;
-//            currentState=state.CRATER;
-//        }
-//    }
-//
-//
-//    public void crater(){
-//        if(!moving){
-//            clock.reset();
-//            moving=true;
-//        } else if (clock.seconds()<10 && imu.getPitch()<-83){
-//
-//            omni(-.66f,0,0f);
-//        } else {
-//            omni(0,0,0);
-//            moving = false;
-//            currentState=state.STOP;
-//        }
-//        telemetry.addData("Pitch: ", imu.getPitch());
-//    }
+    public void wall(){
+        if(!moving){
+            clock.reset();
+            moving=true;
+        } else if (clock.seconds()<1.7){
+            omni(0,0,.5f);
+        } else {
+            omni(0,0,0);
+            moving = false;
+            currentState=state.CRATER;
+        }
+    }
+
+
+    public void crater(){
+        if(!moving){
+            clock.reset();
+            moving=true;
+        } else if (clock.seconds()<10 && imu.getPitch()<-83){
+
+            omni(.66f,0,0f);
+        } else {
+            omni(0,0,0);
+            moving = false;
+            currentState=state.STOP;
+        }
+        telemetry.addData("Pitch: ", imu.getPitch());
+    }
 
     public void stop() {
         gold.disable();
