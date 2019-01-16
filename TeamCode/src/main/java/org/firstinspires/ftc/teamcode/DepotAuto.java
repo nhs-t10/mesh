@@ -99,6 +99,7 @@ public class DepotAuto extends T10_Library {
             gold.takeScreenshot();
             angleTurned = imu.getAngle();
             moving=false;
+            gold.disable();
             currentState = state.SAMPLING;
         }
         else{
@@ -130,11 +131,11 @@ public class DepotAuto extends T10_Library {
             } else if (clock.seconds() > 2.7 && clock.seconds() < 4.7) {
                 latchMotor.setPower(0);
                 if(gold.position == GoldAlignDetector.gold_position.LEFT) {
-                    turner.setDestination(-45);
+                    turner.setDestination(45);
                     turner.update(imu);
                 }
                 else if (gold.position == GoldAlignDetector.gold_position.RIGHT){
-                    turner.setDestination(45);
+                    turner.setDestination(-45);
                     turner.update(imu);
                 }
             } else {
@@ -151,10 +152,10 @@ public class DepotAuto extends T10_Library {
             moving = true;
         } else if (clock.seconds() < 1) {
             omni(-.7f,0,0);
-        } else if (clock.seconds() > 1 && clock.seconds() < 2) {
-            omni(0,0,.5f);
+        } else if (clock.seconds() > 1 && clock.seconds() < 2.5) {
+            omni(0,0,-.5f);
             //markServo.setPosition(1);
-        } else if (clock.seconds() > 2 && clock.seconds() < 3) {
+        } else if (clock.seconds() > 2.5 && clock.seconds() < 3) {
             markServo.setPosition(1);
         }
         else{
@@ -168,7 +169,7 @@ public class DepotAuto extends T10_Library {
             clock.reset();
             moving=true;
         } else if (clock.seconds()<1.7){
-            omni(0,0,.5f);
+            omni(.2f,0,0f);
         } else {
             omni(0,0,0);
             moving = false;
