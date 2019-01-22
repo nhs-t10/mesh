@@ -79,14 +79,11 @@ public class DepotAuto extends T10_Library {
             clock.reset();
             moving = true;
         }
-//        } else if (clock.seconds() < 19.5) {
-//            stopDrive();
-//        }
-//        else if (clock.seconds() > 19.5 && clock.seconds() < 19.75){
-//            omni(-1f,0,0);
-//            latchMotor.setPower(0);
-//        }
+        else if(!latchLimit.isPressed()){
+            scoreMotor.setPower(1f);
+        }
         else {
+            scoreMotor.setPower(0f);
             moving = false;
             currentState = state.TURNING;
         }
@@ -131,11 +128,11 @@ public class DepotAuto extends T10_Library {
             } else if (clock.seconds() > 2.7 && clock.seconds() < 4.7) {
                 latchMotor.setPower(0);
                 if(gold.position == GoldAlignDetector.gold_position.LEFT) {
-                    turner.setDestination(45);
+                    turner.setDestination(45f);
                     turner.update(imu);
                 }
                 else if (gold.position == GoldAlignDetector.gold_position.RIGHT){
-                    turner.setDestination(-45);
+                    turner.setDestination(-45f);
                     turner.update(imu);
                 }
             } else {
@@ -196,6 +193,5 @@ public class DepotAuto extends T10_Library {
     public void stop() {
         gold.disable();
     }
-
 
 }

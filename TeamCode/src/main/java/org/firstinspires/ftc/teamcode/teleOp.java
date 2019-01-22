@@ -51,7 +51,7 @@ public class teleOp extends T10_Library
         if(mode == DRIVING.Fast) {
             omni(linear, rotation, side);} // fast driving
 
-        if(gamepad2.left_bumper){
+        if(gamepad2.left_bumper && !latchLimit.isPressed()){
             latchMotor.setPower(-1f); //changed this to gamepad 2
         }
         else if (gamepad2.right_bumper){ //this is also gamepad2
@@ -60,11 +60,6 @@ public class teleOp extends T10_Library
 
         else{
             latchMotor.setPower(0f);
-        }
-
-        if(gamepad2.y){    //changed to gamepad 2
-            markServo.setPosition(i%2);
-            i++;
         }
 
         if(gamepad2.left_trigger > 0){
@@ -77,29 +72,26 @@ public class teleOp extends T10_Library
             scoreMotor.setPower(0f);
         }
 
-        if(gamepad2.a){   //changed to gp2
-            intake = true;
-            if(intake) {
-                intake(1);
+        if(gamepad1.a){
+            if(intake){
+                intake = false;
             }
-        }
-        else {
-            intake(0);
+            intake = true;
         }
 
-        if(gamepad2.x) {    //changed to gb2
-            gate.setPosition(1);
+        if(intake){
+            intakeMotor.setPower(1f);
         }
-        else {
-            gate.setPosition(0);
+        else{
+            intakeMotor.setPower(0f);
         }
+
 
 
         telemetry.addData("Current Angle?", imu.getAngle());
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Driving Mode:",mode);
-        telemetry.addData("Gate position?", gate.getPosition());
-        telemetry.addData("Time taken to de-latch: ", t.milliseconds());
+
 
         //sending inputs to omni code
 //        if(gamepad1.a && !turn){
