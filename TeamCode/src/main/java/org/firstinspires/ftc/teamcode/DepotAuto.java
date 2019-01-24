@@ -62,25 +62,25 @@ public class DepotAuto extends T10_Library {
         if(currentState == state.MARKING){
             mark();
         }
-        if(currentState == state.WALL){
-            wall();
-        }
         if(currentState == state.CRATER){
             crater();
         }
         telemetry.addData("Current State: ", currentState);
-        telemetry.addData("Millis since run: ", clock.milliseconds());
+        telemetry.addData("Millis since run: ", clock.seconds());
         telemetry.addData("Current Angle: ", imu.getAngle());
         telemetry.addData("Gold Position:", gold.position);
     }
 
     public void start_auto() {
-        if (!moving) {
+        if(!latchLimit.isPressed()){
+            latchMotor.setPower(-1f);
+        }
+        else if (!moving) {
             clock.reset();
             moving = true;
         }
-        else if(!latchLimit.isPressed()){
-            scoreMotor.setPower(1f);
+        else if(clock.seconds() < .25){
+            omni(-.5f,0,0);
         }
         else {
             scoreMotor.setPower(0f);
@@ -101,10 +101,10 @@ public class DepotAuto extends T10_Library {
         }
         else{
             if(turnRight){
-                omni(0,.3f,0);
+                omni(0,.35f,0);
             }
             else{
-                omni(0,-.3f,0);
+                omni(0,-.35f,0);
             }
             if(Math.abs(imu.getAngle()) > 45.0 && !gold.isFound()){
                 turnRight = false;
@@ -122,19 +122,13 @@ public class DepotAuto extends T10_Library {
             if(!moving){
                 clock.reset();
                 moving=true;
-            } else if (clock.seconds()<2.7) {
-                omni(-.4f,0,0);
+            } else if (clock.seconds()<1) {
+                omni(-1f,0,0);
                 //latchMotor.setPower(-1f);
-            } else if (clock.seconds() > 2.7 && clock.seconds() < 4.7) {
-                latchMotor.setPower(0);
-                if(gold.position == GoldAlignDetector.gold_position.LEFT) {
-                    turner.setDestination(45f);
-                    turner.update(imu);
-                }
-                else if (gold.position == GoldAlignDetector.gold_position.RIGHT){
-                    turner.setDestination(-45f);
-                    turner.update(imu);
-                }
+            }
+            else if (clock.seconds() > 1 && clock.seconds() < 3){
+                turner.setDestination(45);
+                turner.update(imu);
             } else {
                 stopDrive();
                 moving = false;
@@ -147,42 +141,33 @@ public class DepotAuto extends T10_Library {
         if (!moving) {
             clock.reset();
             moving = true;
-        } else if (clock.seconds() < 1) {
-            omni(-.7f,0,0);
-        } else if (clock.seconds() > 1 && clock.seconds() < 2.5) {
-            omni(0,0,-.5f);
+        } else if (clock.seconds() < 1.2) {
+            omni(-.85f,0,0);
+        } else if (clock.seconds() > 1.2 && clock.seconds() < 2.8) {
+            omni(0,0,-.8f);
             //markServo.setPosition(1);
-        } else if (clock.seconds() > 2.5 && clock.seconds() < 3) {
-            markServo.setPosition(1);
+        } else if (clock.seconds() > 2.8 && !biLiftUp.isPressed()) {
+            stopDrive();
+            scoreMotor.setPower(1f);
         }
         else{
             moving = false;
-            currentState = state.WALL;
+            currentState = state.CRATER;
         }
     }
-
-    public void wall(){
-        if(!moving){
-            clock.reset();
-            moving=true;
-        } else if (clock.seconds()<1.7){
-            omni(.2f,0,0f);
-        } else {
-            omni(0,0,0);
-            moving = false;
-            currentState=state.CRATER;
-        }
-    }
-
 
     public void crater(){
         if(!moving){
             clock.reset();
             moving=true;
-        } else if (clock.seconds()<10 && imu.getPitch()<-83){
-
-            omni(.66f,0,0f);
-        } else {
+        } else if (clock.seconds()<2){
+            omni(0,0,-.5f);
+            scoreMotor.setPower(-1f);
+        } else if (clock.seconds() > 2.0 && clock.seconds() < 3.5) {
+            scoreMotor.setPower(-1f);
+        }
+        else{
+            scoreMotor.setPower(0f);
             omni(0,0,0);
             moving = false;
             currentState=state.STOP;

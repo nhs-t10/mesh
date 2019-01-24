@@ -83,7 +83,7 @@ public class CraterAuto extends T10_Library {
             clock.reset();
             moving = true;
         } else if (!latchLimit.isPressed()) {
-            latchMotor.setPower(1f);
+            latchMotor.setPower(-1f);
         }
         else if (moving && clock.seconds() < .5){
             omni(-1f,0,0);

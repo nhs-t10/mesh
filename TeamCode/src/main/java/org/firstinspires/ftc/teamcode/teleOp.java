@@ -51,32 +51,34 @@ public class teleOp extends T10_Library
         if(mode == DRIVING.Fast) {
             omni(linear, rotation, side);} // fast driving
 
-        if(gamepad2.left_bumper && !latchLimit.isPressed()){
-            latchMotor.setPower(-1f); //changed this to gamepad 2
+        if(gamepad2.left_bumper){
+            latchMotor.setPower(1f); //changed this to gamepad 2
         }
-        else if (gamepad2.right_bumper){ //this is also gamepad2
-            latchMotor.setPower(1f);
+        else if (gamepad2.right_bumper  && !latchLimit.isPressed()){ //this is also gamepad2
+            latchMotor.setPower(-1f);
         }
 
         else{
             latchMotor.setPower(0f);
         }
 
-        if(gamepad2.left_trigger > 0){
+        if(gamepad2.left_trigger > 0 && !biLiftUp.isPressed()){
             scoreMotor.setPower(-gamepad2.left_trigger);
         }
-        else if (gamepad2.right_trigger > 0){
+        else if (gamepad2.right_trigger > 0 && !biLiftDown.isPressed()){
             scoreMotor.setPower(gamepad2.right_trigger);  //changed these to gp2
         }
         else{
             scoreMotor.setPower(0f);
         }
 
-        if(gamepad1.a){
+        if(gamepad1.y){
             if(intake){
                 intake = false;
             }
-            intake = true;
+            else {
+                intake = true;
+            }
         }
 
         if(intake){
@@ -85,7 +87,6 @@ public class teleOp extends T10_Library
         else{
             intakeMotor.setPower(0f);
         }
-
 
 
         telemetry.addData("Current Angle?", imu.getAngle());

@@ -33,7 +33,7 @@ public abstract class T10_Library extends OpMode {
      *  autonomous and teleop usage.
      */
     public static DcMotor frontRight, frontLeft, backRight, backLeft, latchMotor, scoreMotor, intakeMotor;
-    public static TouchSensor latchLimit;
+    public static TouchSensor latchLimit, biLiftUp, biLiftDown;
     //public static TouchSensor touch2;
 
             //armMotorLeft, armMotorRight, intakeMotor;
@@ -105,6 +105,8 @@ public abstract class T10_Library extends OpMode {
         scoreMotor = hardwareMap.dcMotor.get("m5");
         intakeMotor = hardwareMap.dcMotor.get("m6");
         // Servos for Scoring
+        biLiftUp = hardwareMap.touchSensor.get("biUp");
+        biLiftDown = hardwareMap.touchSensor.get("biDown");
 
 
 
