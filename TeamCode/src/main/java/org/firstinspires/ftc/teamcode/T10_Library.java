@@ -34,6 +34,7 @@ public abstract class T10_Library extends OpMode {
      */
     public static DcMotor frontRight, frontLeft, backRight, backLeft, latchMotor, scoreMotor, intakeMotor;
     public static TouchSensor latchLimit, biLiftUp, biLiftDown;
+    public static Servo markServo, dumpServo;
     //public static TouchSensor touch2;
 
             //armMotorLeft, armMotorRight, intakeMotor;
@@ -107,6 +108,8 @@ public abstract class T10_Library extends OpMode {
         // Servos for Scoring
         biLiftUp = hardwareMap.touchSensor.get("biUp");
         biLiftDown = hardwareMap.touchSensor.get("biDown");
+        markServo = hardwareMap.servo.get("s0");
+        dumpServo = hardwareMap.servo.get("s1");
 
 
 
@@ -245,9 +248,11 @@ public abstract class T10_Library extends OpMode {
         telemetry.addData("Hooray!", "hip hip");
     }
 
-    public void intake(){
-
-
+    public void shutdown(){
+        latchMotor.setPower(0);
+        scoreMotor.setPower(0);
+        intakeMotor.setPower(0);
+        stopDrive();
     }
 
 }

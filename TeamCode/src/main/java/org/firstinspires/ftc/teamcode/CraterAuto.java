@@ -86,7 +86,7 @@ public class CraterAuto extends T10_Library {
             latchMotor.setPower(-1f);
         }
         else if (moving && clock.seconds() < .5){
-            omni(-1f,0,0);
+            omni(-.25f,0,0);
             latchMotor.setPower(0);
         }
         else{
@@ -126,8 +126,8 @@ public class CraterAuto extends T10_Library {
             if(!startedMove){
                 clock.reset();
                 startedMove=true;
-            } else if (clock.seconds()<1.5){
-                omni(-.4f,0,0);
+            } else if (clock.seconds()<2.2){
+                omni(-.42f,0,0);
             } else {
                 stopDrive();
                 currentState= state.TURNCRATER; //temporary, while lift is slow
@@ -141,7 +141,8 @@ public class CraterAuto extends T10_Library {
             clock.reset();
             hasturned=true;
         } else if (clock.seconds()<2){
-            turner.setDestination(-90);
+            latchMotor.setPower(.8);
+            turner.setDestination(90);
             turner.update(imu);
         } else {
             stopDrive();
@@ -153,9 +154,10 @@ public class CraterAuto extends T10_Library {
         if(!startedWall){
             clock.reset();
             startedWall=true;
-        } else if (clock.seconds()<.85){
+        } else if (clock.seconds()<2.7){
             scoreMotor.setPower(-1f);
         } else {
+            latchMotor.setPower(0);
             scoreMotor.setPower(0);
             omni(0,0,0);
             currentState= state.STOP;
