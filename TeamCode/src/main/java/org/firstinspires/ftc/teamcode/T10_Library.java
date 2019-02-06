@@ -35,7 +35,7 @@ public abstract class T10_Library extends OpMode {
     public static DcMotor frontRight, frontLeft, backRight, backLeft, latchMotor, scoreMotor, intakeMotor;
     public static TouchSensor latchLimit, biLiftUp, biLiftDown;
     public static Servo markServo, dumpServo;
-    //public static TouchSensor touch2;
+    public static TouchSensor sideButton;
 
             //armMotorLeft, armMotorRight, intakeMotor;
 
@@ -101,7 +101,7 @@ public abstract class T10_Library extends OpMode {
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
         latchLimit = hardwareMap.touchSensor.get("touch1");
-        //touch2 = hardwareMap.touchSensor.get("touch2");
+        sideButton = hardwareMap.touchSensor.get("touch2");
         latchMotor = hardwareMap.dcMotor.get("m4");
         scoreMotor = hardwareMap.dcMotor.get("m5");
         intakeMotor = hardwareMap.dcMotor.get("m6");
