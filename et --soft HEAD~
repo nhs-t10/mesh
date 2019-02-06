@@ -1,0 +1,522 @@
+[33mcommit e0f04d333554a7a07385c6223e554b17fba39ba3[m
+Merge: bc13d9d 988f0c6
+Author: sean huang <seanhuang0218@gmail.com>
+Date:   Tue Jan 8 18:59:21 2019 -0500
+
+    Merge branch 'master' of https://github.com/nhs-t10/mesh
+    
+    Conflicts:
+    	.idea/libraries/Gradle__Blocks_release__aar.xml
+    	.idea/libraries/Gradle__FtcCommon_release__aar.xml
+    	.idea/libraries/Gradle__Hardware_release__aar.xml
+    	.idea/libraries/Gradle__Inspection_release__aar.xml
+    	.idea/libraries/Gradle__RobotCore_release__aar.xml
+    	.idea/libraries/Gradle__WirelessP2p_release__aar.xml
+    	TeamCode/src/main/java/org/firstinspires/ftc/teamcode/DepotAuto.java
+    	TeamCode/src/main/java/org/firstinspires/ftc/teamcode/T10_Library.java
+    	TeamCode/src/main/java/org/firstinspires/ftc/teamcode/teleOp.java
+
+[33mcommit bc13d9d93879cb9d078a872d3210d6f2914aa8f0[m
+Author: sean huang <seanhuang0218@gmail.com>
+Date:   Tue Jan 8 18:58:12 2019 -0500
+
+    test
+
+[33mcommit 988f0c6cfc0da62e03eed4cb46fd54608a7d4c62[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Sat Jan 5 14:51:50 2019 -0500
+
+    fixed stuff
+
+[33mcommit a248a7f7ca2fdbdc4bbffb712b64744957227b68[m
+Author: shaashwat <shaash317@gmail.com>
+Date:   Thu Jan 3 23:53:32 2019 -0500
+
+    fixed auto
+
+[33mcommit 4572703653bdeb440e8106586de9d6ab64ac50f3[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Thu Jan 3 14:53:44 2019 -0500
+
+    push before quali
+
+[33mcommit 97914085aba77beecc9d1639a1dc4a4fd5b99853[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Thu Jan 3 14:49:24 2019 -0500
+
+    push before quali
+
+[33mcommit 2a7d24ff80358d70337825a8a2b8c126b29ea840[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Sat Dec 29 19:47:32 2018 -0500
+
+    Added CV Threshold configuration & lift support
+
+[33mcommit 7bda601eed70abe713333ee5bbc6b5d803de535a[m
+Author: TheGreatRambler <aehart684351@gmail.com>
+Date:   Thu Dec 20 00:04:57 2018 -0500
+
+    hi
+
+[33mcommit 21828d804c04489b8b0e89e7026fd74a01f1d954[m
+Author: shaashwat <shaash317@gmail.com>
+Date:   Thu Dec 6 16:07:17 2018 -0500
+
+    yee'
+
+[33mcommit ea2e7a33eadb8620eb0f4b509322e54ef35ad36c[m
+Author: shaashwat <shaash317@gmail.com>
+Date:   Thu Dec 6 15:12:12 2018 -0500
+
+    update blue (and red) depot auto
+
+[33mcommit 21cec9f761f5083a6b4f7483bfb5ca955f0da1b0[m
+Merge: 8d6b8a5 88efa82
+Author: sean huang <seanhuang0218@gmail.com>
+Date:   Tue Dec 4 19:40:51 2018 -0500
+
+    added driving straight via more enums
+
+[33mcommit 8d6b8a5a1cd6e0014396575a41fcfccb9fe3646c[m
+Author: sean huang <seanhuang0218@gmail.com>
+Date:   Tue Dec 4 19:35:56 2018 -0500
+
+    started the driving straight
+
+[33mcommit 88efa822f47ec363774975ead356d18437e2fea2[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Sat Dec 1 11:39:58 2018 -0500
+
+    Competition push, depot autonomous works great!
+
+[33mcommit 2f425bbb4f5d3f696860d9116d77960068f744b1[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Thu Nov 29 22:07:33 2018 -0500
+
+    Auto should work for crater with camera facing back of robot
+
+[33mcommit acb4090826061ba0b462f61e53369345d7ae8cfe[m
+Author: shaashwat <shaash317@gmail.com>
+Date:   Thu Nov 29 16:03:15 2018 -0500
+
+    added more autonomi
+
+[33mcommit 331047f149ce75f0e5bab05de4da9cfbf821063c[m
+Merge: 896c431 addccff
+Author: shaashwat <shaash317@gmail.com>
+Date:   Thu Nov 29 15:14:39 2018 -0500
+
+    no merge conflicts!
+
+[33mcommit 896c4317c621ef4e28271d745a4d2681b73da9d5[m
+Author: shaashwat <shaash317@gmail.com>
+Date:   Thu Nov 29 15:14:02 2018 -0500
+
+    finished auto
+
+[33mcommit addccff09e223cf04554c0d3196d463b6a5c9fff[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Thu Nov 29 15:12:36 2018 -0500
+
+    Finished Teleop
+
+[33mcommit bba99e72492fe1c24b18a75d80809eed3d130abe[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Thu Nov 29 14:38:10 2018 -0500
+
+    Day before scrimmage commit
+
+[33mcommit 64045eb2483a7f502873a15d3cbe8facd5aeced7[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Wed Nov 28 19:42:25 2018 -0500
+
+    AUTO MONEY MOVES PART 2: WE BOOLEAN
+
+[33mcommit da5402a2f34c874366a10335b856a64683f2244a[m
+Author: shaashwat <shaash317@gmail.com>
+Date:   Tue Nov 27 20:07:44 2018 -0500
+
+    turning and switching to marked, works
+
+[33mcommit f7aac5f56190a291bacc83204e003da59fa6d1fe[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Nov 27 18:40:55 2018 -0500
+
+    Auto sampling stuff
+
+[33mcommit 470c5f0d06111fd489ffeaebbbe46c15e808dcdf[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Wed Nov 21 12:06:35 2018 -0500
+
+    More auto tests, added CubeScorer.
+
+[33mcommit f4431d4bde1ea4192d25286809c7864c57838c8a[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Fri Nov 16 23:16:04 2018 -0500
+
+    Money moves for auto
+
+[33mcommit d1c14b38a214e3e4541001fe5fc695f753dcfde4[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Thu Nov 15 16:25:39 2018 -0500
+
+    Updated teleop and dogecv
+
+[33mcommit 2841582861a12fcbd6a7253cc11da0505c60d68d[m
+Merge: 6ca3caf 19865cb
+Author: sean huang <seanhuang0218@gmail.com>
+Date:   Tue Nov 13 19:41:26 2018 -0500
+
+    merged cv with pid
+
+[33mcommit 6ca3caf6a5b346ef043652754ca18548a05376e0[m
+Author: sean huang <seanhuang0218@gmail.com>
+Date:   Tue Nov 13 19:28:24 2018 -0500
+
+    test
+
+[33mcommit 47a1deb6bb5f4645780e1a8bcda135535d557211[m
+Author: sean huang <seanhuang0218@gmail.com>
+Date:   Tue Nov 13 19:14:59 2018 -0500
+
+    P works
+
+[33mcommit 19865cb43b8be175a5fe882da19a1219c835891a[m
+Author: sean huang <seanhuang0218@gmail.com>
+Date:   Thu Nov 8 15:11:56 2018 -0500
+
+    die
+
+[33mcommit accd36d97d554e0e0b1e338e0cf743878529abf5[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Thu Nov 8 14:53:41 2018 -0500
+
+    new auto
+
+[33mcommit 36a3dc8df6164d8daa8ca94c8841e27a1e813b7c[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Wed Nov 7 11:10:05 2018 -0500
+
+    Automous v.0.1.1 works!
+
+[33mcommit 56cb646a3a1e4b4d3db48b3cabd474920dc141bd[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Nov 6 20:02:11 2018 -0500
+
+    Autonomous v.0.1.1
+
+[33mcommit d19267a1da109cad43efb358bd9f30c66a334b11[m
+Author: alko08 <amk211@students.needham.k12.ma.us>
+Date:   Tue Nov 6 19:31:07 2018 -0500
+
+    Have a precise and workin PID
+
+[33mcommit d676b510cedd60dc0728fc6cc5e5147c4b427793[m
+Merge: 3e6e63e e5c117c
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Nov 6 19:06:45 2018 -0500
+
+    changes 11/6
+
+[33mcommit 3e6e63e6c56d92ca6b2abf2e597a42fb8db48274[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Nov 6 19:04:36 2018 -0500
+
+    changes 11/6
+
+[33mcommit e5c117c2b772c55306ae1aa5109489124d07cfa0[m
+Merge: 9f76203 2712465
+Author: Alex Malakov <32112772+AlexMHS@users.noreply.github.com>
+Date:   Thu Nov 1 19:15:58 2018 -0400
+
+    Merge remote-tracking branch 'origin/davis' into davis
+
+[33mcommit 9f762039637e39abd96b37a9f1289de98cdd5c4f[m
+Author: Alex Malakov <32112772+AlexMHS@users.noreply.github.com>
+Date:   Thu Nov 1 19:15:53 2018 -0400
+
+    Revert "Merge remote-tracking branch 'origin/davis' into davis"
+    
+    This reverts commit 2712465dfc083642905e8ec008c4f9428339b0e8, reversing
+    changes made to 0f32e3d6d7f5e1def64ccbf1087715ead9109821.
+
+[33mcommit 2712465dfc083642905e8ec008c4f9428339b0e8[m
+Merge: 0f32e3d 0329824
+Author: Alex Malakov <32112772+AlexMHS@users.noreply.github.com>
+Date:   Thu Nov 1 19:10:15 2018 -0400
+
+    Merge remote-tracking branch 'origin/davis' into davis
+
+[33mcommit 0f32e3d6d7f5e1def64ccbf1087715ead9109821[m
+Author: Alex Malakov <32112772+AlexMHS@users.noreply.github.com>
+Date:   Thu Nov 1 19:09:38 2018 -0400
+
+    ignored changes in .idea folder + killed mile of red
+
+[33mcommit 03298243b056fad542f291220bbb0d9d9cd1feb3[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Thu Nov 1 15:20:47 2018 -0400
+
+    Push 11/1
+
+[33mcommit 08d0bbae86b00a90fd412ee9f517a1fab20b94b0[m
+Author: alko08 <amk211@students.needham.k12.ma.us>
+Date:   Tue Oct 30 20:11:11 2018 -0400
+
+    Have a working PD, need to tune tho
+
+[33mcommit 6e54bc4559c6f74adf4009fe90714c9186da2db0[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Oct 30 19:39:59 2018 -0400
+
+    ignore .idea
+
+[33mcommit a48f3a365f6639864ad66803e344dc1466584a4d[m
+Author: alko08 <amk211@students.needham.k12.ma.us>
+Date:   Tue Oct 30 19:03:51 2018 -0400
+
+    Testing D
+
+[33mcommit 9cbd942ad697677b3699146add6600a413127539[m
+Author: shaashwat <shaash317@gmail.com>
+Date:   Tue Oct 30 18:37:14 2018 -0400
+
+    added d, not done yet
+
+[33mcommit 2bdf92ba31edcd5d12c3a1419ac18190376cb8d4[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Oct 30 18:22:49 2018 -0400
+
+    More testing
+
+[33mcommit 01d2044e67cdab94f9290b518f558634bf65649a[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Mon Oct 29 20:28:21 2018 -0400
+
+    Autonomous testing, Library updates and P calibration
+
+[33mcommit 60987bcfa58262aaba2be457c150b031fd021526[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Fri Oct 26 14:32:21 2018 -0400
+
+    Added P constant tuning ability w/ gamepad2
+
+[33mcommit d9b0134db9187408f1a88347509ed4165b834821[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Wed Oct 24 14:46:05 2018 -0400
+
+    DogeCV detectors, virtual gearing and driving all work!
+
+[33mcommit 9aca7341af7881832dfc4f6cef7d4ae5cc72b42d[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Fri Oct 19 15:11:32 2018 -0400
+
+    Computer Vision v.0.1.0
+
+[33mcommit dd99ad0fa0474cfb798b614e8bee58b8930f79a8[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Thu Oct 18 15:28:41 2018 -0400
+
+    DogeCV test
+
+[33mcommit 8381ffc79be31d8fa29fe3a736918e1dfe2daec7[m
+Author: alko08 <amk211@students.needham.k12.ma.us>
+Date:   Thu Oct 18 15:12:50 2018 -0400
+
+    updated turning
+
+[33mcommit 453d73af6697b67311580551c9dfe4d7f8884152[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Oct 16 20:01:54 2018 -0400
+
+    gang
+
+[33mcommit 96737ad61f555365ac959d95cd14c385dd750f96[m
+Merge: 8bcfeb9 d21ebab
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Oct 16 19:30:45 2018 -0400
+
+    Angle turning + driving + servos
+
+[33mcommit d21ebab468885625aaa83867b6495ed3950d1b20[m
+Author: alko08 <amk211@students.needham.k12.ma.us>
+Date:   Tue Oct 16 19:19:39 2018 -0400
+
+    merged driving and turning
+
+[33mcommit 95ae51c65b5dbf96c46ccd5677d4b2753e8a328a[m
+Author: Sean H <31743738+SeanHuang18@users.noreply.github.com>
+Date:   Tue Oct 16 18:48:52 2018 -0400
+
+    Create teleOp.java
+
+[33mcommit 20a3f2aa626a6c90dca093a3c8ec16039f0786bb[m
+Author: Sean H <31743738+SeanHuang18@users.noreply.github.com>
+Date:   Tue Oct 16 18:47:45 2018 -0400
+
+    Create T10_Library.java
+
+[33mcommit 8bcfeb944d663676cd9fda1daeac3641d219d42c[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Oct 16 18:46:06 2018 -0400
+
+    Servos work, testing color sensor
+
+[33mcommit 380faaeca765b60bb5bdb1bc6c8eb3b9f828f7aa[m
+Author: alko08 <amk211@students.needham.k12.ma.us>
+Date:   Tue Oct 16 18:44:54 2018 -0400
+
+    merged
+
+[33mcommit 06757975fd8dec09ed244cc3a085a4a99d7605e1[m
+Merge: e6293d7 d4ceac8
+Author: alko08 <amk211@students.needham.k12.ma.us>
+Date:   Tue Oct 16 18:38:32 2018 -0400
+
+    Merge branch 'sean', remote-tracking branch 'origin/davis'
+    
+    Merging angle turning with driving
+
+[33mcommit e6293d7fa1b3536223ed1dd3015ed68a54c27dfb[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Thu Oct 11 15:47:53 2018 -0400
+
+    Working with servos...
+
+[33mcommit b1f19521ba6ec12a9ac91ab436a2753df2aa9554[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Oct 9 22:26:10 2018 -0400
+
+    Driving fixed! (had to invert side)
+
+[33mcommit 6a1492ef797c895fb447251f458df0c2b07e031b[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Oct 9 19:45:38 2018 -0400
+
+    Driving fixed! (had to invert side)
+
+[33mcommit d4ceac8e598a3af7666119f7427004fa1a02ccfd[m
+Author: alko08 <amk211@students.needham.k12.ma.us>
+Date:   Tue Oct 9 19:44:59 2018 -0400
+
+    added PID
+
+[33mcommit a764a4a8e4161cbca6f80fecd3c0c931f1822795[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Oct 9 19:39:44 2018 -0400
+
+    Driving fixed!
+
+[33mcommit 962b6690c99cc85dd5f499c2300b178a4102e033[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Oct 9 18:39:45 2018 -0400
+
+    we drive!
+
+[33mcommit 80fd41ed7ebad8570e1feb5adaf7f7f6d11da548[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Tue Oct 9 18:22:47 2018 -0400
+
+    changes
+
+[33mcommit ac79fb741871572e0f34216121ca9caa988d1c3e[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Mon Oct 8 20:36:13 2018 -0400
+
+    Updated omni driving and library
+
+[33mcommit b3a1a3b56f4195b9ea2b570e5e3af9b1b161af7e[m
+Author: Davis Keene <dbkeene.tsyc@gmail.com>
+Date:   Sun Oct 7 18:36:26 2018 -0400
+
+    Setup personal branch
+
+[33mcommit 4273412e736ffac7ca60eacc9e597be72bfb30a9[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Tue Oct 2 19:39:38 2018 -0400
+
+    success for once
+
+[33mcommit 0d8d75ad6bd17263b582fbfdd6098176e0e6eb41[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Tue Oct 2 18:30:14 2018 -0400
+
+    moved new drive into drive
+
+[33mcommit 168c7374549f257f7986d2780be3eb79dbc277b9[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Thu Sep 27 15:46:26 2018 -0400
+
+    new drive method©
+
+[33mcommit 950765490ecb2277c160c8a6b4fd97604214218c[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Wed Sep 26 08:36:14 2018 -0400
+
+    literally nothing
+
+[33mcommit 82687a9df1a2f68325cfe1d150661f97b8b54b46[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Tue Sep 25 19:20:29 2018 -0400
+
+    messing around with colorschemes
+
+[33mcommit 807cc37c56f6763876d808914cd945ee748b6ee4[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Tue Sep 25 19:05:00 2018 -0400
+
+    commenting for super
+
+[33mcommit 83424bc6c793ddfc0286b005ae30a2bdaf93087c[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Tue Sep 25 19:04:41 2018 -0400
+
+    commenting
+
+[33mcommit ed63a7d4790ebd198b944c95baa8487b06399b1b[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Thu Sep 20 15:51:08 2018 -0400
+
+    readmes amiright
+
+[33mcommit b64517488d7ff5ce4eb4a0e616b6882b2ca83bd7[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Thu Sep 20 15:49:38 2018 -0400
+
+    basic mecanum drive
+
+[33mcommit 4822111cb28046a31195e418a99e6f34fd16b5ec[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Thu Sep 20 15:29:36 2018 -0400
+
+    file creation
+
+[33mcommit 6f9d6751ed85bad9470762036d11f2aeb55dd614[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Thu Sep 20 15:20:05 2018 -0400
+
+    unimportant
+
+[33mcommit cebce61ddfce05831a78228167118f0032a66c0b[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Thu Sep 20 15:03:50 2018 -0400
+
+    idk it's just making me do this
+
+[33mcommit 757e44c9e747972a8813d9d5d4a1736f32f57d6e[m
+Author: uniquenamesarehard <31969760+uniquenamesarehard@users.noreply.github.com>
+Date:   Thu Sep 20 15:00:26 2018 -0400
+
+    created branch
+
+[33mcommit 9229335cd4f8a066f0113d8821ec780f75cdb768[m
+Author: afk26 <akiely26@gmail.com>
+Date:   Thu Sep 20 14:49:09 2018 -0400
+
+    remove submodule
+
+[33mcommit fd5e05bb4ed5f788925b419e39b7d8006d7ec7fd[m
+Author: afk26 <akiely26@gmail.com>
+Date:   Thu Sep 20 14:44:24 2018 -0400
+
+    1

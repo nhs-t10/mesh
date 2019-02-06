@@ -33,7 +33,7 @@ public abstract class T10_Library extends OpMode {
      *  autonomous and teleop usage.
      */
     public static DcMotor frontRight, frontLeft, backRight, backLeft, latchMotor, scoreMotor, intakeMotor;
-    public static TouchSensor latchLimit, biLiftUp, biLiftDown;
+    public static TouchSensor latchLimit,wallFollower, biLiftUp, biLiftDown;
     public static Servo markServo, dumpServo;
     public static TouchSensor sideButton;
 
@@ -102,6 +102,8 @@ public abstract class T10_Library extends OpMode {
         backRight = hardwareMap.dcMotor.get("m3");
         latchLimit = hardwareMap.touchSensor.get("touch1");
         sideButton = hardwareMap.touchSensor.get("touch2");
+        wallFollower = hardwareMap.touchSensor.get("touch2");
+        //touch2 = hardwareMap.touchSensor.get("touch2");
         latchMotor = hardwareMap.dcMotor.get("m4");
         scoreMotor = hardwareMap.dcMotor.get("m5");
         intakeMotor = hardwareMap.dcMotor.get("m6");
@@ -198,6 +200,14 @@ public abstract class T10_Library extends OpMode {
             Thread.sleep(millis);
         } catch (Exception err) {
             telemetry.addData("Sleep machine br0ke: ", err);
+        }
+    }
+
+    public void wallFollow(float a){
+        if(wallFollower.isPressed()){
+            omni(a,0,0);
+        }else{
+            omni(a,0,0.1f);
         }
     }
 
