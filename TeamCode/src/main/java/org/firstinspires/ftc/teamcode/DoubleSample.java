@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.opencv.core.Rect;
 
-@Autonomous(name= "Crater")
+@Autonomous(name= "DoubleSample")
 public class DoubleSample extends T10_Library {
-    /*
+    /*y
         T-10 Preliminary Autonomous
 
         This is based on the assumption that we are:

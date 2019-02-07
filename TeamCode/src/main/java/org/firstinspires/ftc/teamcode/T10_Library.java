@@ -106,6 +106,11 @@ public abstract class T10_Library extends OpMode {
         //touch2 = hardwareMap.touchSensor.get("touch2");
         latchMotor = hardwareMap.dcMotor.get("m4");
         scoreMotor = hardwareMap.dcMotor.get("m5");
+        // reset encoder count kept by left motor.
+        scoreMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // set motor mode to run to position
+        scoreMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         intakeMotor = hardwareMap.dcMotor.get("m6");
         // Servos for Scoring
         biLiftUp = hardwareMap.touchSensor.get("biUp");
@@ -116,7 +121,7 @@ public abstract class T10_Library extends OpMode {
 
 
         init_cv();
-        mode = DRIVING.Medium;
+        mode = DRIVING.Fast;
         telemetry.addData("Working","All systems go!");;
         // init sensors
         // insert sensors here

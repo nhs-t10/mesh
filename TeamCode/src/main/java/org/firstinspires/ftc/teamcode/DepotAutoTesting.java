@@ -122,11 +122,11 @@ public class DepotAutoTesting extends T10_Library {
             if(!moving){
                 clock.reset();
                 moving=true;
-            } else if (clock.seconds()<1) {
+            } else if (clock.seconds()<1.5) {
                 omni(-.9f,0,0);
                 //latchMotor.setPower(-1f);
             }
-            else if (clock.seconds() > 1 && clock.seconds() < 3.5){
+            else if (clock.seconds() > 1.5 && clock.seconds() < 3.5){
                 turner.setDestination(45);
                 turner.update(imu);
             } else {
@@ -212,13 +212,15 @@ public class DepotAutoTesting extends T10_Library {
             clock.reset();
             moving=true;
         }
-        else if(clock.seconds() < 4){
-            omni(-.15f,.03f,-1f);
+        else if(clock.seconds() < 2){
+            turner.setDestination(135);
+            turner.update(imu);
         }
-        else if(clock.seconds() > 4 && clock.seconds() < 8){
-                turner.update(imu);
-                turner.setDestination(45);
-                scoreMotor.setPower(1f);
+        else if(clock.seconds() > 2 && imu.getPitch() < -83){
+//                turner.update(imu);
+//                turner.setDestination(45);
+//                scoreMotor.setPower(1f);
+            omni(-1,-0.05f,0.1f);
         } else{
                 scoreMotor.setPower(0);
                 currentState=state.STOP;

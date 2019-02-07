@@ -23,9 +23,6 @@ public class teleOp extends T10_Library
     }
 
     public void loop() {
-
-        telemetry.addData("Imu pitch: ", imu.getPitch());
-        telemetry.addData("Imu roll: ", imu.getRoll());
         float linear = gamepad1.left_stick_y;
         float side = gamepad1.left_stick_x;
         float rotation = gamepad1.right_stick_x;
@@ -44,6 +41,37 @@ public class teleOp extends T10_Library
         if(mode == DRIVING.Fast) {
             omni(linear, rotation, side);} // fast driving
 
+        String vals = String.valueOf(linear) + "\n " +String.valueOf(rotation) + "\n " + String.valueOf(side);
+        telemetry.addData("Values:", vals);
+        if(gamepad1.left_trigger > 0 && scoreMotor.getCurrentPosition() > -6000){
+            scoreMotor.setTargetPosition(-6000);
+            scoreMotor.setPower(1);
+        }
+        else if (gamepad1.right_trigger > 0 && scoreMotor.getCurrentPosition() < 6000){
+            scoreMotor.setTargetPosition(6000);
+            scoreMotor.setPower(-1);
+        }
+        else{
+            scoreMotor.setPower(0f);
+        }
+
+        if(gamepad1.right_stick_button && gamepad1.left_stick_button){
+            shutdown();
+            telemetry.addData("SLOW DOWN PARTNER", "RESETING...");
+        }
+
+//        if(gamepad1.dpad_left){
+//            scoreMotor.setTargetPosition(-6000);
+//            scoreMotor.setPower(1);
+//        }
+//        else if (gamepad1.dpad_right){
+//            scoreMotor.setTargetPosition(6000);
+//            scoreMotor.setPower(-1);
+//        }
+//        else{
+//            scoreMotor.setPower(0);
+//        }
+
         if(gamepad2.left_bumper){
             latchMotor.setPower(1f); //changed this to gamepad 2
         }
@@ -52,16 +80,6 @@ public class teleOp extends T10_Library
         }
         else{
             latchMotor.setPower(0f);
-        }
-
-        if(gamepad1.left_trigger > 0 && !biLiftUp.isPressed()){
-            scoreMotor.setPower(gamepad1.left_trigger);
-        }
-        else if (gamepad1.right_trigger > 0){
-            scoreMotor.setPower(-gamepad1.right_trigger);
-        }
-        else{
-            scoreMotor.setPower(0f);
         }
 
         // Intake
@@ -87,25 +105,11 @@ public class teleOp extends T10_Library
             dumpServo.setPosition(servoPosition);
         }
 
-        if(gamepad1.right_stick_button && gamepad1.left_stick_button){
-            shutdown();
-            telemetry.addData("SLOW DOWN PARTNER", "RESETING...");
-        }
-
-        if(gamepad1.dpad_left){
-            markServo.setPosition(0);
-        }
-        else if (gamepad1.dpad_right){
-            markServo.setPosition(1);
-        }
 
         telemetry.addData("Current Angle?", imu.getAngle());
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Driving Mode:",mode);
-        telemetry.addData("Servo Position: ", servoPosition);
-        telemetry.addData("Limit Pressed? ", biLiftUp.isPressed());
-
-
+        telemetry.addData("Motor Position: ", scoreMotor.getCurrentPosition());
 
         //sending inputs to omni code
 //        if(gamepad1.a && !turn){
