@@ -134,11 +134,11 @@ public class GoldAlignDetector extends DogeCVDetector {
 
             // Check if the mineral is aligned
             if(xPos > alignXMax){
-                position = gold_position.RIGHT;
+                position = gold_position.LEFT;
             }
 
             else if (xPos < alignXMin){
-                position = gold_position.LEFT;
+                position = gold_position.RIGHT;
             }
 
             if(xPos < alignXMax && xPos > alignXMin){

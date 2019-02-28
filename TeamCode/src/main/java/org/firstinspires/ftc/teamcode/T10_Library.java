@@ -32,18 +32,15 @@ public abstract class T10_Library extends OpMode {
      *  Usage: contains methods and initializations of hardware components for both
      *  autonomous and teleop usage.
      */
-    public static DcMotor frontRight, frontLeft, backRight, backLeft, latchMotor, scoreMotor;
-    //public static TouchSensor touch1;
+    public static DcMotor frontRight, frontLeft, backRight, backLeft, latchMotor, scoreMotor, intakeMotor;
+    public static TouchSensor latchLimit, biLiftUp, biLiftDown;
+    public static Servo markServo, dumpServo, linearServo;
     //public static TouchSensor touch2;
 
             //armMotorLeft, armMotorRight, intakeMotor;
 
-    public static Servo markServo;
     GoldAlignDetector gold = null;
     // CraterDetector crater = null;
-    public static ColorSensor color;
-    public static CRServo leftIntake, rightIntake;
-    public static Servo gate;
 
     // Constants
     static float attenuationfactor;
@@ -103,16 +100,18 @@ public abstract class T10_Library extends OpMode {
         frontRight = hardwareMap.dcMotor.get("m1");
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
-        //touch1 = hardwareMap.touchSensor.get("touch1");
+        latchLimit = hardwareMap.touchSensor.get("touch1");
         //touch2 = hardwareMap.touchSensor.get("touch2");
         latchMotor = hardwareMap.dcMotor.get("m4");
         scoreMotor = hardwareMap.dcMotor.get("m5");
+        intakeMotor = hardwareMap.dcMotor.get("m6");
+        // Servos for Scoring
+        biLiftUp = hardwareMap.touchSensor.get("biUp");
+        biLiftDown = hardwareMap.touchSensor.get("biDown");
+        markServo = hardwareMap.servo.get("s0");
+        dumpServo = hardwareMap.servo.get("s1");
+        linearServo = hardwareMap.servo.get("s2");
 
-        gate = hardwareMap.servo.get("s0");
-        markServo = hardwareMap.servo.get("s1");
-        leftIntake = hardwareMap.crservo.get("cr1");
-        rightIntake = hardwareMap.crservo.get("cr2");
-        //armServo = hardwareMap.crservo.get("s0");
 
 
         init_cv();
@@ -250,11 +249,11 @@ public abstract class T10_Library extends OpMode {
         telemetry.addData("Hooray!", "hip hip");
     }
 
-    // MACROS
-
-    public void intake(int a){
-        leftIntake.setPower(a);
-        rightIntake.setPower(-a);
+    public void shutdown(){
+        latchMotor.setPower(0);
+        scoreMotor.setPower(0);
+        intakeMotor.setPower(0);
+        stopDrive();
     }
 
 }

@@ -10,12 +10,12 @@ public class teleOp extends T10_Library
     boolean bPressed, descending, intake  = false;
     Turning test;
     imuData imu;
-    double pos = 0.0;
     double time_millis = 0.0;
     ElapsedTime t = new ElapsedTime();
     int i = 1;
     int j = 1;
-
+    double servoPosition = 0.5;
+    double actuatorPosition = 0.5;
     public void init() {
         initialize_robot();
         imu = new imuData(hardwareMap);
@@ -30,13 +30,6 @@ public class teleOp extends T10_Library
         float side = gamepad1.left_stick_x;
         float rotation = gamepad1.right_stick_x;
 
-//        if(gamepad2.right_bumper){
-//            armMotorLeft.setPower(.9);
-//        } else if (gamepad2.left_bumper) {         //changed this into
-//            armMotorLeft.setPower(-.9);
-//        } else {
-//            armMotorLeft.setPower(0);
-//        }
         //defining the stuff. linear = straight, rotation = turning, side = skating.
         //Linear - rotation will compensate one side to allow the other side to overrotate
 
@@ -51,55 +44,82 @@ public class teleOp extends T10_Library
         if(mode == DRIVING.Fast) {
             omni(linear, rotation, side);} // fast driving
 
-        if(gamepad1.left_bumper){
-            latchMotor.setPower(-1f); //changed this to gamepad 2
+        if(gamepad2.left_bumper){
+            latchMotor.setPower(1f); //changed this to gamepad 2
         }
-        else if (gamepad1.right_bumper){ //this is also gamepad2
-            latchMotor.setPower(1f);
+        else if (gamepad2.right_bumper  && !latchLimit.isPressed()){ //this is also gamepad2
+            latchMotor.setPower(-1f);
         }
-
         else{
             latchMotor.setPower(0f);
         }
 
-        if(gamepad2.y){    //changed to gamepad 2
-            markServo.setPosition(i%2);
-            i++;
+        if(gamepad1.left_trigger > 0 && !biLiftUp.isPressed()){
+            scoreMotor.setPower(gamepad1.left_trigger);
         }
-
-        if(gamepad2.left_trigger > 0){
-            scoreMotor.setPower(-gamepad2.left_trigger);
-        }
-        else if (gamepad2.right_trigger > 0){
-            scoreMotor.setPower(gamepad2.right_trigger);  //changed these to gp2
+        else if (gamepad1.right_trigger > 0){
+            scoreMotor.setPower(-gamepad1.right_trigger);
         }
         else{
             scoreMotor.setPower(0f);
         }
 
-        if(gamepad2.a){   //changed to gp2
-            intake = true;
-            if(intake) {
-                intake(1);
+        // Intake
+        if(gamepad2.a){
+
+        }
+        else if(gamepad2.y){
+            intakeMotor.setPower(-.7f);
+        }
+        else{ intakeMotor.setPower(0f); }
+
+        // Box Mechanics
+        if(gamepad2.left_trigger > 0.1){
+            servoPosition -= .025;
+            servoPosition = Range.clip(servoPosition,0.25,.85);
+
+            dumpServo.setPosition(servoPosition);
+        }
+        else if(gamepad2.right_trigger > 0.1){
+            servoPosition += .025;
+            servoPosition = Range.clip(servoPosition,0.25,.85);
+
+            dumpServo.setPosition(servoPosition);
+        }
+
+        if(gamepad1.right_stick_button && gamepad1.left_stick_button){
+            shutdown();
+            telemetry.addData("SLOW DOWN PARTNER", "RESETING...");
+        }
+
+        if(gamepad1.dpad_left){
+            markServo.setPosition(0);
+        }
+        else if (gamepad1.dpad_right){
+            markServo.setPosition(1);
+        }
+        if(gamepad1.right_bumper) {
+            actuatorPosition+=.1;
+            if (actuatorPosition>1.0){
+                actuatorPosition = 1.0;
             }
+            linearServo.setPosition(actuatorPosition);
+        } else if(gamepad1.left_bumper){
+            actuatorPosition+=-.1;
+            if(actuatorPosition < -1.0){
+                actuatorPosition = -1.0;
+            }
+            linearServo.setPosition(actuatorPosition);
         }
-        else {
-            intake(0);
-        }
-
-        if(gamepad2.x) {    //changed to gb2
-            gate.setPosition(1);
-        }
-        else {
-            gate.setPosition(0);
-        }
-
 
         telemetry.addData("Current Angle?", imu.getAngle());
         telemetry.addData("Gold Aligned?", gold.getAligned());
         telemetry.addData("Driving Mode:",mode);
-        telemetry.addData("Gate position?", gate.getPosition());
-        telemetry.addData("Time taken to de-latch: ", t.milliseconds());
+        telemetry.addData("Servo Position: ", servoPosition);
+        telemetry.addData("Limit Pressed? ", biLiftUp.isPressed());
+        telemetry.addData("Linear Servo Position: ", linearServo.getPosition());
+
+
 
         //sending inputs to omni code
 //        if(gamepad1.a && !turn){

@@ -7,15 +7,16 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.opencv.core.Rect;
 import org.opencv.imgcodecs.Imgcodecs;
 
-@Autonomous(name= "Depot")
-public class DepotAuto extends T10_Library {
+@Autonomous(name= "DepotFinal")
+public class DepotAutoTesting extends T10_Library {
     /*
         T-10 Preliminary Autonomous
 
-.        This is based on the assumption that we are:
+        This is based on the assumption that we are:
             - On the red team
             - Starting such that we are facing the depot first
      */
@@ -121,11 +122,11 @@ public class DepotAuto extends T10_Library {
             if(!moving){
                 clock.reset();
                 moving=true;
-            } else if (clock.seconds()<1.5) {
+            } else if (clock.seconds()<1) {
                 omni(-.9f,0,0);
                 //latchMotor.setPower(-1f);
             }
-            else if (clock.seconds() > 1.5 && clock.seconds() < 3){
+            else if (clock.seconds() > 1 && clock.seconds() < 3.5){
                 turner.setDestination(45);
                 turner.update(imu);
             } else {
@@ -140,71 +141,93 @@ public class DepotAuto extends T10_Library {
         if (!moving) {
             clock.reset();
             moving = true;
-        } else if (clock.seconds() < 2) {
-            turner.setDestination(0);
-            turner.update(imu);
-        } else if (clock.seconds() > 1 && clock.seconds() < 2.5) {
-//            stopDrive();
-//            markServo.setPosition(1);
-            omni(1f,0f,0f);
-        } else if (clock.seconds() > 2.5 && clock.seconds() < 3) {
-            markServo.setPosition(1);
-        } else if (clock.seconds() < 1.5) {
-            latchMotor.setPower(.8);
-            omni(-.2f,0,0);
-        } else if (clock.seconds() > 1.5 && clock.seconds() < 2){
-            omni(.2f,0,0);
-        } else if (clock.seconds() > 2 && clock.seconds() < 4) {
-            omni(0,0,1f);
-            //markServo.setPosition(1);
-        } else if (clock.seconds() > 4 && clock.seconds() < 5.5) {
-            latchMotor.setPower(0);
-            omni(0,0,.2f);
-            turner.setDestination(40);
-            turner.update(imu);
-            markServo.setPosition(0);
-//            scoreMotor.setPower(1f);
         }
-        else{
-            moving = false;
-            currentState = state.CRATER;
+        if(gold.position == GoldAlignDetector.gold_position.LEFT){
+            if (clock.seconds() < .8) {
+                omni(-.6f,0,0);
+            } else if (clock.seconds() > .8 && clock.seconds() < 2.4) {
+                omni(0,0,.85f);
+                //markServo.setPosition(1);
+            } else if (clock.seconds() > 2.4 && clock.seconds() < 4.4) {
+                latchMotor.setPower(0);
+                omni(0,0,.2f);
+                turner.setDestination(45);
+                turner.update(imu);
+                markServo.setPosition(0);
+//            scoreMotor.setPower(1f);
+            }
+            else{
+                moving = false;
+                currentState = state.CRATER;
+            }
+        }
+        else if(gold.position == GoldAlignDetector.gold_position.RIGHT){
+            if (clock.seconds() < 1) {
+//                latchMotor.setPower(.8);
+                omni(-1f,0,0);
+            } else if (clock.seconds() > 1 && clock.seconds() < 2){
+                omni(.2f,0,0);
+            } else if (clock.seconds() > 2 && clock.seconds() < 3) {
+                omni(0,0,.35f);
+                //markServo.setPosition(1);
+            } else if (clock.seconds() > 3 && clock.seconds() < 5) {
+                latchMotor.setPower(0);
+                omni(0,0,.2f);
+                turner.setDestination(45);
+                turner.update(imu);
+                markServo.setPosition(0);
+//            scoreMotor.setPower(1f);
+            }
+            else{
+                moving = false;
+                currentState = state.CRATER;
+            }
+        }
+        else if(gold.position == GoldAlignDetector.gold_position.CENTER){
+            if (clock.seconds() < 1) {
+                omni(-.5f,0,0);
+            } else if (clock.seconds() > 1 && clock.seconds() < 1.5){
+                omni(.2f,0,0);
+            } else if (clock.seconds() > 1.5 && clock.seconds() < 2.5) {
+                omni(0,0,.75f);
+                //markServo.setPosition(1);
+            } else if (clock.seconds() > 2.5 && clock.seconds() < 4.5) {
+                latchMotor.setPower(0);
+                omni(0,0,.3f);
+                turner.setDestination(45);
+                turner.update(imu);
+                markServo.setPosition(0);
+//            scoreMotor.setPower(1f);
+            }
+            else{
+                moving = false;
+                currentState = state.CRATER;
+            }
         }
     }
 
-    public void wall(){
+    public void crater(){
         if(!moving){
+            stopDrive();
             clock.reset();
             moving=true;
-        } else if (clock.seconds()<1.7) {
-            //omni(0,0,.5f);
-            turner.setDestination(135);
-            turner.update(imu);
-        } else if (clock.seconds() > 1.7 && clock.seconds() < 3.7) {
-            omni(0, 0, -.5f);
-        } else {
-            omni(0,0,0);
-            moving = false;
-            currentState=state.CRATER;
         }
-    }
-
-
-    public void crater() {
-        if (!moving) {
-            clock.reset();
-            moving = true;
-        } else if (clock.seconds() < 3) {
-
-            omni(.66f, 0, 0f);
-        } else {
-            omni(0, 0, 0);
-            moving = false;
-            currentState = state.STOP;
+        else if(clock.seconds() < 4){
+            omni(-.15f,.03f,-1f);
         }
+        else if(clock.seconds() > 4 && clock.seconds() < 8){
+                turner.update(imu);
+                turner.setDestination(45);
+                scoreMotor.setPower(1f);
+        } else{
+                scoreMotor.setPower(0);
+                currentState=state.STOP;
+            }
+        telemetry.addData("Pitch: ", imu.getPitch());
     }
-       // telemetry.addData("Pitch: ", imu.getPitch());
 
     public void stop() {
         gold.disable();
     }
+
 }
