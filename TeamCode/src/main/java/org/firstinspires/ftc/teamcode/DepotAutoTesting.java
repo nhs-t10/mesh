@@ -122,11 +122,11 @@ public class DepotAutoTesting extends T10_Library {
             if(!moving){
                 clock.reset();
                 moving=true;
-            } else if (clock.seconds()<1) {
+            } else if (clock.seconds()<1.5) {
                 omni(-.9f,0,0);
                 //latchMotor.setPower(-1f);
             }
-            else if (clock.seconds() > 1 && clock.seconds() < 3.5){
+            else if (clock.seconds() > 1.5 && clock.seconds() < 3.5){
                 turner.setDestination(45);
                 turner.update(imu);
             } else {
@@ -165,14 +165,14 @@ public class DepotAutoTesting extends T10_Library {
             if (clock.seconds() < 1) {
 //                latchMotor.setPower(.8);
                 omni(-1f,0,0);
-            } else if (clock.seconds() > 1 && clock.seconds() < 2){
-                omni(.2f,0,0);
+            } else if (clock.seconds() > 1 && clock.seconds() < 4){
+                omni(-1f,0,-.2f);
             } else if (clock.seconds() > 2 && clock.seconds() < 3) {
-                omni(0,0,.35f);
+                omni(-.2f,0,-.35f);
                 //markServo.setPosition(1);
-            } else if (clock.seconds() > 3 && clock.seconds() < 5) {
+            } else if (clock.seconds() > 3 && clock.seconds() < 4) {
                 latchMotor.setPower(0);
-                omni(0,0,.2f);
+                omni(-.2f,0,-.2f);
                 turner.setDestination(45);
                 turner.update(imu);
                 markServo.setPosition(0);
@@ -212,13 +212,18 @@ public class DepotAutoTesting extends T10_Library {
             clock.reset();
             moving=true;
         }
-        else if(clock.seconds() < 4){
-            omni(-.15f,.03f,-1f);
+        else if(clock.seconds() < 2){
+            turner.setDestination(135);
+            turner.update(imu);
         }
-        else if(clock.seconds() > 4 && clock.seconds() < 8){
-                turner.update(imu);
-                turner.setDestination(45);
-                scoreMotor.setPower(1f);
+        else if(clock.seconds() > 2 && clock.seconds() < 3){
+            omni(0, 0, .7f);
+        }
+        else if(clock.seconds() > 3 && imu.getPitch() < -83){
+//                turner.update(imu);
+//                turner.setDestination(45);
+//                scoreMotor.setPower(1f);
+            omni(-1,0,-0.5f);
         } else{
                 scoreMotor.setPower(0);
                 currentState=state.STOP;

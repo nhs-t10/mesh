@@ -36,6 +36,7 @@ public abstract class T10_Library extends OpMode {
     public static TouchSensor latchLimit, biLiftUp, biLiftDown;
     public static Servo markServo, dumpServo, linearServo;
     //public static TouchSensor touch2;
+    public static TouchSensor sideButton;
 
             //armMotorLeft, armMotorRight, intakeMotor;
 
@@ -101,9 +102,15 @@ public abstract class T10_Library extends OpMode {
         backLeft = hardwareMap.dcMotor.get("m2");
         backRight = hardwareMap.dcMotor.get("m3");
         latchLimit = hardwareMap.touchSensor.get("touch1");
+        sideButton = hardwareMap.touchSensor.get("touch2");
         //touch2 = hardwareMap.touchSensor.get("touch2");
         latchMotor = hardwareMap.dcMotor.get("m4");
         scoreMotor = hardwareMap.dcMotor.get("m5");
+        // reset encoder count kept by left motor.
+        scoreMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // set motor mode to run to position
+        scoreMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         intakeMotor = hardwareMap.dcMotor.get("m6");
         // Servos for Scoring
         biLiftUp = hardwareMap.touchSensor.get("biUp");
@@ -115,7 +122,7 @@ public abstract class T10_Library extends OpMode {
 
 
         init_cv();
-        mode = DRIVING.Medium;
+        mode = DRIVING.Fast;
         telemetry.addData("Working","All systems go!");;
         // init sensors
         // insert sensors here
@@ -201,7 +208,15 @@ public abstract class T10_Library extends OpMode {
             telemetry.addData("Sleep machine br0ke: ", err);
         }
     }
-
+/*
+    public void wallFollow(float a){
+        if(wallFollower.isPressed()){
+            omni(a,0,0);
+        }else{
+            omni(a,0,0.1f);
+        }
+    }
+*/
     public boolean driveFor(double seconds, float l, float r, float s){
         omni(l,r,s);
 
